@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  const comment = sequelize.define('comment', {
+  return sequelize.define('comment', {
     idcomments: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -66,9 +66,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-  comment.associate = function(models) {
-    models.comment.belongsTo(models.publication, { foreignKey: "idpublications"});
-    models.comment.belongsTo(models.user, { foreignKey: "idusers"});
-  };
-  return comment;
 };

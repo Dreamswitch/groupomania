@@ -1,25 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Sequelize = require('sequelize');
 const path = require('path');
 const helmet = require("helmet");
 const dotenv = require('dotenv').config();
-const config = require(__dirname + '/./config/config.json')['development'];
 
 const userRoutes = require('./routes/user');
 const publicationRoutes = require('./routes/publication');
 
 
-// connexion DB
-const sequelize = new Sequelize(config.database, config.username, config.password, config);
-//confirmation DB connexion ON
-try {
-    sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
-}
+/* const Sequelize = require('sequelize');
+var config = require(__dirname + '/./config/config.json')['development'];
+var initModels = require("./models/init-models").initModels; 
+// create sequelize instance with database connection
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
+// load the model definitions into sequelize
+console.log(initModels);
+var db = initModels(sequelize); */
 
+/* db.sequelize.sync({ force: true }).then(() => {
+    console.log("Drop and re-sync db.");
+  }); */
 
 // make an express api
 const app = express();

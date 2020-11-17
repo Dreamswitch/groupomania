@@ -20,7 +20,7 @@ router.post('/like',/*  requestLimiter, */ likeControler.likePublication);
 // COMMENT
 router.post('/comment', auth, multer,/* requestLimiter, */ commentControler.createComment);
 router.put('/comment', auth, multer,/* requestLimiter, */ commentControler.modifyComment);
-router.delete('/comment', requestLimiter, commentControler.deleteComment);
+router.delete('/comment', auth, requestLimiter, commentControler.deleteComment);
 
 
 module.exports = router;

@@ -2,12 +2,9 @@ const db = require('../models');
 const fs = require('fs');
 const publicationSchema = require('../middlewares/Schema/publicationSchema');
 const jwt = require('jsonwebtoken');
+const { deleteMedia } = require('../middlewares/deleteMedia/post-media');
 
-const userId = (req) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    return decodedToken.userId;
-}
+
 
 exports.createPublication = async (req, res, next) => {
 
@@ -16,7 +13,7 @@ exports.createPublication = async (req, res, next) => {
             res.status(401).json({ error: 'invalid file format uploaded' });
         }
         const publicationObject = JSON.parse(req.body.publication);
-        const user = userId(req);
+        const user = req.user;
         const isValid = await publicationSchema.validateAsync(publicationObject);
         const profile = await db.user.findByPk(user);
 
@@ -41,23 +38,26 @@ exports.createPublication = async (req, res, next) => {
 };
 
 exports.getOnePublication = (req, res, next) => {
-    db.publication.findOne({
-        WHERE: { idpublications: req.body.idpublication },
-        include: [
-            {
-                model: db.user,
-                attributes: ['firstname']
-            },
-            {
-                model: db.comment,
-                attributes: ['body']
-            },
-            {
-                model: db.like,
-                attributes: ['like']
-            },
-        ]
-    })
+    console.log('get one')
+    db.publication.findByPk(req.body.idpublication,
+        {
+            include: [
+                {
+                    model: db.user,
+                    attributes: ['firstname', 'lastname']
+                },
+                {
+                    model: db.comment,
+                    attributes: ['body', 'media'],
+                    include: { model: db.user, attributes: ['firstname', 'lastname', 'media'] }
+                },
+                {
+                    model: db.like,
+                    attributes: ['like']
+                },
+            ]
+        }
+    )
         .then(publication => res.status(200).json(publication))
         .catch(error => res.status(404).json({ error }));
 };
@@ -66,12 +66,12 @@ exports.getOnePublication = (req, res, next) => {
 
 exports.modifyPublication = async (req, res, next) => {
     try {
-        const publication = await db.publication.findOne({ where: { idpublications: req.body.idpublication, idusers: userId(req) } });
+        const publication = await db.publication.findOne({ where: { idpublications: req.body.idpublication, idusers: req.user } });
         const publicationObject = await JSON.parse(req.body.publication);
         const isValid = await publicationSchema.validateAsync(publicationObject);
-        const user = userId(req);
+        const user = req.user;
 
-        if (!publication) { return res.status(404).json('publication not found'); }
+        if (!publication) { return res.status(404).json('publication not found with your ID'); }
         if (!publicationObject) { return res.status(404).json('invalid req object'); }
         if (!isValid) { return res.status(400).json('object not valid'); }
         if (!user) { return res.status(404).json('user not found'); }
@@ -80,12 +80,8 @@ exports.modifyPublication = async (req, res, next) => {
             if (req.file.mimetype === 'image/jpg' || req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png') {
 
                 if (publication.media) { //if the req has already a media , delete old media
-                    const filename = publication.media.split('/images/')[1];
-                    fs.unlink(`images/${filename}`, function (err) {
-                        if (err) return console.log(err);
-                    });
+                    deleteMedia(publication.media);
                 }
-
                 publication.update({
                     title: publicationObject.title,
                     body: publicationObject.body,
@@ -111,55 +107,32 @@ exports.modifyPublication = async (req, res, next) => {
 
 exports.deletePublication = async (req, res, next) => {
     try {
-        const user = userId(req);
-        const profile = await db.user.findOne({ where: { idusers: user } });
-        const publication = await db.publication.findByPk(req.body.idpublication);
-        const likes = await db.like.findAll({ where: { idpublications: publication.idpublications } })
-        const comments = await db.comment.findAll({ where: { idpublications: publication.idpublications } });
-
-        if (!user) { return res.status(404).json('user not found') };
-        if (!profile) { return res.status(404).json('profile not found') };
-        if (!publication) { return res.status(404).json('publication not found') };
-
-
-
-        if (comments) {
-            comments.forEach(comment => {
-                if (comment.media) {
-                    const filename = publication.media.split('/images/')[1];
-                    fs.unlink(`images/${filename}`, function (err) {
-                        if (err) return console.log(err);
-                    });
+        const user = await db.user.findByPk(req.user);
+        db.publication.findByPk(req.body.idpublication)
+            .then(publication => {
+                console.log(publication.idusers)
+                if (publication.idusers === user.idusers || user.admin) {
+                    db.comment.destroy({ where: { idpublications: publication.idpublications } })
+                        .then(() => {
+                            db.like.destroy({ where: { idpublications: publication.idpublications } })
+                                .then(() => {
+                                    if (publication.media) {
+                                        deleteMedia(publication.media);
+                                    }
+                                    publication.destroy()
+                                        .then(() => res.status(200).json('publication deleted with success'))
+                                        .catch(() => res.status(500).json("internal server error 1"));
+                                })
+                                .catch(() => res.status(500).json("internal server error 2"));
+                        })
+                        .catch(() => res.status(500).json("internal server error 3"));
+                } else {
+                    return res.status(401).json("unauthorized action")
                 }
-                comment.destroy()
-                    .then(() => console.log('comment deleted'))
-                    .catch(() => { throw new error });
             })
-        }
-        if (likes) {
-            likes.forEach(like => {
-                like.destroy()
-                    .then(() => console.log('like deleted'))
-                    .catch(() => { throw new error });
-            })
-        }
-
-        if (publication.idusers === profile.idusers || profile.admin) {
-            if (publication.media) {
-                const filename = publication.media.split('/images/')[1];
-                fs.unlink(`images/${filename}`, function (err) {
-                    if (err) return console.log(err);
-                });
-            }
-            publication.destroy()
-                .then(() => res.status(200).json({ message: 'publication deleted !' }))
-                .catch(error => res.status(400).json({ error }));
-        } else {
-            return res.status(401).json("unauthorized action")
-        }
-        
+            .catch(() => res.status(500).json("internal server error 4"));
     } catch (error) {
-        return res.status(500).json("internal server error")
+        return res.status(500).json("internal server error 5")
     }
 };
 

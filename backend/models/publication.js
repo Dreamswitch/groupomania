@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  const publication = sequelize.define('publication', {
+return sequelize.define('publication', {
     idpublications: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -53,10 +53,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-  publication.associate = function (models) {
-    models.publication.belongsTo(models.user, { foreignKey: "idusers" });
-    models.publication.hasMany(models.comment, { foreignKey: "idpublications"});
-    models.publication.hasMany(models.like, { foreignKey: "idpublications"});
-  };
-  return publication;
 };

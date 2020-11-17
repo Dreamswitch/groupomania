@@ -3,15 +3,9 @@ const jwt = require('jsonwebtoken');
 const userSchema = require('../middlewares/Schema/userSchema');
 const profileSchema = require('../middlewares/Schema/profileSchema');
 const db = require('../models');
-const fs = require('fs');
-const { exitCode } = require('process');
-
-const userId = (req) => {
-  const token = req.headers.authorization.split(' ')[1];
-  const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-  return decodedToken.userId;
-}
-
+const { Op } = require("sequelize");
+const { deleteProfileMedia } = require('../middlewares/deleteMedia/profile-media');
+const { deleteMedia } = require('../middlewares/deleteMedia/post-media');
 
 exports.signup = async (req, res, next) => {
   try {
@@ -63,7 +57,7 @@ exports.login = (req, res, next) => {
 
 exports.getProfile = async (req, res, next) => {
   await db.user.findOne({
-    where: { idusers: userId(req) },
+    where: { idusers: req.user },
     attributes: ['firstname', 'lastname', 'media', 'description']
   })
     .then(profil => res.status(200).json(profil))
@@ -73,7 +67,7 @@ exports.getProfile = async (req, res, next) => {
 exports.modifyProfile = async (req, res, next) => {
 
   try {
-    const user = await userId(req);
+    const user = req.user;
     const profile = await db.user.findOne({ where: { idusers: user } });
     const profileObject = await JSON.parse(req.body.description);
     const isValid = await profileSchema.validateAsync(profileObject);
@@ -87,11 +81,7 @@ exports.modifyProfile = async (req, res, next) => {
       if (req.file.mimetype === 'image/jpg' || req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png') {
 
         if (profile.media) {
-          const filename = profile.media.split('/profile/')[1];
-          fs.unlink(`images/profile/${filename}`, function (err) {
-            if (err) return console.log(err);
-            console.log('file deleted successfully');
-          });
+          deleteProfileMedia(profile.media);
         }
         profile.update({
           description: profileObject.description,
@@ -118,92 +108,69 @@ exports.modifyProfile = async (req, res, next) => {
 exports.deleteProfile = async (req, res, next) => {
   console.log('lol')
   try {
-    const user = userId(req);
+    const user = req.user;
     if (!user) { return res.status(404).json('user not found') };
 
-    const profile = await db.user.findByPk(user);
-    if (!profile) { return res.status(404).json('profile not found') };
-
-    await db.publication.findAll({ where: { idusers: profile.idusers } })
-      .then(publications => {
-        console.log(publications)
-        console.log('publication')
-        publications.forEach(async publication => {
-
-          await db.comment.findAll({ where: { idpublications: publication.idpublications } })
+    await db.publication.findAll({ where: { idusers: user } })
+      .then(async publications => {
+        await Promise.all(publications.map(async publication => {
+          await db.comment.findAll({ where: { [Op.or]: [{ idpublications: publication.idpublications }, { idusers: user }] } })
             .then(async comments => {
-              console.log('comment')
-              await comments.forEach(comment => {
+              await Promise.all(comments.map(async comment => {
                 if (comment.media) {
-                  const filename = comment.media.split('/images/')[1];
-                  fs.unlink(`images/${filename}`, function (err) {
-                    if (err) return console.log(err);
-                  });
+                  deleteMedia(comment.media);
                 }
-                comment.destroy()
-                  .then(() => console.log('comment deleted'))
-                  .catch(() => console.log('delete comment error'));
-              })
+                await comment.destroy()
+                  .then(() => console.log('comments destroyed'))
+                  .catch(() => res.status(500).json('internal server error 1'));
+              }))
+                .then(async () => {
+                  await db.like.destroy({ where: { [Op.or]: [{ idpublications: publication.idpublications }, { idusers: user }] } })
+                    .then(async () => {
+                      if (publication.media) {
+                        deleteMedia(publication.media);
+                      }
+                      await publication.destroy()
+                        .then(() => console.log('publication destroyed'))
+                        .catch(() => res.status(500).json('internal server error 2'));
+                    })
+                    .catch(() => res.status(500).json('internal server error 3'));
+                })
+                .catch(() => res.status(500).json('internal server error 4'));
             })
-            .catch(() => console.log('no comments'));
+            .catch(() => res.status(500).json('internal server error 5'));
+        })) // no publication wrote
+          .then(async (response) => {
+            if (response !== undefined) {
+              db.comment.destroy({ where: { idusers: user } })
+                .then(() => {
+                  db.like.destroy({ where: { idusers: user } })
+                    .then(async() => {
+                      const User = await db.user.findByPk(user);
+                      if (User.media) {
+                        deleteProfileMedia(User.media);
+                      }
+                      User.destroy()
+                        .then(() => res.status(200).json('user deleted'))
+                        .catch(() => res.status(500).json('internal server error 5.1'));
+                    })
+                    .catch(() => res.status(500).json('internal server error 5.2'));
 
-          await db.like.findAll({ where: { idpublications: publication.idpublications } })
-            .then(async likes => {
-              console.log('like')
-              await likes.forEach(like => {
-                like.destroy()
-                  .then(() => console.log('like deleted'))
-                  .catch(() => console.log('delete like error '));
-              })
-            })
-            .catch(() => console.log("no likes"));
-
-          publication.destroy()
-            .then(() => {
-              console.log('p ok');
-            })
-            .catch(() => console.log('error publication destroy'));
-        })
-        profile.destroy()
-          .then(() => res.status(200).json('profile deleted'))
-          .catch(() => {
-            console.log('profile destroy error publication');
-            res.status(400);
-          });
-
+                })
+                .catch(() => res.status(500).json('internal server error 5.5'));
+            } else { //if user has write some publications
+              const User = await db.user.findByPk(user);
+              if (User.media) {
+                deleteProfileMedia(User.media);
+              }
+              User.destroy()
+                .then(() => res.status(200).json('user deleted'))
+                .catch(() => res.status(500).json('internal server error 5.1'));
+            }
+          })
+          .catch(() => res.status(500).json('internal server error 7'));
       })
-      .catch(() => console.log('no publications'));
-
-    const comments = await db.comment.findAll({ where: { idusers: user } });
-    if (comments) {
-      comments.forEach(comment => {
-        if (comment.media) {
-          const filename = comment.media.split('/images/')[1];
-          fs.unlink(`images/${filename}`, function (err) {
-              if (err) return console.log(err);
-          });
-      }
-        comment.destroy()
-          .then(() => console.log('comment deleted'))
-          .catch(() => console.log('delete comment error'));
-      })
-    }
-
-    const likes = await db.like.findAll({ where: { idusers: user } });
-    if (likes) {
-      likes.forEach(like => {
-        like.destroy()
-          .then(() => console.log('like deleted'))
-          .catch(() => console.log('delete like error '));
-      })
-    }
-
-    profile.destroy()
-      .then(() => res.status(200).json('profile deleted'))
-      .catch(() => {
-        console.log('profile destroy error');
-        res.status(400);
-      });
+      .catch(() => res.status(500).json('internal server error 8'));
 
   } catch (error) {
     res.status(400).json({ error });

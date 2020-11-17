@@ -12,6 +12,6 @@ router.post('/login',requestLimiter, userCtrl.login);
 
 router.get('/profil', auth, requestLimiter, userCtrl.getProfile );
 router.put('/profil', auth, multer,/* requestLimiter, */ userCtrl.modifyProfile );
-router.delete('/profil',/* requestLimiter, */ userCtrl.deleteProfile );
+router.delete('/profil', auth,/* requestLimiter, */ userCtrl.deleteProfile );
 
 module.exports = router;
