@@ -150,17 +150,22 @@ exports.getAllPublication = async (req, res, next) => {
                 },
                 {
                     model: db.like,
-                    attributes: ['like']
+                    attributes: ['like', 'idusers']
                 },
             ],
             order: [['createdAt', 'DESC']]
         });
         if (!publications) { return res.status(404).json('publications not founds') };
-        res.status(200).json(publications)
-
+        Promise.all(publications.map(async publication => {
+            publication.dataValues.nbrLikes = await (publication.dataValues.likes).reduce((acc, like) => acc + like.dataValues.like, 0);
+            publication.dataValues.nbrComments = (publication.dataValues.comments).length;
+            return publication;
+        }))
+            .then(response => res.status(200).json(response))
+            .catch(() => res.status(500).json('internal error'));
     } catch (error) {
         return res.status(500).json(error)
     }
-}
+};
 
 
