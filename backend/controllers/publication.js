@@ -142,15 +142,16 @@ exports.getAllPublication = async (req, res, next) => {
             include: [
                 {
                     model: db.user,
-                    attributes: ['firstname']
+                    attributes: ['firstname', 'lastname']
                 },
                 {
                     model: db.comment,
-                    attributes: ['body']
+                    attributes: ['body', 'media'],
+                    include: { model: db.user, attributes: ['firstname', 'lastname', 'media'] }
                 },
                 {
                     model: db.like,
-                    attributes: ['like', 'idusers']
+                    attributes: ['like','idusers'],
                 },
             ],
             order: [['createdAt', 'DESC']]
