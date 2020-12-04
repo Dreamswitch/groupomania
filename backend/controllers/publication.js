@@ -7,14 +7,17 @@ const { deleteMedia } = require('../middlewares/deleteMedia/post-media');
 
 
 exports.createPublication = async (req, res, next) => {
-
+    console.log('publication recu en back')
     try {
         if (req.file && req.file.mimetype !== 'image/jpg' && req.file.mimetype !== 'image/jpeg' && req.file.mimetype !== 'image/png') {
             res.status(401).json({ error: 'invalid file format uploaded' });
         }
+        console.log(req.user)
         const publicationObject = JSON.parse(req.body.publication);
+        console.log(publicationObject)
         const user = req.user;
         const isValid = await publicationSchema.validateAsync(publicationObject);
+        console.log('isValid')
         const profile = await db.user.findByPk(user);
 
 
@@ -44,7 +47,7 @@ exports.getOnePublication = (req, res, next) => {
             include: [
                 {
                     model: db.user,
-                    attributes: ['firstname', 'lastname']
+                    attributes: ['firstname', 'lastname', 'media']
                 },
                 {
                     model: db.comment,
@@ -106,6 +109,7 @@ exports.modifyPublication = async (req, res, next) => {
 };
 
 exports.deletePublication = async (req, res, next) => {
+    console.log(req)
     try {
         const user = await db.user.findByPk(req.user);
         db.publication.findByPk(req.body.idpublication)
@@ -142,7 +146,7 @@ exports.getAllPublication = async (req, res, next) => {
             include: [
                 {
                     model: db.user,
-                    attributes: ['firstname', 'lastname']
+                    attributes: ['firstname', 'lastname', 'media']
                 },
                 {
                     model: db.comment,
@@ -160,9 +164,16 @@ exports.getAllPublication = async (req, res, next) => {
         Promise.all(publications.map(async publication => {
             publication.dataValues.nbrLikes = await (publication.dataValues.likes).reduce((acc, like) => acc + like.dataValues.like, 0);
             publication.dataValues.nbrComments = (publication.dataValues.comments).length;
+            if(publication.idusers === req.user){
+                publication.dataValues.isOwner = true;
+            }else{
+                publication.dataValues.isOwner = false;
+            }
+
             return publication;
         }))
-            .then(response => res.status(200).json(response))
+            .then(response => {
+                res.status(200).json(response)})
             .catch(() => res.status(500).json('internal error'));
     } catch (error) {
         return res.status(500).json(error)

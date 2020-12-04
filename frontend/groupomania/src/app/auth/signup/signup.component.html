@@ -1,0 +1,42 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+<form [formGroup]="signupForm" (ngSubmit)="onSignup()" *ngIf="!loading">
+    <div class="container-fluid">
+
+
+        <mat-form-field class="form-group" appearance="outline">
+            <mat-label for="firstName">Enter your Firstname</mat-label>
+            <input matInput placeholder="Bill" id="firstName" class="form-control" formControlName="firstname" required>
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+
+
+
+        <mat-form-field class="form-group" appearance="outline">
+            <mat-label for="lastName">Enter your Lastname</mat-label>
+            <input matInput placeholder="Gates" id="lastName" class="form-control" formControlName="lastname" required>
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field class="form-group" appearance="outline">
+            <mat-label for="email">Enter your email</mat-label>
+            <input matInput placeholder="pat@example.com" type="email" class="form-control" id="email"
+                formControlName="email" required>
+            <mat-icon matSuffix>alternate_email</mat-icon>
+            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-group" appearance="outline">
+            <mat-label for="password">Enter your password</mat-label>
+            <input matInput [type]="hide ? 'text' : 'password'" class="form-control" id="password"
+                formControlName="password" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide;$event.preventDefault()"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+        </mat-form-field>
+
+    </div>
+    <button mat-raised-button color="primary" class="btn btn-primary" [disabled]="signupForm.invalid">SIGN UP</button>
+    <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+</form>

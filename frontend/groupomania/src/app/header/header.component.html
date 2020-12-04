@@ -1,0 +1,26 @@
+<header class="header">
+    <nav class="header__nav">
+        <a class="header__nav__brand" routerLink="publications">
+            <img class="header__nav__brand__logo" src="../../assets/logos/icon-left-font-monochrome-white.svg" alt="logo groupomania">
+        </a>
+        <div class="header__nav__container">
+            <ul class="nav">
+                <li class="nav__navList">
+                    <a class="nav__navList__navLink" routerLink="signup" routerLinkActive="active" *ngIf="!isAuth">
+                        Inscription
+                    </a>
+                </li>
+                <li class="nav__navList">
+                    <a class="nav__navList__navLink" routerLink="login" routerLinkActive="active" *ngIf="!isAuth">
+                        Connexion
+                    </a>
+                </li>
+                <li class="nav__navList">
+                    <a class="nav__navList__navLink" (click)="onLogout()" *ngIf="isAuth">
+                        Déconnexion
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

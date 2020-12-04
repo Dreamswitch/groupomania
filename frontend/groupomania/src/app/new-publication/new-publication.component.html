@@ -1,0 +1,34 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+<p>new-publication!</p>
+<form class="publication--form" [formGroup]="publicationForm" *ngIf="!loading" (ngSubmit)="onSubmit()">
+    <mat-form-field class="form-group">
+        <mat-label for="title">title</mat-label>
+        <input *ngIf="!pTitle" matInput placeholder="Ex. Pizza" type="text" class="form-control" id="title"
+            formControlName="title">
+        <input *ngIf="pTitle" matInput placeholder="Ex. Zzapi" type="text" class="form-control" id="title"
+            formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field class="form-group">
+        <mat-label for="body">Description</mat-label>
+        <textarea matInput placeholder="Ex. It makes me feel..." class="form-control" id="body"
+            formControlName="body"></textarea>
+    </mat-form-field>
+
+    <div class="form-group">
+        <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+        <input class='none' type="file" accept="image/*" #imageInput
+            (change)="onFileAdded($event);$event.preventDefault()" #fileInput required>
+        <button *ngIf="!currentPublication" mat-raised-button color="accent"
+            (click)="fileInput.click();$event.preventDefault()">ADD IMAGE <mat-icon>add_photo_alternate</mat-icon>
+            </button>
+        <button *ngIf="currentPublication" mat-raised-button color="accent"
+            (click)="fileInput.click();$event.preventDefault()">ADD<mat-icon> attach_file</mat-icon></button>
+    </div>
+
+    <button *ngIf="!currentPublication" class="btn-submit--mid" mat-raised-button color="primary"
+        [disabled]="publicationForm.invalid">SUBMIT</button>
+    <button *ngIf="currentPublication" class="btn-submit--mid" mat-raised-button color="primary"
+        [disabled]="publicationForm.invalid" (click)="onModify($event)">ENREGISTRER</button>
+    <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+</form>

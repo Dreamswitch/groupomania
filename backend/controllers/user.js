@@ -42,6 +42,7 @@ exports.login = (req, res, next) => {
           }
           console.log('user connected');
           res.status(200).json({
+            userId: user.idusers,
             token: jwt.sign( //appel de la methode sign() de jsonWebToken
               { userId: user.idusers },//objet que l'on va encoder
               'RANDOM_TOKEN_SECRET',//ce qui va servir à encoder l'objet

@@ -1,0 +1,82 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+
+<app-new-publication></app-new-publication>
+
+
+
+<p *ngIf="!loading && publications.length <= 0">
+  No publications to display!
+</p>
+<p class="list-title" *ngIf="!loading && publications.length > 0">THE PUBLICATIONS</p>
+
+<mat-card class="publication-card" *ngFor="let publication of publications;let index = index;" [thePublication]="publication">
+  <div *ngIf="index !== currentIndex">
+    <mat-card-header>
+      <img mat-card-avatar *ngIf="publication.user.media" class="user_thumbmail" [src]="publication.user.media"
+        alt="profile image of {{publication.user.firstname}}">
+      <img mat-card-avatar *ngIf="!publication.user.media" class="user_thumbmail"
+        src="../../assets/logos/Profile_avatar_placeholder_large.png" alt="default profile thumbmail">
+      <mat-card-title>{{ publication.title | uppercase }}</mat-card-title>
+      <mat-card-subtitle>by {{publication.user.firstname}} {{publication.user.lastname}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="publication.media" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+      <p>{{publication.body}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE <mat-icon>thumb_up_alt</mat-icon></button>
+      <button mat-button>DISLIKE <mat-icon>thumb_down_alt</mat-icon></button>
+      <button mat-flat-button color="accent" *ngIf="publication.isOwner" (click)="onModify(index)">modify <mat-icon> edit</mat-icon></button>
+      <button mat-flat-button color="warn" *ngIf="publication.isOwner" (click)="onDelete(publication)">Delete <mat-icon> delete_forever</mat-icon></button>
+    </mat-card-actions>
+
+    <mat-accordion>
+
+      <!-- #enddocregion basic-panel -->
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
+            </mat-panel-title>
+            <mat-panel-description>
+              Currently I am {{panelOpenState ? 'open' : 'closed'}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div *ngFor="let comment of publication.comments">
+            <div container--comment>
+              <mat-card-subtitle>by {{ comment.user.firstname | uppercase }}</mat-card-subtitle>
+              <p>{{comment.body}}</p>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      
+  </div>
+
+  <app-new-publication (currentIndex)="dataBack($event)" *ngIf="modify && index === currentIndex" [currentPublication]="publication"></app-new-publication>
+
+</mat-card>
+
+
+<!--
+<div class="publication-list" *ngIf="!loading && publications.length  > 0">
+  <div class="publication-list-item" *ngFor="let publication of publications"
+    (click)="onClickSauce(publication.idpublications)">
+    <div class="user row">
+      <img *ngIf="publication.user.media" class="user_thumbmail" [src]="publication.user.media"
+        alt="profile image of {{publication.user.firstname}}">
+      <img *ngIf="!publication.user.media" class="user_thumbmail"
+        src="../../assets/logos/Profile_avatar_placeholder_large.png" alt="default profile thumbmail">
+      <p class="user_name">by {{publication.user.firstname}} {{publication.user.lastname}}</p>
+    </div>
+    <h4>{{ publication.title | uppercase }}</h4>
+    <img [src]="publication.media">
+    <p>{{publication.body}}</p>
+    <div class="row no-gutters">
+      <button mat-flat-button color="accent" *ngIf="publication.idusers === userId">modify</button>
+      <button mat-flat-button color="warn" *ngIf="publication.idusers === userId">Delete</button>
+    </div>
+  </div>
+</div>
+-->
