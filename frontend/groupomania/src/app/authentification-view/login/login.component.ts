@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   password = new FormControl('',Validators.required)
 
   constructor(private formBuilder: FormBuilder,
-    private user: UserService,
+    private userService: UserService,
     private router: Router) { }
 
 
@@ -41,15 +41,14 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
-    this.user.loginUser(email, password)
+    this.userService.loginUser(email, password)
       .pipe(first())
       .subscribe(
         (log: any) => {
-          this.user.userId = log.userId;
-          this.user.authToken = log.token;
+          this.userService.authToken = log.token;
           this.loading = false;
           console.log('communication avec le serveur reussi')
-          this.user.isAuth$.next(true);
+          this.userService.isAuth$.next(true);
           this.router.navigate(['/publications']);
         },
         (error) => {

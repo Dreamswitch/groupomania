@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../user-view/user.service';
 import { Router } from '@angular/router';
-import { User } from '../../models/user.model';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -55,7 +54,6 @@ export class SignupComponent implements OnInit {
             .pipe(first())
             .subscribe(
               (logs: any) => {
-                this.userService.userId = logs.userId;
                 this.userService.authToken = logs.token;
                 this.loading = false;
                 console.log('communication avec le serveur reussi')

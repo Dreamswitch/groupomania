@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Publication } from '../../models/publication.model';
 import { PublicationService } from '../publication.service';
-import { UserService } from '../../user-view/user.service';
 
 @Component({
   selector: 'app-publication-form',
@@ -22,10 +20,7 @@ export class PublicationFormComponent implements OnInit {
   @Output() currentIndex = new EventEmitter<number>();
 
   constructor(private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private publications: PublicationService,
-    private user: UserService) { }
+    private publicationService: PublicationService) { }
 
   ngOnInit(): void {
     if (this.currentPublication) {
@@ -55,12 +50,12 @@ export class PublicationFormComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', this.publicationForm.get('media').value);
     formData.append('publication', JSON.stringify(publication));
-    this.publications.postPublication(formData)
+    this.publicationService.postPublication(formData)
       .subscribe(() => {
         this.publicationForm.reset()
         this.imagePreview = null;
         this.loading = false;
-        this.publications.getPublications();
+        this.publicationService.getPublications();
       });
   }
 
@@ -76,13 +71,13 @@ export class PublicationFormComponent implements OnInit {
     formData.append('idpublication', this.currentPublication.idpublications
     );
     console.log(this.currentPublication.idPublications)
-    this.publications.updatePublication(formData)
+    this.publicationService.updatePublication(formData)
       .subscribe(() => {
         this.publicationForm.reset()
         this.imagePreview = null;
         this.loading = false;
         this.currentIndex.emit(null);
-        this.publications.getPublications();
+        this.publicationService.getPublications();
       });
   }
 
@@ -98,5 +93,10 @@ export class PublicationFormComponent implements OnInit {
       this.imagePreview = reader.result as string;
     };
     reader.readAsDataURL(file);
+  }
+
+  onModifyCanceled(event){
+    event.preventDefault();
+    this.currentIndex.emit(null);
   }
 }

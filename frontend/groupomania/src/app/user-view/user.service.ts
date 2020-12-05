@@ -13,7 +13,6 @@ export class UserService {
 
   isAuth$ = new BehaviorSubject<boolean>(false);
   public authToken: string;
-  public userId: string;
 
   constructor(
     private http: HttpClient,
@@ -31,7 +30,6 @@ export class UserService {
 
   logout() {
     this.authToken = null;
-    this.userId = null;
     this.isAuth$.next(false);
     this.router.navigate(['login']);
   }
@@ -40,7 +38,4 @@ export class UserService {
     return this.authToken;
   }
 
-  getUserId() {
-    return this.userId;
-  }
 }

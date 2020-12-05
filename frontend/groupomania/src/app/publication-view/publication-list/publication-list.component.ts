@@ -1,12 +1,9 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 import { Publication } from '../../models/publication.model';
 import { PublicationService } from '../publication.service';
-import { UserService } from '../../user-view/user.service';
-import { User } from '../../models/user.model';
-import { first, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-publication-list',
@@ -24,13 +21,11 @@ export class PublicationListComponent implements OnInit {
 
   modify : boolean = false;
 
-  constructor(private publication: PublicationService,
-              private router: Router, private user : UserService) { }
+  constructor(private publicationService: PublicationService) { }
 
   ngOnInit() {
-    this.userId = this.user.getUserId();
     this.loading = true;
-    this.publicationSub = this.publication.publications$.subscribe(
+    this.publicationSub = this.publicationService.publications$.subscribe(
       (publications) => {
         this.publications = publications;
         this.loading = false;
@@ -41,7 +36,7 @@ export class PublicationListComponent implements OnInit {
         this.loading = false;
       }
     );
-    this.publication.getPublications();
+    this.publicationService.getPublications();
   }
 
 
@@ -50,22 +45,22 @@ export class PublicationListComponent implements OnInit {
     let publicationId = {
       "idpublication" : publication.idpublications
     }
-    this.publication.deletePublication(publicationId)
+    this.publicationService.deletePublication(publicationId)
     .pipe(take(1))
     .subscribe(
       response => {
         console.log('lol')
-      this.publication.getPublications()
+      this.publicationService.getPublications()
       console.log(response)}
     )
   }
 
-  onModify(index){
+  onModify(index : number){
     this.currentIndex = index;
     this.modify = true ;
   }
 
-  dataBack(event){ // response from child element after update
+  dataBack(event : number){ // response from child to parent element after update
     this.currentIndex = event;
   }
 

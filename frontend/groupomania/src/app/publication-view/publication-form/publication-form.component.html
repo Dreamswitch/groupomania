@@ -1,5 +1,6 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
-<p>new-publication!</p>
+<p>{{currentPublication ? 'Modify'  :  'Create'}}  Publication</p>
+<button mat-flat-button color="warn" (click)="onModifyCanceled($event)">CANCELED <mat-icon>close</mat-icon></button>
 <form class="publication--form" [formGroup]="publicationForm" *ngIf="!loading" (ngSubmit)="onSubmit()">
     <mat-form-field class="form-group">
         <mat-label for="title">title</mat-label>
