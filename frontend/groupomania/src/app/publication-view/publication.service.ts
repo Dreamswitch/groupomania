@@ -3,8 +3,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, map, tap } from 'rxjs/operators';
 import { Publication } from '../models/publication.model';
 import { Observable, Subject } from 'rxjs';
-import { UserService } from './user.service';
-import { HandleError, HttpErrorHandler } from './http-error-handler.service';
+import { UserService } from '../user-view/user.service';
+import { HandleError, HttpErrorHandler } from '../services/http-error-handler.service';
 
 
 

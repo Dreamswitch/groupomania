@@ -2,10 +2,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { Publication } from '../models/publication.model';
-import { PublicationService } from '../services/publication.service';
-import { UserService } from '../services/user.service';
-import { User } from '../models/user';
+import { Publication } from '../../models/publication.model';
+import { PublicationService } from '../publication.service';
+import { UserService } from '../../user-view/user.service';
+import { User } from '../../models/user.model';
 import { first, take } from 'rxjs/operators';
 
 @Component({

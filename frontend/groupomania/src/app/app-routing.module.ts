@@ -3,10 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 /* import { SauceListComponent } from './sauce-list/sauce-list.component';
 import { SauceFormComponent } from './sauce-form/sauce-form.component';
 import { SingleSauceComponent } from './single-sauce/single-sauce.component'; */
-import { SignupComponent } from './auth/signup/signup.component';
-import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './authentification-view/signup/signup.component';
+import { LoginComponent } from './authentification-view/login/login.component';
 import { AuthGuard } from './services/auth-guard.service';
-import { PublicationListComponent } from './publication-list/publication-list.component';
+import { PublicationListComponent } from './publication-view/publication-list/publication-list.component';
 
 const routes: Routes = [
   {

@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 
-<app-new-publication></app-new-publication>
+<app-publication-form></app-publication-form>
 
 
 
@@ -40,12 +40,12 @@
               {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
             </mat-panel-title>
             <mat-panel-description>
-              Currently I am {{panelOpenState ? 'open' : 'closed'}}
+              {{panelOpenState ? 'Hide' : 'View'}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
             </mat-panel-description>
           </mat-expansion-panel-header>
           <div *ngFor="let comment of publication.comments">
-            <div container--comment>
-              <mat-card-subtitle>by {{ comment.user.firstname | uppercase }}</mat-card-subtitle>
+            <div class="container--comment">
+              <mat-card-subtitle>by {{ comment.user.firstname | lowercase }}</mat-card-subtitle>
               <p>{{comment.body}}</p>
             </div>
           </div>
@@ -54,7 +54,7 @@
       
   </div>
 
-  <app-new-publication (currentIndex)="dataBack($event)" *ngIf="modify && index === currentIndex" [currentPublication]="publication"></app-new-publication>
+  <app-publication-form (currentIndex)="dataBack($event)" *ngIf="modify && index === currentIndex" [currentPublication]="publication"></app-publication-form>
 
 </mat-card>
 

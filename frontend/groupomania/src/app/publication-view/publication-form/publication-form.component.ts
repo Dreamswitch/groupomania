@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Publication } from '../models/publication.model';
-import { PublicationService } from '../services/publication.service';
-import { UserService } from '../services/user.service';
+import { Publication } from '../../models/publication.model';
+import { PublicationService } from '../publication.service';
+import { UserService } from '../../user-view/user.service';
 
 @Component({
-  selector: 'app-new-publication',
-  templateUrl: './new-publication.component.html',
-  styleUrls: ['./new-publication.component.scss']
+  selector: 'app-publication-form',
+  templateUrl: './publication-form.component.html',
+  styleUrls: ['./publication-form.component.scss']
 })
-export class NewPublicationComponent implements OnInit {
+export class PublicationFormComponent implements OnInit {
 
   publicationForm: FormGroup;
   loading: boolean;

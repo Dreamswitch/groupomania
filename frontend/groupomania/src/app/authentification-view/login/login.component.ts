@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from '../../user-view/user.service';
 
 @Component({
   selector: 'app-login',
