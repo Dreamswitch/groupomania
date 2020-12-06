@@ -1,8 +1,8 @@
 export class Publication {
-    isOwner : boolean;
+    isOwner: boolean;
     idpublications: number;
     title: string;
-    body:  string;
+    body: string;
     media: string;
     idusers: number;
     createdAt: string;
@@ -16,4 +16,5 @@ export class Publication {
     likes: number[];
     nbrLikes: number;
     nbrComments: number;
+
 }

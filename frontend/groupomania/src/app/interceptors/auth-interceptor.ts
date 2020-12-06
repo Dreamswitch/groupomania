@@ -5,9 +5,9 @@ import { UserService } from '../user-view/user.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private user: UserService) {}
+  constructor(private user: UserService) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  intercept(req: HttpRequest<any>, next: HttpHandler): any {
     const authToken = this.user.getToken();
     const newRequest = req.clone({
       headers: req.headers.set('Authorization', 'Bearer ' + authToken)

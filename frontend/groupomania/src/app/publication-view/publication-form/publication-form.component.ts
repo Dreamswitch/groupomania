@@ -16,11 +16,13 @@ export class PublicationFormComponent implements OnInit {
   mode: string;
   publication: Publication;
   imagePreview: string;
-  @Input() currentPublication: any ;
+  @Input() currentPublication: any;
   @Output() currentIndex = new EventEmitter<number>();
 
-  constructor(private formBuilder: FormBuilder,
-    private publicationService: PublicationService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private publicationService: PublicationService
+  ) { }
 
   ngOnInit(): void {
     if (this.currentPublication) {
@@ -41,39 +43,39 @@ export class PublicationFormComponent implements OnInit {
 
 
 
-  onSubmit() {
+  onSubmit(): void {
     this.loading = true;
     const publication = {
       title: this.publicationForm.get('title').value,
       body: this.publicationForm.get('body').value
-    }
+    };
     const formData = new FormData();
     formData.append('image', this.publicationForm.get('media').value);
     formData.append('publication', JSON.stringify(publication));
     this.publicationService.postPublication(formData)
       .subscribe(() => {
-        this.publicationForm.reset()
+        this.publicationForm.reset();
         this.imagePreview = null;
         this.loading = false;
         this.publicationService.getPublications();
       });
   }
 
-  onModify(event) {
-    event.preventDefault()
+  onModify(event): void {
+    event.preventDefault();
     const publication = {
       title: this.publicationForm.get('title').value,
       body: this.publicationForm.get('body').value
-    }
+    };
     const formData = new FormData();
     formData.append('image', this.publicationForm.get('media').value);
     formData.append('publication', JSON.stringify(publication));
     formData.append('idpublication', this.currentPublication.idpublications
     );
-    console.log(this.currentPublication.idPublications)
+    console.log(this.currentPublication.idPublications);
     this.publicationService.updatePublication(formData)
       .subscribe(() => {
-        this.publicationForm.reset()
+        this.publicationForm.reset();
         this.imagePreview = null;
         this.loading = false;
         this.currentIndex.emit(null);
@@ -81,11 +83,11 @@ export class PublicationFormComponent implements OnInit {
       });
   }
 
-  onFileAdded(event) {
+  onFileAdded(event): void {
     event.preventDefault();
-    console.log('ajout')
+    console.log('ajout');
     const file = (event.target as HTMLInputElement).files[0];
-    console.log(file)
+    console.log(file);
     this.publicationForm.get('media').setValue(file);
     this.publicationForm.updateValueAndValidity();
     const reader = new FileReader();
@@ -95,7 +97,7 @@ export class PublicationFormComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  onModifyCanceled(event){
+  onModifyCanceled(event): void {
     event.preventDefault();
     this.currentIndex.emit(null);
   }

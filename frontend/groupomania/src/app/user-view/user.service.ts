@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 
@@ -19,22 +19,22 @@ export class UserService {
     private router: Router
   ) { }
 
-  createUser(newUser: User) {
+  createUser(newUser: User): Observable<object> {
     return this.http.post('http://localhost:3000/api/auth/signup', newUser);
-  };
+  }
 
-  loginUser(email: string, password: string) {
-    return this.http.post('http://localhost:3000/api/auth/login', { email: email, password: password });
-  };
+  loginUser(email: string, password: string): any {
+    return this.http.post('http://localhost:3000/api/auth/login', { email, password });
+  }
 
 
-  logout() {
+  logout(): void {
     this.authToken = null;
     this.isAuth$.next(false);
     this.router.navigate(['login']);
   }
 
-  getToken() {
+  getToken(): string {
     return this.authToken;
   }
 

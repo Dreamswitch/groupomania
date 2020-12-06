@@ -19,11 +19,13 @@ export class PublicationListComponent implements OnInit {
   userId: string;
   currentIndex: number;
 
-  modify : boolean = false;
+  modify = false;
 
-  constructor(private publicationService: PublicationService) { }
+  constructor(
+    private publicationService: PublicationService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loading = true;
     this.publicationSub = this.publicationService.publications$.subscribe(
       (publications) => {
@@ -40,27 +42,28 @@ export class PublicationListComponent implements OnInit {
   }
 
 
-  onDelete(publication){
-    console.log(publication.idpublications)
-    let publicationId = {
-      "idpublication" : publication.idpublications
-    }
+  onDelete(publication): void {
+    console.log(publication.idpublications);
+    const publicationId = {
+      idpublication: publication.idpublications
+    };
     this.publicationService.deletePublication(publicationId)
-    .pipe(take(1))
-    .subscribe(
-      response => {
-        console.log('lol')
-      this.publicationService.getPublications()
-      console.log(response)}
-    )
+      .pipe(take(1))
+      .subscribe(
+        response => {
+          console.log('lol');
+          this.publicationService.getPublications();
+          console.log(response);
+        }
+      );
   }
 
-  onModify(index : number){
+  onModify(index: number): void {
     this.currentIndex = index;
-    this.modify = true ;
+    this.modify = true;
   }
 
-  dataBack(event : number){ // response from child to parent element after update
+  dataBack(event: number): void { // response from child to parent element after update
     this.currentIndex = event;
   }
 

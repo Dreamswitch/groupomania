@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { Publication } from '../models/publication.model';
 import { Observable, Subject } from 'rxjs';
-import { UserService } from '../user-view/user.service';
 import { HandleError, HttpErrorHandler } from '../services/http-error-handler.service';
 
 
@@ -23,9 +22,11 @@ export class PublicationService {
   publications$ = new Subject<Publication[]>();
   private handleError: HandleError;
 
-  constructor(private http: HttpClient,
-    httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError('PublicationService')
+  constructor(
+    private http: HttpClient,
+    public httpErrorHandler: HttpErrorHandler
+  ) {
+    this.handleError = httpErrorHandler.createHandleError('PublicationService');
   }
 
   /** GET Publications from the server */
@@ -36,7 +37,7 @@ export class PublicationService {
         );
     } */
 
-  getPublications() {
+  getPublications(): void {
     this.http.get('http://localhost:3000/api/publications').subscribe(
       (publications: Publication[]) => {
         this.publications$.next(publications);
@@ -64,7 +65,7 @@ export class PublicationService {
       );
   }
 
-  deletePublication(idPublication: object) {
+  deletePublication(idPublication: object): Observable<object> {
     return this.http.request('DELETE', 'http://localhost:3000/api/publications', { body: idPublication })
       .pipe(
         catchError(this.handleError('addPublication', idPublication))

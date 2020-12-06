@@ -15,29 +15,31 @@ export class LoginComponent implements OnInit {
   loading: boolean;
   errorMsg: string;
   email = new FormControl('', [Validators.required, Validators.email]);
-  password = new FormControl('',Validators.required)
+  password = new FormControl('', Validators.required);
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
 
-  getErrorMessage() {
+  getErrorMessage(): string {
     if (this.email.hasError('required')) {
       return 'You must enter a value';
     }
 
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
-  
-  onLogin() {
+
+  onLogin(): void {
     this.loading = true;
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
@@ -47,17 +49,17 @@ export class LoginComponent implements OnInit {
         (log: any) => {
           this.userService.authToken = log.token;
           this.loading = false;
-          console.log('communication avec le serveur reussi')
+          console.log('communication avec le serveur reussi');
           this.userService.isAuth$.next(true);
           this.router.navigate(['/publications']);
         },
         (error) => {
           this.loading = false;
           this.errorMsg = error.message;
-          console.log(this.errorMsg)
+          console.log(this.errorMsg);
         }
 
-      )
+      );
     /*     .then(
           () => {
             this.loading = false;

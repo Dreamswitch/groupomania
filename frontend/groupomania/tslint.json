@@ -1,4 +1,13 @@
 {
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true
+  },
+  "key": "ctrl+d",
+  "command": "editor.action.codeAction",
+  "args": {
+    "kind": "source.fixAll.tslint",
+    "apply": "first"
+  },
   "extends": "tslint:recommended",
   "rulesDirectory": [
     "codelyzer"

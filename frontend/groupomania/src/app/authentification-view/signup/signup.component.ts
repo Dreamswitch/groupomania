@@ -21,11 +21,13 @@ export class SignupComponent implements OnInit {
 
 
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -34,14 +36,14 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  getErrorMessage() {
+  getErrorMessage(): string {
     if (this.email.hasError('required')) {
       return 'You must enter a value';
     }
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
 
-  onSignup() {
+  onSignup(): void {
     const formValue = this.signupForm.value;
     this.loading = true;
 
@@ -56,19 +58,19 @@ export class SignupComponent implements OnInit {
               (logs: any) => {
                 this.userService.authToken = logs.token;
                 this.loading = false;
-                console.log('communication avec le serveur reussi')
+                console.log('communication avec le serveur reussi');
                 this.userService.isAuth$.next(true);
                 this.router.navigate(['/publications']);
               },
               error => {
-                console.log('registration error')
+                console.log('registration error');
                 this.loading = false;
                 this.router.navigate(['/login']);
               }
-            )
+            );
         },
         error => {
-          console.log('registration error')
+          console.log('registration error');
           this.loading = false;
           this.router.navigate(['/login']);
         }

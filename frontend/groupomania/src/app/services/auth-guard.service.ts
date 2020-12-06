@@ -6,25 +6,27 @@ import { UserService } from '../user-view/user.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private user: UserService,
-    private router: Router) { }
+  constructor(
+    private user: UserService,
+    private router: Router
+  ) { }
 
-/*   canActivate(route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> {
-    return Observable.create(
-      (observer) => {
-        this.user.isAuth$.subscribe(
-          (user) => {
-            if (user) {
-              observer.next(true);
-            } else {
-              this.router.navigate(['/login']);
+  /*   canActivate(route: ActivatedRouteSnapshot,
+      state: RouterStateSnapshot): Observable<boolean> {
+      return Observable.create(
+        (observer) => {
+          this.user.isAuth$.subscribe(
+            (user) => {
+              if (user) {
+                observer.next(true);
+              } else {
+                this.router.navigate(['/login']);
+              }
             }
-          }
-        );
-      }
-    );
-  } */
+          );
+        }
+      );
+    } */
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -33,7 +35,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     else {
-      return this.router.parseUrl("/login");
+      return this.router.parseUrl('/login');
     }
   }
 
