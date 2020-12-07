@@ -1,6 +1,22 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
-<p>{{currentPublication ? 'Modify'  :  'Create'}}  Publication</p>
-<button *ngIf="currentPublication" mat-flat-button color="warn" (click)="onModifyCanceled($event)">CANCELED <mat-icon>close</mat-icon></button>
+
+<!--partie presentation bouton-->
+<!-- <div>
+    <div>
+        <img src="" alt="profil picture">
+        <button>Que voulez vous dire , prenom ?</button>
+    </div>
+    <ul>
+        <li>
+
+        </li>
+    </ul>
+</div> -->
+
+<!-- partie create publication form-->
+<p>{{currentPublication ? 'Modify'  :  'Create'}} Publication</p>
+<button *ngIf="currentPublication" mat-flat-button color="warn" (click)="onModifyCanceled($event)">CANCELED <mat-icon>
+        close</mat-icon></button>
 <form class="publication--form" [formGroup]="publicationForm" *ngIf="!loading" (ngSubmit)="onSubmit()">
     <mat-form-field class="form-group">
         <mat-label for="title">title</mat-label>
@@ -22,7 +38,7 @@
             (change)="onFileAdded($event);$event.preventDefault()" #fileInput required>
         <button *ngIf="!currentPublication" mat-raised-button color="accent"
             (click)="fileInput.click();$event.preventDefault()">ADD IMAGE <mat-icon>add_photo_alternate</mat-icon>
-            </button>
+        </button>
         <button *ngIf="currentPublication" mat-raised-button color="accent"
             (click)="fileInput.click();$event.preventDefault()">ADD<mat-icon> attach_file</mat-icon></button>
     </div>

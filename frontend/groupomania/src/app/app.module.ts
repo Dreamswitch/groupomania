@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { CommentFormComponent } from './comment-form/comment-form.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     SignupComponent,
     PublicationListComponent,
     PublicationFormComponent,
+    CommentFormComponent,
   ],
   imports: [
     BrowserModule,

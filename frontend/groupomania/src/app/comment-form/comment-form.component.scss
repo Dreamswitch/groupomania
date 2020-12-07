@@ -1,0 +1,28 @@
+.comment {
+    &--form {
+        position: relative;
+        background-color: rgba(144, 201, 255, 0.267);
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.btn-close {
+    &--right {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index: 1;
+    }
+}
+
+.btn-submit {
+    &--flex {
+        width: 100%;
+    }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}

@@ -9,8 +9,12 @@
 </p>
 <p class="list-title" *ngIf="!loading && publications.length > 0">THE PUBLICATIONS</p>
 
-<mat-card class="publication-card" *ngFor="let publication of publications;let index = index;" [thePublication]="publication">
-  <div *ngIf="index !== currentIndex">
+<mat-card class="publication-card" *ngFor="let publication of publications;let publicationIndex = index;"
+  [thePublication]="publication">
+  <!--
+    condition to display publication
+  -->
+  <div *ngIf="publicationIndex !== currentPublicationIndex">
     <mat-card-header>
       <img mat-card-avatar *ngIf="publication.user.media" class="user_thumbmail" [src]="publication.user.media"
         alt="profile image of {{publication.user.firstname}}">
@@ -26,35 +30,67 @@
     <mat-card-actions>
       <button mat-button>LIKE <mat-icon>thumb_up_alt</mat-icon></button>
       <button mat-button>DISLIKE <mat-icon>thumb_down_alt</mat-icon></button>
-      <button mat-flat-button color="accent" *ngIf="publication.isOwner" (click)="onModify(index)">modify <mat-icon> edit</mat-icon></button>
-      <button mat-flat-button color="warn" *ngIf="publication.isOwner" (click)="onDelete(publication)">Delete <mat-icon> delete_forever</mat-icon></button>
+      <button mat-button (click)="displayCommentForm(publicationIndex);$event.preventDefault()">comment <mat-icon>
+          comment
+        </mat-icon></button>
+
+      <!--write a new comment-->
+      <app-comment-form *ngIf="commentDisplay && currentPublication === publicationIndex"
+        (commentDisplayOff)=commentDisplayOff($event) [currentPublication]="publication"></app-comment-form>
+
+      <button mat-flat-button color="accent" *ngIf="publication.isOwner"
+        (click)="onModifyPublication(publicationIndex)">modify
+        <mat-icon>
+          edit</mat-icon></button>
+      <button mat-flat-button color="warn" *ngIf="publication.isOwner" (click)="onDeletePublication(publication)">Delete
+        <mat-icon>
+          delete_forever</mat-icon></button>
     </mat-card-actions>
 
     <mat-accordion>
 
-      <!-- #enddocregion basic-panel -->
-        <mat-expansion-panel (opened)="panelOpenState = true"
-                             (closed)="panelOpenState = false">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
-            </mat-panel-title>
-            <mat-panel-description>
-              {{panelOpenState ? 'Hide' : 'View'}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div *ngFor="let comment of publication.comments">
-            <div class="container--comment">
-              <mat-card-subtitle>by {{ comment.user.firstname | lowercase }}</mat-card-subtitle>
-              <p>{{comment.body}}</p>
+      <!-- comment part -->
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{panelOpenState ? 'Hide' : 'View'}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngFor="let comment of publication.comments;let commentIndex = index">
+          <div class="container--comment">
+            <mat-card-subtitle>by {{ comment.user.firstname | lowercase }}</mat-card-subtitle>
+            <div class="container--mat-image">
+              <img mat-card-image *ngIf="comment.media" [src]="comment.media" alt="Photo of a Shiba Inu">
             </div>
+            <p>{{comment.body}}</p>
+            <!--
+              boutons modification/delete comment
+            -->
+            <button mat-flat-button *ngIf="comment.isOwner"
+              (click)="onModifyComment(commentIndex, publicationIndex)">modify
+            </button>
+            <button mat-flat-button *ngIf="comment.isOwner" (click)="onDeleteComment(comment)">Delete
+            </button>
+
+            <!--comment conditionnel-->
+            <app-comment-form
+              *ngIf="modifyCommentDisplay && commentIndex === currentComment && publicationIndex === currentPublication"
+              [currentComment]="comment" (commentDisplayOff)=commentDisplayOff($event)></app-comment-form>
+
           </div>
-        </mat-expansion-panel>
-      </mat-accordion>
-      
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
   </div>
 
-  <app-publication-form (currentIndex)="dataBack($event)" *ngIf="modify && index === currentIndex" [currentPublication]="publication"></app-publication-form>
+  <app-publication-form (currentPublicationIndex)="dataBack($event)"
+    *ngIf="modify && publicationIndex === currentPublicationIndex" [currentPublication]="publication"
+    [currentPublication]="publication">
+  </app-publication-form>
 
 </mat-card>
 

@@ -17,7 +17,7 @@ export class PublicationFormComponent implements OnInit {
   publication: Publication;
   imagePreview: string;
   @Input() currentPublication: any;
-  @Output() currentIndex = new EventEmitter<number>();
+  @Output() currentPublicationIndex = new EventEmitter<number>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,7 +78,7 @@ export class PublicationFormComponent implements OnInit {
         this.publicationForm.reset();
         this.imagePreview = null;
         this.loading = false;
-        this.currentIndex.emit(null);
+        this.currentPublicationIndex.emit(null);
         this.publicationService.getPublications();
       });
   }
@@ -99,6 +99,6 @@ export class PublicationFormComponent implements OnInit {
 
   onModifyCanceled(event): void {
     event.preventDefault();
-    this.currentIndex.emit(null);
+    this.currentPublicationIndex.emit(null);
   }
 }

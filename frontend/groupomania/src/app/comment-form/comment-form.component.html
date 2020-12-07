@@ -1,0 +1,30 @@
+<form class="comment--form" [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <button class="comment__btn btn-close--right" mat-flat-button color="warn" title="canceled comment"
+        (click)="onCancelComment($event)">
+        <mat-icon>close
+        </mat-icon>
+    </button>
+    <mat-form-field class="form-group">
+        <mat-label for="body">insert your comment</mat-label>
+        <textarea matInput placeholder="Ex. It makes me feel..." class="form-control" id="body"
+            formControlName="body"></textarea>
+    </mat-form-field>
+
+    <div class="form-group">
+        <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+        <input class='none' type="file" accept="image/*" #imageInput
+            (change)="onFileAdded($event);$event.preventDefault()" #fileInput required>
+    </div>
+
+    <div class="grid">
+        <button mat-flat-button (click)="fileInput.click();$event.preventDefault()">ADD IMAGE
+            <mat-icon>add_photo_alternate</mat-icon>
+        </button>
+
+        <button class="btn-submit--flex" mat-flat-button [disabled]="commentForm.invalid">SEND
+            <mat-icon>send</mat-icon>
+        </button>
+
+    </div>
+    <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+</form>

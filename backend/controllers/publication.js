@@ -7,23 +7,23 @@ const { deleteMedia } = require('../middlewares/deleteMedia/post-media');
 
 
 exports.createPublication = async (req, res, next) => {
-    console.log('publication recu en back')
+    console.log('publication recu en back');
     try {
         if (req.file && req.file.mimetype !== 'image/jpg' && req.file.mimetype !== 'image/jpeg' && req.file.mimetype !== 'image/png') {
             res.status(401).json({ error: 'invalid file format uploaded' });
         }
-        console.log(req.user)
+        console.log(req.user);
         const publicationObject = JSON.parse(req.body.publication);
-        console.log(publicationObject)
+        console.log(publicationObject);
         const user = req.user;
         const isValid = await publicationSchema.validateAsync(publicationObject);
-        console.log('isValid')
+        console.log('isValid');
         const profile = await db.user.findByPk(user);
 
 
-        if (!publicationObject) { return res.status(400).json('bad request') };
-        if (!user) { return res.status(404).json('user not found') };
-        if (!isValid) { return res.status(400).json('bad request') };
+        if (!publicationObject) { return res.status(400).json('bad request'); };
+        if (!user) { return res.status(404).json('user not found'); };
+        if (!isValid) { return res.status(400).json('bad request'); };
         if (!profile) { return res.status(404).json('user deleted'); }
 
 
@@ -41,7 +41,7 @@ exports.createPublication = async (req, res, next) => {
 };
 
 exports.getOnePublication = (req, res, next) => {
-    console.log('get one')
+    console.log('get one');
     db.publication.findByPk(req.body.idpublication,
         {
             include: [
@@ -109,12 +109,12 @@ exports.modifyPublication = async (req, res, next) => {
 };
 
 exports.deletePublication = async (req, res, next) => {
-    console.log(req)
+    console.log(req);
     try {
         const user = await db.user.findByPk(req.user);
         db.publication.findByPk(req.body.idpublication)
             .then(publication => {
-                console.log(publication.idusers)
+                console.log(publication.idusers);
                 if (publication.idusers === user.idusers || user.admin) {
                     db.comment.destroy({ where: { idpublications: publication.idpublications } })
                         .then(() => {
@@ -131,12 +131,12 @@ exports.deletePublication = async (req, res, next) => {
                         })
                         .catch(() => res.status(500).json("internal server error 3"));
                 } else {
-                    return res.status(401).json("unauthorized action")
+                    return res.status(401).json("unauthorized action");
                 }
             })
             .catch(() => res.status(500).json("internal server error 4"));
     } catch (error) {
-        return res.status(500).json("internal server error 5")
+        return res.status(500).json("internal server error 5");
     }
 };
 
@@ -150,33 +150,42 @@ exports.getAllPublication = async (req, res, next) => {
                 },
                 {
                     model: db.comment,
-                    attributes: ['body', 'media'],
+                    attributes: ['body', 'media', 'idusers', 'idcomments'],
                     include: { model: db.user, attributes: ['firstname', 'lastname', 'media'] }
                 },
                 {
                     model: db.like,
-                    attributes: ['like','idusers'],
+                    attributes: ['like', 'idusers'],
                 },
             ],
             order: [['createdAt', 'DESC']]
         });
-        if (!publications) { return res.status(404).json('publications not founds') };
+        if (!publications) { return res.status(404).json('publications not founds'); };
         Promise.all(publications.map(async publication => {
             publication.dataValues.nbrLikes = await (publication.dataValues.likes).reduce((acc, like) => acc + like.dataValues.like, 0);
             publication.dataValues.nbrComments = (publication.dataValues.comments).length;
-            if(publication.idusers === req.user){
+            if (publication.idusers === req.user) {
                 publication.dataValues.isOwner = true;
-            }else{
+            } else {
                 publication.dataValues.isOwner = false;
             }
-
+            await publication.comments.map(comment => {
+                if (comment.dataValues.idusers === req.user) {
+                    comment.dataValues.isOwner = true;
+                    comment.dataValues.idusers = null;
+                } else {
+                    comment.dataValues.isOwner = false;
+                    comment.dataValues.idusers = null;
+                }
+            });
             return publication;
         }))
             .then(response => {
-                res.status(200).json(response)})
+                res.status(200).json(response);
+            })
             .catch(() => res.status(500).json('internal error'));
     } catch (error) {
-        return res.status(500).json(error)
+        return res.status(500).json(error);
     }
 };
 

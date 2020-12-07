@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Publication } from '../../models/publication.model';
 import { PublicationService } from '../publication.service';
 import { take } from 'rxjs/operators';
+import { CommentService } from '../comment.service';
 
 @Component({
   selector: 'app-publication-list',
@@ -17,16 +18,22 @@ export class PublicationListComponent implements OnInit {
   loading: boolean;
   errorMsg: string;
   userId: string;
-  currentIndex: number;
+  currentPublicationIndex: number;
+  currentPublication: number; // index de la publication courrante
+  currentComment: number; // index du commentaire courrant
+  commentDisplay = false;
+  modifyCommentDisplay = false;
 
   modify = false;
 
   constructor(
-    private publicationService: PublicationService
+    private publicationService: PublicationService,
+    private commentService: CommentService
   ) { }
 
   ngOnInit(): void {
     this.loading = true;
+    this.commentDisplay = false;
     this.publicationSub = this.publicationService.publications$.subscribe(
       (publications) => {
         this.publications = publications;
@@ -42,7 +49,7 @@ export class PublicationListComponent implements OnInit {
   }
 
 
-  onDelete(publication): void {
+  onDeletePublication(publication): void {
     console.log(publication.idpublications);
     const publicationId = {
       idpublication: publication.idpublications
@@ -58,13 +65,45 @@ export class PublicationListComponent implements OnInit {
       );
   }
 
-  onModify(index: number): void {
-    this.currentIndex = index;
+  onModifyPublication(index: number): void {
+    this.currentPublicationIndex = index;
     this.modify = true;
   }
 
   dataBack(event: number): void { // response from child to parent element after update
-    this.currentIndex = event;
+    this.currentPublicationIndex = event;
   }
 
+  commentDisplayOff(state: boolean): void { // child to parent
+    this.commentDisplay ? this.commentDisplay = state : this.modifyCommentDisplay = state;
+  }
+
+  displayCommentForm(index: number): void {
+    this.commentDisplay = true;
+    this.modifyCommentDisplay = false;
+    this.currentPublication = index;
+  }
+
+
+  onModifyComment(commentIndex: number, publicationIndex: number): void {
+    console.log('modify comment');
+    this.currentComment = commentIndex;
+    this.currentPublication = publicationIndex;
+    this.modifyCommentDisplay = true;
+    this.commentDisplay = false;
+  }
+
+  onDeleteComment(comment: any): void {
+    const commentId = {
+      idcomment: comment.idcomments
+    };
+    this.commentService.deleteComment(commentId)
+      .pipe(take(1))
+      .subscribe(
+        (response) => {
+          this.publicationService.getPublications();
+          console.log(response);
+        }
+      );
+  }
 }
