@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommentService } from '../publication-view/comment.service';
-import { PublicationService } from '../publication-view/publication.service';
+import { CommentService } from '../../services/comment.service';
+import { PublicationService } from '../../services/publication.service';
 
 
 @Component({

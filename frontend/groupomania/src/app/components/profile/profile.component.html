@@ -1,0 +1,59 @@
+<div
+    class="container-profile"
+    *ngIf="currentUser$ | async as user"
+>
+    <div class="header">
+        <img
+            mat-card-avatar
+            *ngIf="user.media"
+            class="user_thumbmail"
+            [src]="user.media"
+            alt="profile image of {{user.firstname}}"
+        >
+        <img
+            mat-card-avatar
+            *ngIf="!user.media"
+            class="user_thumbmail"
+            src="../../assets/logos/Profile_avatar_placeholder_large.png"
+            alt="default profile thumbmail"
+        >
+
+        <!-- start modifier la photo de profile -->
+        <input
+            class='none'
+            type="file"
+            accept="image/*"
+            #imageInput
+            (change)="onFileAdded($event);$event.preventDefault()"
+            #fileInput
+            required
+        >
+        <button
+            *ngIf="!currentPublication"
+            mat-raised-button
+            color="accent"
+            (click)="fileInput.click();$event.preventDefault()"
+        >
+            ADD IMAGE
+            <mat-icon>add_photo_alternate</mat-icon>
+        </button>
+
+        <button>modifier</button>
+        <!-- end modifier la photo de profile -->
+    </div>
+    <main class="main">
+        <div
+            *ngIf="user.description"
+            class="description"
+        >
+            {{user.description}}
+        </div>
+        <div
+            *ngIf="!user.description"
+            class="description"
+        >
+            describe you ...
+        </div>
+        <button>modifier</button>
+    </main>
+</div>

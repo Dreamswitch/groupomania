@@ -1,0 +1,35 @@
+.container-profile {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 2fr 3fr;
+}
+
+.header {
+    grid-row: 1;
+    height: 100%;
+    width: 80%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin: auto;
+    background: url("../../../assets/thumb-1920-156845.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    grid-row: 2;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user_thumbmail {
+    width: 200px;
+    height: 200px;
+}

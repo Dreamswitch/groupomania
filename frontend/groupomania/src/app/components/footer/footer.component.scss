@@ -1,0 +1,16 @@
+.footer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__copyright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & a {
+        text-decoration: none;
+    }
+}

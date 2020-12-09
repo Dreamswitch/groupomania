@@ -1,0 +1,62 @@
+.header {
+  background-color: hsla(218, 70%, 15%, 1);
+  height: 100%;
+  border-bottom: thin solid black;
+  &__nav {
+    height: inherit;
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+
+    &__brand {
+      min-width: 200px;
+      &__logo {
+        height: 30px;
+        margin-left: 5%;
+      }
+    }
+    &__container {
+      align-self: center;
+      width: 30%;
+    }
+  }
+}
+
+.nav {
+  justify-content: flex-end;
+  list-style: none;
+  display: flex;
+
+  &__navList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 15px;
+  }
+}
+
+.navLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: whitesmoke;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  &.active {
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}
+
+.container-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

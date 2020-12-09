@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UserService } from '../user-view/user.service';
+import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,11 +11,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   isAuth: boolean;
   userSubscription: Subscription;
+  currentUser: object;
 
-  constructor(private user: UserService) { }
+  constructor(
+    private userService: UserService,
+  ) { }
 
   ngOnInit(): void {
-    this.userSubscription = this.user.isAuth$.subscribe(
+    this.userSubscription = this.userService.isAuth$.subscribe(
       (user) => {
         this.isAuth = user;
       }
@@ -23,7 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    this.user.logout();
+    this.userService.logout();
   }
 
   ngOnDestroy(): void {

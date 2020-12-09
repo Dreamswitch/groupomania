@@ -1,0 +1,72 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+<form
+    [formGroup]="loginForm"
+    (ngSubmit)="onLogin()"
+    *ngIf="!loading"
+>
+
+    <!-- <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" formControlName="email">
+  </div> -->
+    <div class="container-fluid">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Enter your email</mat-label>
+            <input
+                matInput
+                placeholder="pat@example.com"
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                required
+            >
+            <mat-icon matSuffix>alternate_email</mat-icon>
+            <mat-error *ngIf="loginForm.get('email').invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Enter your password</mat-label>
+            <input
+                matInput
+                [type]="hide ? 'text' : 'password'"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                required
+            >
+            <button
+                mat-icon-button
+                matSuffix
+                (click)="hide = !hide;$event.preventDefault()"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+            >
+                <mat-icon>
+                    {{hide ? 'visibility' : 'visibility_off'}}
+                </mat-icon>
+            </button>
+        </mat-form-field>
+
+    </div>
+    <!-- <div class="example-container">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" formControlName="password">
+  </div> -->
+    <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loginForm.get('email').invalid"
+    >
+        LOGIN
+    </button>
+    <p
+        class="text-danger"
+        *ngIf="errorMsg"
+    >
+        {{ errorMsg }}
+    </p>
+</form>

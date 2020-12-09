@@ -1,4 +1,4 @@
-export class Publication {
+export interface Publication {
     isOwner: boolean;
     idpublications: number;
     title: string;

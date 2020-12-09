@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Publication } from '../../models/publication.model';
-import { PublicationService } from '../publication.service';
+import { PublicationService } from '../../services/publication.service';
 
 @Component({
   selector: 'app-publication-form',

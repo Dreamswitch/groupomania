@@ -1,0 +1,16 @@
+.navLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: whitesmoke;
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.user_thumbmail {
+    margin: 0 6px;
+}

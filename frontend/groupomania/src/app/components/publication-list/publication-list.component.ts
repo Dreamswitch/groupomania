@@ -2,9 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Publication } from '../../models/publication.model';
-import { PublicationService } from '../publication.service';
+import { PublicationService } from '../../services/publication.service';
 import { take } from 'rxjs/operators';
-import { CommentService } from '../comment.service';
+import { CommentService } from '../../services/comment.service';
 
 @Component({
   selector: 'app-publication-list',

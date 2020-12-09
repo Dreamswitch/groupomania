@@ -1,5 +1,18 @@
-.container{
+.container-g {
     min-height: 100vh;
-    background: hsla(217, 84%, 95%, .5);
+    display: grid;
+    grid-template-rows: 100px 6fr 50px;
+    grid-template-columns: 1fr;
 }
 
+.container {
+    grid-row: 2;
+}
+
+.header-bar {
+    grid-row: 1;
+}
+
+.footer-bar {
+    grid-row: 3;
+}

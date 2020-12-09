@@ -38,4 +38,25 @@ export class UserService {
     return this.authToken;
   }
 
+
+  getUser(): Observable<object> {
+    return this.http.get('http://localhost:3000/api/auth/profil');
+  }
+
+
+  updateUser(data): Observable<any> {
+    return this.http.put<FormData>('http://localhost:3000/api/auth/profil', data);
+  }
+  /* postPublication(publication): Observable<Publication> {
+    return this.http.post<Publication>('http://localhost:3000/api/publications', publication)
+      .pipe(
+        catchError(this.handleError('addPublication', publication))
+      );
+  }
+  deletePublication(idPublication: object): Observable<object> {
+    return this.http.request('DELETE', 'http://localhost:3000/api/publications', { body: idPublication })
+      .pipe(
+        catchError(this.handleError('addPublication', idPublication))
+      );
+    } */
 }
