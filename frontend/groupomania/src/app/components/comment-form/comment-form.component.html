@@ -24,45 +24,48 @@
                 alt=" default thumbmail"
             >
         </a>
-        <div class="form-group form-group--facebook-style col2 ">
-            <div
-                contenteditable="true"
-                (input)="onContentChange($event.target.textContent)"
-                name="text"
-                type="text"
-                class="form-control input--facebook-style"
-                id="body"
-            >
-            </div>
-            <span
-                class="text"
-                [ngClass]="{'displayNone': commentForm.get('body').value }"
-            >
-                Write a comment...
-            </span>
+        <div class="col2 ">
 
-            <div class="btn-submit end">
-                <button
-                    class="mat-button--custom"
-                    mat-button
-                    (click)="fileInput.click();$event.preventDefault()"
+            <div class="form-group form-group--facebook-style ">
+                <div
+                    contenteditable="true"
+                    (input)="onContentChange($event.target.textContent)"
+                    name="text"
+                    type="text"
+                    class="form-control input--facebook-style"
                 >
-                    <mat-icon class="mat-icon--custom">camera_alt</mat-icon>
-                </button>
-                <button
-                    [disabled]="commentForm.invalid"
-                    class="mat-button--custom"
-                    mat-button
-                    (click)="onSubmit();$event.preventDefault()"
+                    {{preloadData ? preloadData : ""}}
+                </div>
+                <span
+                    class="text"
+                    [ngClass]="{'displayNone': commentForm.get('body').value }"
                 >
-                    <mat-icon
-                        class="mat-icon"
-                        [ngClass]="{'displayNone': commentForm.invalid}"
+                    Write a comment...
+                </span>
+
+                <div class="btn-submit end">
+                    <button
+                        class="mat-button--custom"
+                        mat-button
+                        (click)="fileInput.click();$event.preventDefault()"
                     >
-                        send
-                    </mat-icon>
-                </button>
+                        <mat-icon class="mat-icon--custom">camera_alt</mat-icon>
+                    </button>
+                    <button
+                        [disabled]="commentForm.invalid"
+                        class="mat-button--custom"
+                        mat-button
+                        (click)="onSubmit();$event.preventDefault()"
+                    >
+                        <mat-icon
+                            class="mat-icon"
+                            [ngClass]="{'displayNone': commentForm.invalid}"
+                        >
+                            send
+                        </mat-icon>
+                    </button>
 
+                </div>
             </div>
         </div>
 
@@ -83,8 +86,15 @@
             #fileInput
             required
         >
-    </div>
 
+    </div>
+    <span
+        class="cancel--comment"
+        *ngIf="currentComment"
+        (click)="onModifyCanceled($event)"
+    >
+        click here to cancel
+    </span>
     <p
         class="text-danger"
         *ngIf="errorMsg"

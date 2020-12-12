@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Publication } from '../../models/publication.model';
 import { PublicationService } from '../../services/publication.service';
@@ -8,6 +8,7 @@ import { CommentService } from '../../services/comment.service';
 import { UserService } from 'src/app/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PublicationFormComponent } from '../publication-form/publication-form.component';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-publication-list',
@@ -23,7 +24,7 @@ export class PublicationListComponent implements OnInit {
     public dialog: MatDialog
 
   ) { }
-
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
   publicationSub: Subscription;
   publications: Publication[];
   loading: boolean;
@@ -114,7 +115,8 @@ export class PublicationListComponent implements OnInit {
       :
       this.dialog.open(PublicationFormComponent, {
         data: {
-          media: file
+          media: file,
+          preLoadMedia: true
         }
       })
       ;

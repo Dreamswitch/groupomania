@@ -1,5 +1,5 @@
 .publication-card {
-  max-width: 600px;
+  max-width: 750px;
   margin: 20px auto;
 }
 
@@ -67,4 +67,82 @@
   &--custom {
     font-size: 98%;
   }
+}
+
+.mat-card-subtitle {
+  margin-bottom: unset;
+}
+
+.mat-card-header {
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+::ng-deep .mat-card-header-text {
+  flex-grow: 1;
+}
+
+.mat-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-expansion-panel-content > .mat-expansion-panel-body {
+  padding: unset;
+}
+
+::ng-deep .mat-button-focus-overlay {
+  background: unset;
+  text-decoration: black;
+  opacity: unset;
+}
+
+.mat-card-image {
+  margin: 0 -16px 0 -16px;
+}
+
+.mat-card-actions {
+  margin-bottom: unset;
+  padding: 6px 0;
+  border-top: 1px solid rgba(219, 219, 219, 0.822);
+  border-bottom: 1px solid rgba(219, 219, 219, 0.822);
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: unset;
+}
+
+/** debut comment container***/
+
+.card-header--grid {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+.column--comment {
+  border-radius: 15px;
+  margin-left: 28px;
+}
+
+.image--comment {
+  max-width: 260px;
+  border-radius: 15px;
+  margin-left: unset;
+}
+
+.content--comment {
+  background-color: rgba(219, 219, 219, 0.822);
+  border-radius: 15px;
+  padding: 10px 15px;
+  margin-bottom: 2px;
+}
+
+.mat-card-content {
+  margin-bottom: unset;
+}
+.mat-card-title--comment {
+  margin-bottom: unset;
+}
+.contenteditable--comment {
+  outline: unset;
 }

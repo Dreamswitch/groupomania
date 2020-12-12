@@ -23,6 +23,7 @@ import { CommentFormComponent } from '../app/components/comment-form/comment-for
 import { UserComponent } from '../app/components/user/user.component';
 import { ProfileComponent } from '../app/components/profile/profile.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -54,7 +55,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

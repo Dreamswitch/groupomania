@@ -22,6 +22,7 @@ export class CommentFormComponent implements OnInit {
   @Input() currentPublication: any;
   @Input() currentComment: any;
   @Output() commentDisplayOff = new EventEmitter<boolean>();
+  preloadData: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,6 +38,7 @@ export class CommentFormComponent implements OnInit {
         body: [this.currentComment.body, Validators.required],
         media: [this.currentComment.media],
       });
+      this.preloadData = this.currentComment.body;
       this.imagePreview = this.currentComment.media;
     } else {
       console.log('create comment');
@@ -78,26 +80,6 @@ export class CommentFormComponent implements OnInit {
         });
     }
   }
-  /*
-    onModifyComment(event): void {
-      event.preventDefault();
-      const comment = {
-        body: this.commentForm.get('body').value
-      };
-      const formData = new FormData();
-      formData.append('image', this.commentForm.get('media').value);
-      formData.append('comment', JSON.stringify(comment));
-      formData.append('idpublication', this.currentPublication.idpublications);
-      console.log(this.currentPublication.idPublications);
-      this.commentService.updateComment(formData)
-        .subscribe(() => {
-          this.commentForm.reset();
-          this.imagePreview = null;
-          this.loading = false;
-          this.commentDisplayOff.emit(false);
-          this.publicationService.getPublications();
-        });
-    } */
 
   onFileAdded(event): void {
     event.preventDefault();
@@ -114,12 +96,7 @@ export class CommentFormComponent implements OnInit {
     console.log(this.commentForm.get('media').value);
   }
 
-  /*   onModifyCanceled(event): void {
-      event.preventDefault();
-      this.commentDisplayOff.emit(false);
-    } */
-
-  onCancelComment(event): void {
+  onModifyCanceled(event): void {
     event.preventDefault();
     this.commentDisplayOff.emit(false);
   }

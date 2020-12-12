@@ -69,18 +69,18 @@
 >
     <!-- condition to display publication -->
     <div *ngIf="publicationIndex !== currentPublicationIndex">
-        <mat-card-header>
+        <mat-card-header class="mat-card-header--grid">
             <img
                 mat-card-avatar
                 *ngIf="publication.user.media"
-                class="user_thumbmail"
+                class="user_thumbmail col1"
                 [src]="publication.user.media"
                 alt="profile image of {{publication.user.firstname}}"
             >
             <img
                 mat-card-avatar
                 *ngIf="!publication.user.media"
-                class="user_thumbmail"
+                class="user_thumbmail col1"
                 src="../../assets/logos/Profile_avatar_placeholder_large.png"
                 alt="default profile thumbmail"
             >
@@ -90,7 +90,34 @@
             <mat-card-subtitle>
                 {{publication.createdAt | date :'mediumDate'}}
             </mat-card-subtitle>
+
+            <!-- boutons a cacher -->
+            <button
+                *ngIf="publication.isOwner"
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+            >
+                <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button
+                    mat-menu-item
+                    (click)="openDialogModify(publication);$event.preventDefault()"
+                >
+                    <mat-icon>edit</mat-icon>
+                    <span>Modify</span>
+                </button>
+                <button
+                    mat-menu-item
+                    (click)="onDeletePublication(publication)"
+                >
+                    <mat-icon>delete_forever</mat-icon>
+                    <span>Delete</span>
+                </button>
+            </mat-menu>
         </mat-card-header>
+
         <mat-card-content>
             <h2>{{ publication.title | uppercase }}</h2>
             <p>{{publication.body}}</p>
@@ -101,7 +128,13 @@
             [src]="publication.media"
             alt="Photo of a Shiba Inu"
         >
-
+        <!-- 2.5 -->
+        <button
+            mat-button
+            class="mat-button--custom"
+        >
+            {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
+        </button>
         <!-- deuxieme partie -->
         <mat-card-actions>
             <button mat-button>
@@ -114,7 +147,7 @@
             </button>
             <button
                 mat-button
-                (click)="displayCommentForm(publicationIndex);$event.preventDefault()"
+                (click)="mep.expanded = !mep.expanded"
             >
                 COMMENT
                 <mat-icon>comment</mat-icon>
@@ -122,74 +155,85 @@
         </mat-card-actions>
         <!-- 3eme partie -->
 
-        <app-comment-form [currentPublication]="publication"></app-comment-form>
-        <!-- boutons a cacher -->
-        <div>
-            <button
-                mat-button
-                *ngIf="publication.isOwner"
-                (click)="openDialogModify(publication);$event.preventDefault()"
-            >
-                MODIFY
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button
-                mat-button
-                *ngIf="publication.isOwner"
-                (click)="onDeletePublication(publication)"
-            >
-                DELETE
-                <mat-icon>delete_forever</mat-icon>
-            </button>
-        </div>
-
-        <mat-accordion>
+        <mat-accordion class="my-special-class">
 
             <!-- comment part -->
             <mat-expansion-panel
+                #mep="matExpansionPanel"
                 (opened)="panelOpenState = true"
                 (closed)="panelOpenState = false"
             >
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        {{panelOpenState ? 'Hide' : 'View'}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
+                <app-comment-form [currentPublication]="publication"></app-comment-form>
+
                 <div *ngFor="let comment of publication.comments;let commentIndex = index">
-                    <div class="container--comment">
-                        <mat-card-subtitle>
-                            by {{ comment.user.firstname | lowercase }}
-                        </mat-card-subtitle>
-                        <div class="container--mat-image">
+                    <!-- debut -->
+                    <div
+                        class="card-header--comment card-header--grid"
+                        *ngIf="!modifyCommentDisplay || modifyCommentDisplay && commentIndex !== currentComment && publicationIndex === currentPublication || publicationIndex !== currentPublication"
+                    >
+                        <img
+                            mat-card-avatar
+                            *ngIf="comment.user.media"
+                            class="user_thumbmail col1 col1--comment"
+                            [src]="comment.user.media"
+                            alt="profile image of {{comment.user.firstname}}"
+                        >
+                        <img
+                            mat-card-avatar
+                            *ngIf="!comment.user.media"
+                            class="user_thumbmail col1 col1--comment"
+                            src="../../assets/logos/Profile_avatar_placeholder_large.png"
+                            alt="default profile thumbmail"
+                        >
+                        <div class="column--comment">
+                            <div class="content--comment">
+                                <mat-card-title class="mat-card-title--custom mat-card-title--comment">
+                                    {{comment.user.firstname | titlecase}} {{comment.user.lastname | titlecase}}
+                                </mat-card-title>
+                                <mat-card-content class="mat-card-content--comment">
+                                    <p class="contenteditable--comment">{{comment.body}}</p>
+                                </mat-card-content>
+
+                            </div>
                             <img
-                                mat-card-image
+                                class="image--comment"
                                 *ngIf="comment.media"
+                                mat-card-image
                                 [src]="comment.media"
-                                alt="Photo of a Shiba Inu"
+                                alt="Photo of publication"
                             >
-                        </div>
-                        <p>{{comment.body}}</p>
-                        <!-- boutons modification/delete comment -->
-                        <div>
-                            <button
-                                mat-flat-button
-                                *ngIf="comment.isOwner"
-                                (click)="onModifyComment(commentIndex, publicationIndex)"
-                            >
-                                modify
-                            </button>
-                            <button
-                                mat-flat-button
-                                *ngIf="comment.isOwner"
-                                (click)="onDeleteComment(comment)"
-                            >
-                                Delete
-                            </button>
 
                         </div>
+
+                        <!-- boutons a cacher -->
+                        <button
+                            *ngIf="comment.isOwner"
+                            mat-icon-button
+                            [matMenuTriggerFor]="menu"
+                            aria-label="Example icon-button with a menu"
+                        >
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button
+                                mat-menu-item
+                                (click)="onModifyComment(commentIndex, publicationIndex)"
+                            >
+                                <mat-icon>edit</mat-icon>
+                                <span>Modify</span>
+                            </button>
+                            <button
+                                mat-menu-item
+                                (click)="onDeleteComment(comment)"
+                            >
+                                <mat-icon>delete_forever</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+
+                    <!-- fin -->
+                    <div class>
 
                         <!-- comment conditionnel -->
                         <app-comment-form
@@ -204,13 +248,5 @@
         </mat-accordion>
 
     </div>
-
-    <app-publication-form
-        (currentPublicationIndex)="dataBack($event)"
-        *ngIf="modify && publicationIndex === currentPublicationIndex"
-        [currentPublication]="publication"
-        [currentPublication]="publication"
-    >
-    </app-publication-form>
 
 </mat-card>

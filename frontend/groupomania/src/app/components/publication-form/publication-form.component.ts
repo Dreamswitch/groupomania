@@ -31,12 +31,15 @@ export class PublicationFormComponent implements OnInit {
         body: [this.data.body, Validators.required],
         media: [this.data.media, Validators.required],
       });
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-      };
-      reader.readAsDataURL(this.data.media);
+      if (this.data.preLoadMedia) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imagePreview = reader.result as string;
+        };
+        reader.readAsDataURL(this.data.media);
+      } else {
+        this.imagePreview = this.data.media;
+      }
 
     } else {
       this.publicationForm = this.formBuilder.group({
