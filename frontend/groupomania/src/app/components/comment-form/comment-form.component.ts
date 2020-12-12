@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 import { CommentService } from '../../services/comment.service';
 import { PublicationService } from '../../services/publication.service';
 
@@ -17,6 +18,7 @@ export class CommentFormComponent implements OnInit {
   mode: string;
   comment: Comment;
   imagePreview: string;
+  placeHolder = true;
   @Input() currentPublication: any;
   @Input() currentComment: any;
   @Output() commentDisplayOff = new EventEmitter<boolean>();
@@ -24,7 +26,8 @@ export class CommentFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private commentService: CommentService,
-    private publicationService: PublicationService
+    private publicationService: PublicationService,
+    public userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -120,5 +123,12 @@ export class CommentFormComponent implements OnInit {
     event.preventDefault();
     this.commentDisplayOff.emit(false);
   }
+
+  onContentChange(content): void {
+    this.placeHolder = false;
+    this.commentForm.get('body').setValue(content);
+    this.commentForm.updateValueAndValidity();
+  }
+
 }
 

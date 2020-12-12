@@ -1,6 +1,6 @@
 <div
     class="container-profile"
-    *ngIf="currentUser$ | async as user"
+    *ngIf="userService.currentUser$ | async as user"
 >
     <div class="header">
         <img

@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
@@ -17,8 +14,7 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
-    private router: Router
+
   ) { }
 
   ngOnInit(): void {
@@ -37,40 +33,11 @@ export class SignupComponent implements OnInit {
     return this.signupForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
-  onSignup(): void {
+  onSignup(): any {
     const formValue = this.signupForm.value;
-    this.loading = true;
-
-    this.userService.createUser(formValue)
-      .pipe(first())
-      .subscribe(
-        data => {
-          console.log(data);
-          this.userService.loginUser(formValue.email, formValue.password)
-            .pipe(first())
-            .subscribe(
-              (logs: any) => {
-                this.userService.authToken = logs.token;
-                this.loading = false;
-                console.log('communication avec le serveur reussi');
-                this.userService.isAuth$.next(true);
-                this.router.navigate(['/publications']);
-              },
-              (error: any) => {
-                console.log('registration error' + error);
-                this.loading = false;
-                this.router.navigate(['/login']);
-              }
-            );
-        },
-        (error: any) => {
-          console.log('registration error' + error);
-          this.loading = false;
-          this.router.navigate(['/login']);
-        }
-      );
-
-
+    return formValue;
   }
+
+
 
 }

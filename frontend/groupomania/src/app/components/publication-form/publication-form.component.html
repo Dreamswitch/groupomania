@@ -1,51 +1,116 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 
-<!--partie presentation bouton-->
-<!-- <div>
-    <div>
-        <img src="" alt="profil picture">
-        <button>Que voulez vous dire , prenom ?</button>
-    </div>
-    <ul>
-        <li>
+<div class="container">
 
-        </li>
-    </ul>
-</div> -->
+    <form
+        class="publication--form"
+        [formGroup]="publicationForm"
+        *ngIf="!loading"
+    >
 
-<!-- partie create publication form-->
-<p>{{currentPublication ? 'Modify'  :  'Create'}} Publication</p>
-<button *ngIf="currentPublication" mat-flat-button color="warn" (click)="onModifyCanceled($event)">CANCELED <mat-icon>
-        close</mat-icon></button>
-<form class="publication--form" [formGroup]="publicationForm" *ngIf="!loading" (ngSubmit)="onSubmit()">
-    <mat-form-field class="form-group">
-        <mat-label for="title">title</mat-label>
-        <input *ngIf="!pTitle" matInput placeholder="Ex. Pizza" type="text" class="form-control" id="title"
-            formControlName="title">
-        <input *ngIf="pTitle" matInput placeholder="Ex. Zzapi" type="text" class="form-control" id="title"
-            formControlName="title">
-    </mat-form-field>
-
-    <mat-form-field class="form-group">
-        <mat-label for="body">Description</mat-label>
-        <textarea matInput placeholder="Ex. It makes me feel..." class="form-control" id="body"
-            formControlName="body"></textarea>
-    </mat-form-field>
-
-    <div class="form-group">
-        <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
-        <input class='none' type="file" accept="image/*" #imageInput
-            (change)="onFileAdded($event);$event.preventDefault()" #fileInput required>
-        <button *ngIf="!currentPublication" mat-raised-button color="accent"
-            (click)="fileInput.click();$event.preventDefault()">ADD IMAGE <mat-icon>add_photo_alternate</mat-icon>
+        <button
+            class="cross"
+            mat-flat-button
+            mat-dialog-close
+            title="close"
+        >
+            <mat-icon>close</mat-icon>
         </button>
-        <button *ngIf="currentPublication" mat-raised-button color="accent"
-            (click)="fileInput.click();$event.preventDefault()">ADD<mat-icon> attach_file</mat-icon></button>
-    </div>
 
-    <button *ngIf="!currentPublication" class="btn-submit--mid" mat-raised-button color="primary"
-        [disabled]="publicationForm.invalid">SUBMIT</button>
-    <button *ngIf="currentPublication" class="btn-submit--mid" mat-raised-button color="primary"
-        [disabled]="publicationForm.invalid" (click)="onModify($event)">ENREGISTRER</button>
-    <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
-</form>
+        <mat-form-field class="form-group">
+            <mat-label for="title">title</mat-label>
+            <input
+                *ngIf="!pTitle"
+                matInput
+                placeholder="Ex. Pizza"
+                type="text"
+                class="form-control"
+                id="title"
+                formControlName="title"
+            >
+            <input
+                *ngIf="pTitle"
+                matInput
+                placeholder="Ex. Zzapi"
+                type="text"
+                class="form-control"
+                id="title"
+                formControlName="title"
+            >
+        </mat-form-field>
+
+        <mat-form-field class="form-group">
+            <mat-label for="body">Description</mat-label>
+            <textarea
+                matInput
+                placeholder="Ex. It makes me feel..."
+                class="form-control"
+                id="body"
+                formControlName="body"
+            ></textarea>
+        </mat-form-field>
+
+        <div class="form-group">
+            <img
+                [src]="imagePreview"
+                *ngIf="imagePreview"
+                style="max-height: 100px;display:block;margin-top:10px"
+            >
+            <input
+                class='none'
+                type="file"
+                accept="image/*"
+                (change)="onFileAdded();$event.preventDefault()"
+                #fileInput
+                required
+            >
+            <button
+                mat-button
+                *ngIf="!currentPublication"
+                class="custom-font-color"
+                (click)="fileInput.click();$event.preventDefault()"
+            >
+                <mat-icon class="custom-color">add_photo_alternate</mat-icon>
+                Image/Video
+            </button>
+
+            <button
+                *ngIf="currentPublication"
+                mat-raised-button
+                color="accent"
+                (click)="fileInput.click();$event.preventDefault()"
+            >
+                ADD
+                <mat-icon>attach_file</mat-icon>
+            </button>
+        </div>
+
+        <button
+            [mat-dialog-close]="onSubmit()"
+            *ngIf="!data"
+            class="btn-submit--mid"
+            mat-raised-button
+            color="primary"
+            [disabled]="publicationForm.invalid"
+        >
+            SUBMIT
+        </button>
+        <button
+            *ngIf="data"
+            class="btn-submit--mid"
+            mat-raised-button
+            color="primary"
+            [disabled]="publicationForm.invalid"
+            [mat-dialog-close]="onModify()"
+        >
+            ENREGISTRER
+        </button>
+        <p
+            class="text-danger"
+            *ngIf="errorMsg"
+        >
+            {{ errorMsg }}
+        </p>
+    </form>
+
+</div>

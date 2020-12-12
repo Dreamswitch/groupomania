@@ -35,6 +35,7 @@ $groupomania-theme: mat-light-theme(
 @include angular-material-theme($groupomania-theme);
 
 /* You can add global styles to this file, and also import other style files */
+
 * {
   margin: 0;
   padding: 0;
@@ -45,6 +46,7 @@ html,
 body {
   min-height: 100vh;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: hsla(228, 22%, 95%, 1);
 }
 
 .none {

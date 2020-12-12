@@ -20,3 +20,51 @@
     justify-content: center;
   }
 }
+
+.publication-card-links {
+  width: 750px;
+  margin: 20px auto 0 auto;
+  border-radius: 10px;
+
+  &__text {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    margin-bottom: 10px;
+
+    &__profile-thumbmail {
+      grid-column: 1;
+      border-radius: 50%;
+    }
+
+    &__button {
+      margin-left: 10px;
+      grid-column: 2;
+      text-align: start;
+      background-color: hsla(228, 22%, 95%, 1);
+      border-radius: 2rem;
+      color: rgb(138, 138, 138);
+    }
+  }
+  &__media {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: hsla(228, 22%, 95%, 1) 1px solid;
+  }
+}
+
+.custom-color {
+  color: hsla(134, 48%, 51%, 1);
+}
+.custom-font-color {
+  color: #65676b;
+}
+
+.mat-card-title {
+  &--custom {
+    font-size: 98%;
+  }
+}

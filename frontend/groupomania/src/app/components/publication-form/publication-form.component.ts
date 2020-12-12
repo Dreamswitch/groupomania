@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Publication } from '../../models/publication.model';
 import { PublicationService } from '../../services/publication.service';
 
@@ -16,22 +17,27 @@ export class PublicationFormComponent implements OnInit {
   mode: string;
   publication: Publication;
   imagePreview: string;
-  @Input() currentPublication: any;
   @Output() currentPublicationIndex = new EventEmitter<number>();
 
   constructor(
     private formBuilder: FormBuilder,
-    private publicationService: PublicationService
+    @Inject(MAT_DIALOG_DATA) public data
   ) { }
 
   ngOnInit(): void {
-    if (this.currentPublication) {
+    if (this.data) {
       this.publicationForm = this.formBuilder.group({
-        title: [this.currentPublication.title, Validators.required],
-        body: [this.currentPublication.body, Validators.required],
-        media: [this.currentPublication.media, Validators.required],
+        title: [this.data.title, Validators.required],
+        body: [this.data.body, Validators.required],
+        media: [this.data.media, Validators.required],
       });
-      this.imagePreview = this.currentPublication.media;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.data.media);
+
     } else {
       this.publicationForm = this.formBuilder.group({
         title: ['', Validators.required],
@@ -43,8 +49,7 @@ export class PublicationFormComponent implements OnInit {
 
 
 
-  onSubmit(): void {
-    this.loading = true;
+  onSubmit(): FormData {
     const publication = {
       title: this.publicationForm.get('title').value,
       body: this.publicationForm.get('body').value
@@ -52,17 +57,10 @@ export class PublicationFormComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', this.publicationForm.get('media').value);
     formData.append('publication', JSON.stringify(publication));
-    this.publicationService.postPublication(formData)
-      .subscribe(() => {
-        this.publicationForm.reset();
-        this.imagePreview = null;
-        this.loading = false;
-        this.publicationService.getPublications();
-      });
+    return formData;
   }
 
-  onModify(event): void {
-    event.preventDefault();
+  onModify(): FormData {
     const publication = {
       title: this.publicationForm.get('title').value,
       body: this.publicationForm.get('body').value
@@ -70,17 +68,9 @@ export class PublicationFormComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', this.publicationForm.get('media').value);
     formData.append('publication', JSON.stringify(publication));
-    formData.append('idpublication', this.currentPublication.idpublications
+    formData.append('idpublication', this.data.idpublications
     );
-    console.log(this.currentPublication.idPublications);
-    this.publicationService.updatePublication(formData)
-      .subscribe(() => {
-        this.publicationForm.reset();
-        this.imagePreview = null;
-        this.loading = false;
-        this.currentPublicationIndex.emit(null);
-        this.publicationService.getPublications();
-      });
+    return formData;
   }
 
   onFileAdded(event): void {
@@ -99,6 +89,6 @@ export class PublicationFormComponent implements OnInit {
 
   onModifyCanceled(event): void {
     event.preventDefault();
-    this.currentPublicationIndex.emit(null);
+    this.data.currentPublicationIndex.emit(null);
   }
 }

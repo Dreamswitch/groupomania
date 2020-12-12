@@ -1,5 +1,5 @@
 <a
-    *ngIf="currentUser$ | async as user"
+    *ngIf="userService.currentUser$ | async as user"
     class="navLink"
     routerLink="profile"
     routerLinkActive="active"

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -10,14 +8,14 @@ import { UserService } from '../../services/user.service';
 })
 export class UserComponent implements OnInit {
 
-  currentUser$: Observable<any>;
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
   ) { }
 
   ngOnInit(): void {
-    this.currentUser$ = this.userService.getUser().pipe(share());
+    this.userService.currentUser$ = this.userService.getUser();
   }
 
 }
+

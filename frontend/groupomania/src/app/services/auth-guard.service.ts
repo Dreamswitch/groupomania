@@ -7,7 +7,7 @@ import { UserService } from '../services/user.service';
 export class AuthGuard implements CanActivate {
 
   constructor(
-    private user: UserService,
+    private userService: UserService,
     private router: Router
   ) { }
 
@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
-    if (this.user.isAuth$.value) {
+    if (this.userService.isAuth$.value) {
       return true;
     }
     else {

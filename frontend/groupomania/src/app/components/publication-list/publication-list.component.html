@@ -1,118 +1,216 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 
-<app-publication-form></app-publication-form>
+<!-- linking card & publication written display -->
+<mat-card
+    class="publication-card-links"
+    *ngIf="userService.currentUser$ | async as user"
+>
+    <div class="publication-card-links__text">
+        <a routerLink="../profile">
+            <img
+                *ngIf="user.media"
+                mat-card-avatar
+                title="go to your profile"
+                [src]="user.media"
+                alt=" thumbmail from {{user.firstname}}"
+            >
+            <img
+                *ngIf="!user.media"
+                mat-card-avatar
+                title="go to your profile"
+                src="../../../assets/thumb-1920-156845.jpg"
+                alt=" default thumbmail"
+            >
+        </a>
+        <button
+            mat-button
+            (click)="openDialogCreatePublication();$event.preventDefault()"
+            class="publication-card-links__text__button"
+        >
+            What would you say, {{user.firstname | titlecase}} ?
+        </button>
+    </div>
+    <form class="publication-card-links__media">
+        <input
+            class='none'
+            type="file"
+            accept="image/*"
+            (change)="preLoadMedia($event);$event.preventDefault()"
+            #fileInput
+            required
+        >
 
-
-
-<p *ngIf="!loading && publications.length <= 0">
-  No publications to display!
-</p>
-<p class="list-title" *ngIf="!loading && publications.length > 0">THE PUBLICATIONS</p>
-
-<mat-card class="publication-card" *ngFor="let publication of publications;let publicationIndex = index;"
-  [thePublication]="publication">
-  <!--
-    condition to display publication
-  -->
-  <div *ngIf="publicationIndex !== currentPublicationIndex">
-    <mat-card-header>
-      <img mat-card-avatar *ngIf="publication.user.media" class="user_thumbmail" [src]="publication.user.media"
-        alt="profile image of {{publication.user.firstname}}">
-      <img mat-card-avatar *ngIf="!publication.user.media" class="user_thumbmail"
-        src="../../assets/logos/Profile_avatar_placeholder_large.png" alt="default profile thumbmail">
-      <mat-card-title>{{ publication.title | uppercase }}</mat-card-title>
-      <mat-card-subtitle>by {{publication.user.firstname}} {{publication.user.lastname}}</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image [src]="publication.media" alt="Photo of a Shiba Inu">
-    <mat-card-content>
-      <p>{{publication.body}}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE <mat-icon>thumb_up_alt</mat-icon></button>
-      <button mat-button>DISLIKE <mat-icon>thumb_down_alt</mat-icon></button>
-      <button mat-button (click)="displayCommentForm(publicationIndex);$event.preventDefault()">comment <mat-icon>
-          comment
-        </mat-icon></button>
-
-      <!--write a new comment-->
-      <app-comment-form *ngIf="commentDisplay && currentPublication === publicationIndex"
-        (commentDisplayOff)=commentDisplayOff($event) [currentPublication]="publication"></app-comment-form>
-
-      <button mat-flat-button color="accent" *ngIf="publication.isOwner"
-        (click)="onModifyPublication(publicationIndex)">modify
-        <mat-icon>
-          edit</mat-icon></button>
-      <button mat-flat-button color="warn" *ngIf="publication.isOwner" (click)="onDeletePublication(publication)">Delete
-        <mat-icon>
-          delete_forever</mat-icon></button>
-    </mat-card-actions>
-
-    <mat-accordion>
-
-      <!-- comment part -->
-      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
-          </mat-panel-title>
-          <mat-panel-description>
-            {{panelOpenState ? 'Hide' : 'View'}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div *ngFor="let comment of publication.comments;let commentIndex = index">
-          <div class="container--comment">
-            <mat-card-subtitle>by {{ comment.user.firstname | lowercase }}</mat-card-subtitle>
-            <div class="container--mat-image">
-              <img mat-card-image *ngIf="comment.media" [src]="comment.media" alt="Photo of a Shiba Inu">
-            </div>
-            <p>{{comment.body}}</p>
-            <!--
-              boutons modification/delete comment
-            -->
-            <button mat-flat-button *ngIf="comment.isOwner"
-              (click)="onModifyComment(commentIndex, publicationIndex)">modify
-            </button>
-            <button mat-flat-button *ngIf="comment.isOwner" (click)="onDeleteComment(comment)">Delete
-            </button>
-
-            <!--comment conditionnel-->
-            <app-comment-form
-              *ngIf="modifyCommentDisplay && commentIndex === currentComment && publicationIndex === currentPublication"
-              [currentComment]="comment" (commentDisplayOff)=commentDisplayOff($event)></app-comment-form>
-
-          </div>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-
-  </div>
-
-  <app-publication-form (currentPublicationIndex)="dataBack($event)"
-    *ngIf="modify && publicationIndex === currentPublicationIndex" [currentPublication]="publication"
-    [currentPublication]="publication">
-  </app-publication-form>
-
+        <button
+            mat-button
+            (click)="fileInput.click();$event.preventDefault()"
+            class="custom-font-color"
+        >
+            <mat-icon class="custom-color">add_photo_alternate</mat-icon>
+            Image/Video
+        </button>
+    </form>
 </mat-card>
 
+<!-- end -->
 
-<!--
-<div class="publication-list" *ngIf="!loading && publications.length  > 0">
-  <div class="publication-list-item" *ngFor="let publication of publications"
-    (click)="onClickSauce(publication.idpublications)">
-    <div class="user row">
-      <img *ngIf="publication.user.media" class="user_thumbmail" [src]="publication.user.media"
-        alt="profile image of {{publication.user.firstname}}">
-      <img *ngIf="!publication.user.media" class="user_thumbmail"
-        src="../../assets/logos/Profile_avatar_placeholder_large.png" alt="default profile thumbmail">
-      <p class="user_name">by {{publication.user.firstname}} {{publication.user.lastname}}</p>
+<!-- wall start -->
+
+<p *ngIf="!loading && publications.length <= 0">Be the first one to post a Publication</p>
+<p
+    class="list-title"
+    *ngIf="!loading && publications.length > 0"
+>
+</p>
+
+<mat-card
+    class="publication-card"
+    *ngFor="let publication of publications;let publicationIndex = index;"
+    [thePublication]="publication"
+>
+    <!-- condition to display publication -->
+    <div *ngIf="publicationIndex !== currentPublicationIndex">
+        <mat-card-header>
+            <img
+                mat-card-avatar
+                *ngIf="publication.user.media"
+                class="user_thumbmail"
+                [src]="publication.user.media"
+                alt="profile image of {{publication.user.firstname}}"
+            >
+            <img
+                mat-card-avatar
+                *ngIf="!publication.user.media"
+                class="user_thumbmail"
+                src="../../assets/logos/Profile_avatar_placeholder_large.png"
+                alt="default profile thumbmail"
+            >
+            <mat-card-title class="mat-card-title--custom">
+                {{publication.user.firstname | titlecase}} {{publication.user.lastname | titlecase}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{publication.createdAt | date :'mediumDate'}}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <h2>{{ publication.title | uppercase }}</h2>
+            <p>{{publication.body}}</p>
+        </mat-card-content>
+
+        <img
+            mat-card-image
+            [src]="publication.media"
+            alt="Photo of a Shiba Inu"
+        >
+
+        <!-- deuxieme partie -->
+        <mat-card-actions>
+            <button mat-button>
+                LIKE
+                <mat-icon>thumb_up_alt</mat-icon>
+            </button>
+            <button mat-button>
+                DISLIKE
+                <mat-icon>thumb_down_alt</mat-icon>
+            </button>
+            <button
+                mat-button
+                (click)="displayCommentForm(publicationIndex);$event.preventDefault()"
+            >
+                COMMENT
+                <mat-icon>comment</mat-icon>
+            </button>
+        </mat-card-actions>
+        <!-- 3eme partie -->
+
+        <app-comment-form [currentPublication]="publication"></app-comment-form>
+        <!-- boutons a cacher -->
+        <div>
+            <button
+                mat-button
+                *ngIf="publication.isOwner"
+                (click)="openDialogModify(publication);$event.preventDefault()"
+            >
+                MODIFY
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button
+                mat-button
+                *ngIf="publication.isOwner"
+                (click)="onDeletePublication(publication)"
+            >
+                DELETE
+                <mat-icon>delete_forever</mat-icon>
+            </button>
+        </div>
+
+        <mat-accordion>
+
+            <!-- comment part -->
+            <mat-expansion-panel
+                (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false"
+            >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{panelOpenState ? 'Hide' : 'View'}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngFor="let comment of publication.comments;let commentIndex = index">
+                    <div class="container--comment">
+                        <mat-card-subtitle>
+                            by {{ comment.user.firstname | lowercase }}
+                        </mat-card-subtitle>
+                        <div class="container--mat-image">
+                            <img
+                                mat-card-image
+                                *ngIf="comment.media"
+                                [src]="comment.media"
+                                alt="Photo of a Shiba Inu"
+                            >
+                        </div>
+                        <p>{{comment.body}}</p>
+                        <!-- boutons modification/delete comment -->
+                        <div>
+                            <button
+                                mat-flat-button
+                                *ngIf="comment.isOwner"
+                                (click)="onModifyComment(commentIndex, publicationIndex)"
+                            >
+                                modify
+                            </button>
+                            <button
+                                mat-flat-button
+                                *ngIf="comment.isOwner"
+                                (click)="onDeleteComment(comment)"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                        <!-- comment conditionnel -->
+                        <app-comment-form
+                            *ngIf="modifyCommentDisplay && commentIndex === currentComment && publicationIndex === currentPublication"
+                            [currentComment]="comment"
+                            (commentDisplayOff)=commentDisplayOff($event)
+                        ></app-comment-form>
+
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
     </div>
-    <h4>{{ publication.title | uppercase }}</h4>
-    <img [src]="publication.media">
-    <p>{{publication.body}}</p>
-    <div class="row no-gutters">
-      <button mat-flat-button color="accent" *ngIf="publication.idusers === userId">modify</button>
-      <button mat-flat-button color="warn" *ngIf="publication.idusers === userId">Delete</button>
-    </div>
-  </div>
-</div>
--->
+
+    <app-publication-form
+        (currentPublicationIndex)="dataBack($event)"
+        *ngIf="modify && publicationIndex === currentPublicationIndex"
+        [currentPublication]="publication"
+        [currentPublication]="publication"
+    >
+    </app-publication-form>
+
+</mat-card>

@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { PublicationListComponent } from './components/publication-list/publication-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
-  {
-    path: 'signup',
-    component: SignupComponent
-  },
+
   {
     path: 'login',
     component: LoginComponent
@@ -28,11 +24,11 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'signup'
+    redirectTo: 'login'
   },
   {
     path: '**',
-    redirectTo: 'signup'
+    redirectTo: 'login'
   }
 ];
 

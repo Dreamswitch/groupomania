@@ -5,6 +5,9 @@ import { Publication } from '../../models/publication.model';
 import { PublicationService } from '../../services/publication.service';
 import { take } from 'rxjs/operators';
 import { CommentService } from '../../services/comment.service';
+import { UserService } from 'src/app/services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PublicationFormComponent } from '../publication-form/publication-form.component';
 
 @Component({
   selector: 'app-publication-list',
@@ -12,6 +15,14 @@ import { CommentService } from '../../services/comment.service';
   styleUrls: ['./publication-list.component.scss']
 })
 export class PublicationListComponent implements OnInit {
+
+  constructor(
+    private publicationService: PublicationService,
+    private commentService: CommentService,
+    public userService: UserService,
+    public dialog: MatDialog
+
+  ) { }
 
   publicationSub: Subscription;
   publications: Publication[];
@@ -25,11 +36,6 @@ export class PublicationListComponent implements OnInit {
   modifyCommentDisplay = false;
 
   modify = false;
-
-  constructor(
-    private publicationService: PublicationService,
-    private commentService: CommentService
-  ) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -63,11 +69,6 @@ export class PublicationListComponent implements OnInit {
           console.log(response);
         }
       );
-  }
-
-  onModifyPublication(index: number): void {
-    this.currentPublicationIndex = index;
-    this.modify = true;
   }
 
   dataBack(event: number): void { // response from child to parent element after update
@@ -106,4 +107,50 @@ export class PublicationListComponent implements OnInit {
         }
       );
   }
+
+  openDialogCreatePublication(file): void {
+    const dialogRef = !file ?
+      this.dialog.open(PublicationFormComponent)
+      :
+      this.dialog.open(PublicationFormComponent, {
+        data: {
+          media: file
+        }
+      })
+      ;
+
+    dialogRef.afterClosed().subscribe(formData => {
+
+      if (!formData) {
+        return 'canceled subscription';
+      }
+      this.publicationService.postPublication(formData)
+        .subscribe(() => {
+          this.publicationService.getPublications();
+        });
+    });
+
+  }
+  openDialogModify(currentPublication): void {
+    const dialogRef = this.dialog.open(PublicationFormComponent, { data: currentPublication });
+
+    dialogRef.afterClosed().subscribe(formData => {
+
+      if (!formData) {
+        return 'canceled subscription';
+      }
+      this.publicationService.updatePublication(formData)
+        .subscribe(() => {
+          this.loading = false;
+          this.publicationService.getPublications();
+        });
+    });
+
+  }
+
+  preLoadMedia(event): any {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.openDialogCreatePublication(file);
+  }
+
 }

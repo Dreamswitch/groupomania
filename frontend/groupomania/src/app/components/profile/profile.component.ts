@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -11,17 +9,16 @@ import { UserService } from '../../services/user.service';
 })
 export class ProfileComponent implements OnInit {
 
-  currentUser$: Observable<any>;
   publicationForm: FormGroup;
 
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    public userService: UserService,
   ) { }
 
   ngOnInit(): void {
-    this.currentUser$ = this.userService.getUser().pipe(share());
+    this.userService.currentUser$ = this.userService.getUser();
     this.publicationForm = this.formBuilder.group({
       media: ['', Validators.required],
     });
@@ -43,7 +40,7 @@ export class ProfileComponent implements OnInit {
     this.userService.updateUser(formData)
       .subscribe(() => {
         this.publicationForm.reset();
-        this.userService.getUser();
+        this.userService.currentUser$ = this.userService.getUser();
       });
 
   }

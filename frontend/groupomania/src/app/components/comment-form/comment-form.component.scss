@@ -1,28 +1,86 @@
 .comment {
     &--form {
         position: relative;
-        background-color: rgba(144, 201, 255, 0.267);
         display: flex;
         flex-direction: column;
     }
 }
 
-.btn-close {
-    &--right {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        z-index: 1;
-    }
-}
-
 .btn-submit {
-    &--flex {
-        width: 100%;
-    }
+    display: block;
 }
 
 .grid {
     display: grid;
     grid-template-columns: 1fr 3fr;
+}
+
+.input {
+    &--facebook-style {
+        max-width: 500px;
+        flex-grow: 1;
+        outline: unset;
+    }
+}
+
+.form-group {
+    &--facebook-style {
+        position: relative;
+        background-color: rgba(226, 226, 226, 0.623);
+        border-radius: 40px;
+        padding: 0.8rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+        z-index: 10;
+    }
+}
+.text {
+    position: absolute;
+    z-index: -1;
+    left: 13px;
+}
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.end {
+    display: flex;
+    justify-content: space-between;
+}
+
+.grid--facebook {
+    display: grid;
+    grid-template-columns: 1fr 12fr;
+    grid-template-rows: auto;
+}
+
+.col1 {
+    columns: 1;
+}
+.col2 {
+    columns: 2;
+}
+
+.mat-button--custom {
+    min-width: unset;
+    line-height: unset;
+    padding: unset;
+    margin-right: 10px;
+}
+.mat-icon--custom {
+    color: grey;
+
+    &:hover {
+        color: rgba(0, 119, 255, 0.678);
+    }
+}
+
+.displayNone {
+    display: none;
 }

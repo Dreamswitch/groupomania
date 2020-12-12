@@ -22,6 +22,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CommentFormComponent } from '../app/components/comment-form/comment-form.component';
 import { UserComponent } from '../app/components/user/user.component';
 import { ProfileComponent } from '../app/components/profile/profile.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 
 @NgModule({
   declarations: [
@@ -51,6 +54,7 @@ import { ProfileComponent } from '../app/components/profile/profile.component';
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
+    MatDialogModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
