@@ -129,13 +129,17 @@
             alt="Photo of media"
         >
         <!-- 2.5 -->
-        <button
-            mat-button
-            (click)="mep.expanded = !mep.expanded"
-            class="mat-button--custom"
-        >
-            {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
-        </button>
+        <div class="container-fluid--between">
+            <p class="temperature">temperature  {{publication.nbrLikes}}°F</p>
+            <button
+                mat-button
+                (click)="mep.expanded = !mep.expanded"
+                class="mat-button--custom"
+            >
+                {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
+            </button>
+
+        </div>
         <!-- deuxieme partie -->
         <mat-card-actions>
             <app-like [publication]="publication"></app-like>
