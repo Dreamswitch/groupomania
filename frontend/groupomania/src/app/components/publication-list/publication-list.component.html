@@ -100,7 +100,10 @@
             >
                 <mat-icon>more_horiz</mat-icon>
             </button>
-            <mat-menu #menu="matMenu">
+            <mat-menu
+                #menu="matMenu"
+                class="absolute"
+            >
                 <button
                     mat-menu-item
                     (click)="openDialogModify(publication);$event.preventDefault()"
@@ -207,12 +210,15 @@
                         <button
                             *ngIf="comment.isOwner"
                             mat-icon-button
-                            [matMenuTriggerFor]="menu"
+                            [matMenuTriggerFor]="afterMenu"
                             aria-label="Example icon-button with a menu"
                         >
                             <mat-icon>more_vert</mat-icon>
                         </button>
-                        <mat-menu #menu="matMenu">
+                        <mat-menu
+                            #afterMenu="matMenu"
+                            xPosition="after"
+                        >
                             <button
                                 mat-menu-item
                                 (click)="onModifyComment(commentIndex, publicationIndex)"

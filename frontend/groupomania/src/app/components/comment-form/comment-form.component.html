@@ -1,6 +1,6 @@
 <form
-    *ngIf="userService.currentUser$ | async as user"
     class="comment--form"
+    *ngIf="userService.currentUser$ | async as user"
     [formGroup]="commentForm"
     (ngSubmit)="onSubmit()"
 >

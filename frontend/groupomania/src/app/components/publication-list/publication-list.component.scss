@@ -8,11 +8,6 @@
 }
 
 .container {
-  &--comment {
-    margin: 2px auto;
-    background-color: greenyellow;
-  }
-
   &--mat-image {
     width: 50%;
     margin: auto;
@@ -22,14 +17,15 @@
 }
 
 .publication-card-links {
-  width: 750px;
-  margin: 20px auto 0 auto;
+  max-width: 750px;
+  width: 100%;
+  margin: 1.5rem auto 0 auto;
   border-radius: 10px;
 
   &__text {
     display: grid;
     grid-template-columns: 40px 1fr;
-    margin-bottom: 10px;
+    margin-bottom: 0.8rem;
 
     &__profile-thumbmail {
       grid-column: 1;
@@ -50,8 +46,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 10px;
-    margin-top: 10px;
+    padding-top: 0.8rem;
+    margin-top: 0.8rem;
     border-top: hsla(228, 22%, 95%, 1) 1px solid;
   }
 }
@@ -63,19 +59,13 @@
   color: #65676b;
 }
 
-.mat-card-title {
-  &--custom {
-    font-size: 98%;
-  }
-}
-
 .mat-card-subtitle {
   margin-bottom: unset;
 }
 
 .mat-card-header {
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 1.1rem;
 }
 
 ::ng-deep .mat-card-header-text {
@@ -103,9 +93,9 @@
 
 .mat-card-actions {
   margin-bottom: unset;
-  padding: 6px 0;
-  border-top: 1px solid rgba(219, 219, 219, 0.822);
-  border-bottom: 1px solid rgba(219, 219, 219, 0.822);
+  padding: 0.5rem 0;
+  border-top: 0.1rem solid rgba(219, 219, 219, 0.822);
+  border-bottom: 0.1rem solid rgba(219, 219, 219, 0.822);
 }
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
@@ -117,7 +107,7 @@
 .card-header--grid {
   display: flex;
   align-items: flex-start;
-  margin-top: 10px;
+  margin-top: 0.8rem;
 }
 .column--comment {
   border-radius: 15px;
@@ -133,15 +123,15 @@
 .content--comment {
   background-color: rgba(219, 219, 219, 0.822);
   border-radius: 15px;
-  padding: 10px 15px;
-  margin-bottom: 2px;
+  padding: 0.8rem 15px;
+  margin-bottom: 0.2rem;
 }
 
 .mat-card-content {
-  margin-bottom: unset;
+  margin-bottom: 1.1rem;
 }
 .mat-card-title--comment {
-  margin-bottom: unset;
+  margin-bottom: 0.4rem;
 }
 .contenteditable--comment {
   outline: unset;
@@ -156,8 +146,18 @@
 .temperature {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 1rem;
   text-transform: capitalize;
-  line-height: 36px;
+  line-height: 2.6rem;
   margin-bottom: unset;
+}
+
+.mat-card-content--comment {
+  margin-bottom: unset;
+}
+
+.absolute {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

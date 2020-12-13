@@ -1,18 +1,18 @@
-.container-g {
+.layout {
     min-height: 100vh;
     display: grid;
-    grid-template-rows: 56px 1fr 50px;
-    grid-template-columns: 1fr;
-}
+    grid-template-rows: 6rem 1fr 50px;
+    grid-template-columns: 100vw;
 
-.container {
-    grid-row: 2;
-}
+    &__header {
+        grid-row: 1;
+    }
 
-.header-bar {
-    grid-row: 1;
-}
+    &__main {
+        grid-row: 2;
+    }
 
-.footer-bar {
-    grid-row: 3;
+    &__footer {
+        grid-row: 3;
+    }
 }

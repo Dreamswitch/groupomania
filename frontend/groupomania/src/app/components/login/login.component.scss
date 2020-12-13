@@ -1,7 +1,8 @@
 .form {
   position: relative;
   background-color: white;
-  width: 400px;
+  min-width: 320px;
+  width: 30vw;
   border-radius: 10px;
   padding: 15px;
 }
@@ -21,7 +22,9 @@
 }
 
 .lol {
-  height: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .btn {

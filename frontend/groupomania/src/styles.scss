@@ -33,7 +33,6 @@ $groupomania-theme: mat-light-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($groupomania-theme);
-
 /* You can add global styles to this file, and also import other style files */
 
 * {
@@ -58,4 +57,25 @@ body {
 }
 .my-special-class .mat-expansion-panel-body {
   padding: 0;
+}
+html {
+  font-size: 14px;
+}
+@media (max-width: 500px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+.mat-button,
+.mat-card-subtitle,
+.mat-card-title,
+.mat-card-content,
+.mat-raised-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button,
+.mat-fab,
+.mat-mini-fab {
+  font-size: 1rem;
 }
