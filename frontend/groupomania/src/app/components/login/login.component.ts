@@ -26,7 +26,9 @@ export class LoginComponent implements OnInit {
     public dialog: MatDialog,
   ) { }
 
-  openDialog(): void {
+
+  /*signup dialog part*/
+  onOpenDialog(): void {
     const dialogRef = this.dialog.open(SignupComponent);
 
     dialogRef.afterClosed().subscribe(formValue => {
@@ -74,7 +76,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.get('email').hasError('required')) { } {
       return 'You must enter a value';
     }
-
     return this.loginForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
@@ -92,23 +93,11 @@ export class LoginComponent implements OnInit {
           this.userService.isAuth$.next(true);
           this.router.navigate(['/publications']);
         },
-        (error) => {
+        (error: any) => {
           this.loading = false;
           this.errorMsg = error.message;
           console.log(this.errorMsg);
         }
-
       );
-    /*     .then(
-          () => {
-            this.loading = false;
-            this.router.navigate(['/publications']);
-          }
-        ).catch(
-          (error) => {
-            this.loading = false;
-            this.errorMsg = error.message;
-          }
-        ); */
   }
 }

@@ -1,81 +1,79 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 
-<div class="container">
+<div class="container-login">
 
-    <div class="lol">
-        <form
-            class="form"
-            [formGroup]="loginForm"
-            (ngSubmit)="onLogin()"
-            *ngIf="!loading"
-        >
-            <div class="container-fluid">
+    <form
+        class="container-login__login-form"
+        [formGroup]="loginForm"
+        (ngSubmit)="onLogin()"
+        *ngIf="!loading"
+    >
+        <div class="container-login__login-form__container-fluid">
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Enter your email</mat-label>
-                    <input
-                        matInput
-                        placeholder="pat@example.com"
-                        type="email"
-                        class="form-control"
-                        id="email"
-                        formControlName="email"
-                        required
-                    >
-                    <mat-icon matSuffix>alternate_email</mat-icon>
-                    <mat-error *ngIf="loginForm.get('email').invalid">{{getErrorMessage()}}</mat-error>
-                </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter your email</mat-label>
+                <input
+                    matInput
+                    placeholder="pat@example.com"
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                    required
+                >
+                <mat-icon matSuffix>alternate_email</mat-icon>
+                <mat-error *ngIf="loginForm.get('email').invalid">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Enter your password</mat-label>
-                    <input
-                        matInput
-                        [type]="hide ? 'text' : 'password'"
-                        class="form-control"
-                        id="password"
-                        formControlName="password"
-                        required
-                    >
-                    <button
-                        mat-icon-button
-                        matSuffix
-                        (click)="hide = !hide;$event.preventDefault()"
-                        [attr.aria-label]="'Hide password'"
-                        [attr.aria-pressed]="hide"
-                    >
-                        <mat-icon>
-                            {{hide ? 'visibility' : 'visibility_off'}}
-                        </mat-icon>
-                    </button>
-                </mat-form-field>
-
+            <mat-form-field appearance="outline">
+                <mat-label>Enter your password</mat-label>
+                <input
+                    matInput
+                    [type]="hide ? 'text' : 'password'"
+                    class="form-control"
+                    id="password"
+                    formControlName="password"
+                    required
+                >
                 <button
-                    mat-raised-button
-                    color="primary"
-                    type="submit"
-                    class="btn"
-                    [disabled]="loginForm.invalid"
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide;$event.preventDefault()"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
                 >
-                    Login
+                    <mat-icon>
+                        {{hide ? 'visibility' : 'visibility_off'}}
+                    </mat-icon>
                 </button>
-                <p
-                    class="text-danger"
-                    *ngIf="errorMsg"
-                >
-                    {{ errorMsg }}
-                </p>
-                <p class="mdp">Forgotten Password ?</p>
-                <button
-                    mat-raised-button
-                    color="accent"
-                    class="btn--mid"
-                    (click)="openDialog();$event.preventDefault()"
-                >
-                    Create Account
-                </button>
-            </div>
+            </mat-form-field>
 
-        </form>
+            <button
+                class="btn--lg"
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="loginForm.invalid"
+            >
+                Login
+            </button>
+            <p
+                class="text-danger"
+                *ngIf="errorMsg"
+            >
+                {{ errorMsg }}
+            </p>
+            <p class="container-login__login-form__container-fluid__mdp">Forgotten Password ?</p>
+            <button
+                mat-raised-button
+                color="accent"
+                class="btn--mid"
+                (click)="onOpenDialog();$event.preventDefault()"
+            >
+                Create Account
+            </button>
+        </div>
 
-    </div>
+    </form>
+
 </div>
