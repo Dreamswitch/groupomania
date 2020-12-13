@@ -138,14 +138,7 @@
         </button>
         <!-- deuxieme partie -->
         <mat-card-actions>
-            <button mat-button>
-                LIKE
-                <mat-icon>thumb_up_alt</mat-icon>
-            </button>
-            <button mat-button>
-                DISLIKE
-                <mat-icon>thumb_down_alt</mat-icon>
-            </button>
+            <app-like [publication]="publication"></app-like>
             <button
                 mat-button
                 (click)="mep.expanded = !mep.expanded"

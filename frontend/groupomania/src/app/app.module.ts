@@ -24,6 +24,7 @@ import { UserComponent } from '../app/components/user/user.component';
 import { ProfileComponent } from '../app/components/profile/profile.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { LikeComponent } from './components/like/like.component';
 
 
 
@@ -39,6 +40,7 @@ import { MatMenuModule } from '@angular/material/menu';
     CommentFormComponent,
     UserComponent,
     ProfileComponent,
+    LikeComponent,
   ],
   imports: [
     BrowserModule,

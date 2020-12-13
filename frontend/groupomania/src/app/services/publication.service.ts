@@ -6,10 +6,6 @@ import { Observable, Subject } from 'rxjs';
 import { HandleError, HttpErrorHandler } from '../services/http-error-handler.service';
 
 
-
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -28,14 +24,6 @@ export class PublicationService {
   ) {
     this.handleError = httpErrorHandler.createHandleError('PublicationService');
   }
-
-  /** GET Publications from the server */
-  /*   getPublications(): Observable<Publication[]> {
-      return this.http.get<Publication[]>('http://localhost:3000/api/publications')
-        .pipe(
-          tap(_ => console.log('fetched heroes')),
-        );
-    } */
 
   getPublications(): void {
     this.http.get('http://localhost:3000/api/publications').subscribe(
@@ -56,7 +44,6 @@ export class PublicationService {
         catchError(this.handleError('addPublication', publication))
       );
   }
-
 
   postPublication(publication): Observable<Publication> {
     return this.http.post<Publication>('http://localhost:3000/api/publications', publication)

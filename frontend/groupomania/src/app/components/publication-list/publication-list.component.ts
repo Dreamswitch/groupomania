@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PublicationFormComponent } from '../publication-form/publication-form.component';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { LikeService } from 'src/app/services/like.service';
 
 @Component({
   selector: 'app-publication-list',
@@ -21,7 +22,8 @@ export class PublicationListComponent implements OnInit {
     private publicationService: PublicationService,
     private commentService: CommentService,
     public userService: UserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private likeService: LikeService
 
   ) { }
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
@@ -154,5 +156,7 @@ export class PublicationListComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files[0];
     this.openDialogCreatePublication(file);
   }
+
+
 
 }

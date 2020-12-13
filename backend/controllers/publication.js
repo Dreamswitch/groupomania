@@ -178,6 +178,15 @@ exports.getAllPublication = async (req, res, next) => {
                     comment.dataValues.idusers = null;
                 }
             });
+            await publication.likes.map(like => {
+                if (like.dataValues.idusers === req.user) {
+                    publication.dataValues.likeValue = like.like;
+                    like.dataValues.idusers = null;
+                } else {
+                    like.dataValues.idusers = null;
+                }
+            });
+
             return publication;
         }))
             .then(response => {
