@@ -1,40 +1,24 @@
+<!-- header -->
 <header class="header">
+    <!-- navbar -->
     <nav class="header__nav">
+        <!-- navbar brand -->
         <a
-            class="header__nav__brand navLink"
+            class="header__nav__home-link"
             routerLink="publications"
         >
             <img
-                class="header__nav__brand__logo"
+                class="header__nav__home-link__brand"
                 src="../../assets/logos/icon-left-font-monochrome-white.svg"
                 alt="logo groupomania"
             >
         </a>
+        <!-- navbar link -->
         <div class="header__nav__container">
-            <ul class="nav">
-                <!-- <li class="nav__navList">
+            <ul class="header__nav__container__nav-links">
+                <li class="header__nav__container__nav-links__link">
                     <a
-                        class="navLink"
-                        routerLink="signup"
-                        routerLinkActive="active"
-                        *ngIf="!isAuth"
-                    >
-                        Inscription
-                    </a>
-                </li>
-                <li class="nav__navList">
-                    <a
-                        class="navLink"
-                        routerLink="login"
-                        routerLinkActive="active"
-                        *ngIf="!isAuth"
-                    >
-                        Connexion
-                    </a>
-                </li> -->
-                <li class="nav__navList">
-                    <a
-                        class="navLink"
+                        class="header__nav__container__nav-links__link__logout"
                         (click)="onLogout()"
                         *ngIf="isAuth"
                     >
@@ -42,10 +26,10 @@
                     </a>
                 </li>
                 <li
-                    class="nav__navList"
+                    class="header__nav__container__nav-links__link"
                     *ngIf="isAuth"
                 >
-                    <div class="navLink">
+                    <div class="header__nav__container__nav-links__link__user-action">
                         <app-user class="container-user"></app-user>
                     </div>
                 </li>

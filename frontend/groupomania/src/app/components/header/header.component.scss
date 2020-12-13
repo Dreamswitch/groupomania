@@ -10,48 +10,59 @@
     display: flex;
     padding: 20px;
     justify-content: space-between;
+    align-items: center;
 
-    &__brand {
+    &__home-link {
       min-width: 200px;
-      &__logo {
+
+      &__brand {
         height: 30px;
         margin-left: 5%;
       }
     }
+
     &__container {
       align-self: center;
       width: 30%;
+
+      &__nav-links {
+        justify-content: flex-end;
+        list-style: none;
+        display: flex;
+
+        &__link {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 15px;
+
+          &__logout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: whitesmoke;
+            font-weight: 400;
+            text-decoration: none;
+            cursor: pointer;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+          &__user-action {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: whitesmoke;
+            font-weight: 400;
+            text-decoration: none;
+            cursor: pointer;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
     }
-  }
-}
-
-.nav {
-  justify-content: flex-end;
-  list-style: none;
-  display: flex;
-
-  &__navList {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 15px;
-  }
-}
-
-.navLink {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: whitesmoke;
-  font-weight: 400;
-  text-decoration: none;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-  &.active {
-    font-weight: 700;
-    text-decoration: underline;
   }
 }
 
