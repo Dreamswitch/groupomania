@@ -96,7 +96,7 @@
                 *ngIf="publication.isOwner"
                 mat-icon-button
                 [matMenuTriggerFor]="menu"
-                aria-label="Example icon-button with a menu"
+                aria-label="actions menu"
             >
                 <mat-icon>more_horiz</mat-icon>
             </button>
@@ -126,11 +126,12 @@
         <img
             mat-card-image
             [src]="publication.media"
-            alt="Photo of a Shiba Inu"
+            alt="Photo of media"
         >
         <!-- 2.5 -->
         <button
             mat-button
+            (click)="mep.expanded = !mep.expanded"
             class="mat-button--custom"
         >
             {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}

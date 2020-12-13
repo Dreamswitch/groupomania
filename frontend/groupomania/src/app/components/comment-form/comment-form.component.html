@@ -71,12 +71,19 @@
 
     </div>
 
-    <div class="form-group">
+    <div class="form-group container--comment-form">
         <img
+            class="image--comment-form"
             [src]="imagePreview"
             *ngIf="imagePreview"
-            style="max-height: 100px;display:block;margin-top:10px"
         >
+        <button
+            class="btn--comment-form__canceled"
+            (click)="onDeleteImage();$event.preventDefault()"
+            *ngIf="imagePreview"
+        >
+            <mat-icon class="icon--comment-form__canceled">close</mat-icon>
+        </button>
         <input
             class='none'
             type="file"
@@ -93,7 +100,8 @@
         *ngIf="currentComment"
         (click)="onModifyCanceled($event)"
     >
-        click here to cancel
+        click here to
+        <span class="link--comment-form__canceled">cancel</span>
     </span>
     <p
         class="text-danger"

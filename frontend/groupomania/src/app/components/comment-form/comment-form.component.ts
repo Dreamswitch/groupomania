@@ -60,6 +60,8 @@ export class CommentFormComponent implements OnInit {
 
     if (this.currentComment) {
       console.log(this.currentComment.idcomments);
+      console.log(this.commentForm.get('media').value);
+
       formData.append('idcomment', this.currentComment.idcomments);
       this.commentService.updateComment(formData)
         .subscribe(() => {
@@ -105,6 +107,14 @@ export class CommentFormComponent implements OnInit {
     this.placeHolder = false;
     this.commentForm.get('body').setValue(content);
     this.commentForm.updateValueAndValidity();
+  }
+
+  onDeleteImage(): void {
+    this.imagePreview = null;
+    this.commentForm.get('media').setValue(null);
+    console.log(this.commentForm.get('media').value);
+    this.commentForm.updateValueAndValidity();
+
   }
 
 }

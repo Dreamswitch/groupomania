@@ -89,7 +89,21 @@ exports.modifyComment = async (req, res, next) => {
             } else {
                 res.status(401).json({ error: 'unauthorized media' });
             }
-        } else {
+        }
+        else if (comment.media && !req.file) {
+            const filename = comment.media.split('/images/')[1];
+            fs.unlink(`images/${filename}`, function (err) {
+                if (err) return console.log(err);
+                console.log('file deleted successfully');
+            });
+            comment.update({
+                body: commentObject.body,
+                media: null
+            })
+                .then(() => res.status(201).json({ message: `comment updated` }))
+                .catch(error => res.status(400).json({ error }));
+        }
+        else {
             comment.update({ body: commentObject.body })
                 .then(() => res.status(201).json({ message: `comment updated` }))
                 .catch(error => res.status(400).json({ error }));
