@@ -3,14 +3,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
 
-.footer__copyright {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    &__copyright {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-    & a {
-        text-decoration: none;
+        &__link {
+            text-decoration: none;
+        }
     }
 }
