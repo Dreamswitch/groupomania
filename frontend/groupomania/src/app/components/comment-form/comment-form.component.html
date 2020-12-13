@@ -1,15 +1,19 @@
 <form
-    class="comment--form"
+    class="comment-form"
     *ngIf="userService.currentUser$ | async as user"
     [formGroup]="commentForm"
     (ngSubmit)="onSubmit()"
 >
-    <div class="grid--facebook">
+
+    <!-- first line -->
+    <div class="comment-form__first-container">
+        <!-- thumbmail + link to profile -->
         <a
+            class="comment-form__first-container__link"
             routerLink="../profile"
-            class="col1"
         >
             <img
+                class="comment-form__first-container__link__thumbmail"
                 *ngIf="user.media"
                 mat-card-avatar
                 title="go to your profile"
@@ -17,6 +21,7 @@
                 alt=" thumbmail from {{user.firstname}}"
             >
             <img
+                class="comment-form__first-container__link__thumbmail"
                 *ngIf="!user.media"
                 mat-card-avatar
                 title="go to your profile"
@@ -24,26 +29,30 @@
                 alt=" default thumbmail"
             >
         </a>
-        <div class="col2 ">
+        <!-- comment text part -->
+        <div class="comment-form__first-container__edit">
 
-            <div class="form-group form-group--facebook-style ">
+            <div class="comment-form__first-container__edit__form-group">
+                <!-- div in input style -->
                 <div
+                    class="comment-form__first-container__edit__form-group__input-text"
                     contenteditable="true"
                     (input)="onContentChange($event.target.textContent)"
                     name="text"
                     type="text"
-                    class="form-control input--facebook-style"
                 >
                     {{preloadData ? preloadData : ""}}
                 </div>
+                <!-- fake placeholder -->
                 <span
-                    class="text"
-                    [ngClass]="{'displayNone': commentForm.get('body').value }"
+                    class="comment-form__first-container__edit__form-group__fake-placeholder"
+                    [ngClass]="{'display-none': commentForm.get('body').value }"
                 >
                     Write a comment...
                 </span>
-
-                <div class="btn-submit end">
+                <!-- action part -->
+                <div class="comment-form__first-container__edit__form-group__buttons">
+                    <!-- trigger media event -->
                     <button
                         class="mat-button--custom"
                         mat-button
@@ -51,6 +60,7 @@
                     >
                         <mat-icon class="mat-icon--custom">camera_alt</mat-icon>
                     </button>
+                    <!-- submit comment -->
                     <button
                         [disabled]="commentForm.invalid"
                         class="mat-button--custom"
@@ -58,8 +68,8 @@
                         (click)="onSubmit();$event.preventDefault()"
                     >
                         <mat-icon
-                            class="mat-icon"
-                            [ngClass]="{'displayNone': commentForm.invalid}"
+                            class="mat-icon--custom"
+                            [ngClass]="{'display-none': commentForm.invalid}"
                         >
                             send
                         </mat-icon>
@@ -70,22 +80,25 @@
         </div>
 
     </div>
-
-    <div class="form-group container--comment-form">
+    <!-- second part -->
+    <div class="comment-form__seconde-container">
+        <!-- image preview -->
         <img
-            class="image--comment-form"
+            class="comment-form__seconde-container__preview-image"
             [src]="imagePreview"
             *ngIf="imagePreview"
         >
+        <!-- delete image -->
         <button
-            class="btn--comment-form__canceled"
+            class="comment-form__seconde-container__btn-canceled"
             (click)="onDeleteImage();$event.preventDefault()"
             *ngIf="imagePreview"
         >
-            <mat-icon class="icon--comment-form__canceled">close</mat-icon>
+            <mat-icon class="comment-form__seconde-container__btn-canceled__icon">close</mat-icon>
         </button>
+        <!-- hide media input -->
         <input
-            class='none'
+            class='comment-form__seconde-container__input-switch-image display-none'
             type="file"
             accept="image/*"
             #imageInput
@@ -93,16 +106,19 @@
             #fileInput
             required
         >
-
     </div>
+
+    <!-- canceled modification -->
     <span
-        class="cancel--comment"
+        class="comment-form__cancel-handler"
         *ngIf="currentComment"
         (click)="onModifyCanceled($event)"
     >
         click here to
-        <span class="link--comment-form__canceled">cancel</span>
+        <span class="comment-form__cancel-handler__trigger">cancel</span>
     </span>
+
+    <!-- display error message -->
     <p
         class="text-danger"
         *ngIf="errorMsg"
