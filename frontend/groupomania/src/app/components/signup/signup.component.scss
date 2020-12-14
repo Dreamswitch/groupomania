@@ -29,15 +29,11 @@ form {
     min-width: 80vw;
     padding: 8px;
     flex-grow: 1;
+    margin: auto;
   }
 
-  ::ng-deep #cdk-overlay-0 {
+  ::ng-deep .cdk-overlay-pane {
     flex-grow: 1 !important;
     max-width: unset !important;
-  }
-
-  ::ng-deep #mat-dialog-0 {
-    display: flex;
-    justify-content: center;
   }
 }

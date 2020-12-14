@@ -64,18 +64,9 @@ export class PublicationListComponent implements OnInit {
       );
   }
 
-
-
   commentDisplayOff(state: boolean): void { // child to parent
     this.commentDisplay ? this.commentDisplay = state : this.modifyCommentDisplay = state;
   }
-
-  /*   displayCommentForm(index: number): void {
-      this.commentDisplay = true;
-      this.modifyCommentDisplay = false;
-      this.currentPublication = index;
-    } */
-
 
   onModifyComment(commentIndex: number, publicationIndex: number): void {
     this.currentComment = commentIndex;
