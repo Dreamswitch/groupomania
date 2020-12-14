@@ -52,6 +52,10 @@ body {
   display: none;
 }
 
+.display-under-500 {
+  display: none;
+}
+
 .row {
   display: flex;
 }
@@ -66,7 +70,10 @@ html {
     font-size: 15px;
   }
   .display-text {
-    display: none;
+    display: none !important;
+  }
+  .display-under-500 {
+    display: inline-block;
   }
 }
 

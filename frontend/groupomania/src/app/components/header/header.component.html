@@ -16,23 +16,24 @@
         <!-- navbar link -->
         <div class="header__nav__container">
             <ul class="header__nav__container__nav-links">
+                <li
+                    class="header__nav__container__nav-links__link display-text"
+                    *ngIf="isAuth"
+                >
+                    <div class="header__nav__container__nav-links__link__user-action ">
+                        <app-user class="container-user"></app-user>
+                    </div>
+                </li>
                 <li class="header__nav__container__nav-links__link">
                     <a
                         class="header__nav__container__nav-links__link__logout"
                         (click)="onLogout()"
                         *ngIf="isAuth"
                     >
-                        Déconnexion
+                        <mat-icon>power_settings_new</mat-icon>
                     </a>
                 </li>
-                <li
-                    class="header__nav__container__nav-links__link"
-                    *ngIf="isAuth"
-                >
-                    <div class="header__nav__container__nav-links__link__user-action">
-                        <app-user class="container-user"></app-user>
-                    </div>
-                </li>
+
             </ul>
         </div>
     </nav>

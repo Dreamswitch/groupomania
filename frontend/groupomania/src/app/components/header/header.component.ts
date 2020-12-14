@@ -12,6 +12,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuth: boolean;
   userSubscription: Subscription;
   currentUser: object;
+  navbarOpen = false;
+
 
   constructor(
     private userService: UserService,
@@ -31,6 +33,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
+  }
+
+  toggleNavbar(): void {
+    this.navbarOpen = !this.navbarOpen;
   }
 
 }

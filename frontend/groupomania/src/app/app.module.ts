@@ -58,7 +58,7 @@ import { LikeComponent } from './components/like/like.component';
     MatIconModule,
     MatExpansionModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

@@ -35,7 +35,12 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          margin: 0 15px;
+          &:first-child {
+            margin-right: 5px;
+          }
+          &:last-child {
+            margin-right: 1rem;
+          }
 
           &__logout {
             display: flex;
@@ -71,4 +76,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.mat-icon--color {
+  color: aliceblue;
+}
+.mat-button--margin-l {
+  margin-left: unset;
 }
