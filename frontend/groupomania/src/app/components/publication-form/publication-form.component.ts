@@ -13,7 +13,6 @@ export class PublicationFormComponent implements OnInit {
   publicationForm: FormGroup;
   loading: boolean;
   errorMsg: string;
-  mode: string;
   publication: Publication;
   imagePreview: string;
   @Output() currentPublicationIndex = new EventEmitter<number>();
@@ -76,9 +75,7 @@ export class PublicationFormComponent implements OnInit {
   }
 
   onFileAdded(event): void {
-    console.log('ajout');
     const file = (event.target as HTMLInputElement).files[0];
-    console.log(file);
     this.publicationForm.get('media').setValue(file);
     this.publicationForm.updateValueAndValidity();
     const reader = new FileReader();

@@ -33,7 +33,6 @@ export class CommentFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.currentComment) {
-      console.log('modify comment');
       this.commentForm = this.formBuilder.group({
         body: [this.currentComment.body, Validators.required],
         media: [this.currentComment.media],
@@ -41,7 +40,6 @@ export class CommentFormComponent implements OnInit {
       this.preloadData = this.currentComment.body;
       this.imagePreview = this.currentComment.media;
     } else {
-      console.log('create comment');
       this.commentForm = this.formBuilder.group({
         body: ['', Validators.required],
         media: [''],
@@ -59,14 +57,9 @@ export class CommentFormComponent implements OnInit {
     formData.append('comment', JSON.stringify(comment));
 
     if (this.currentComment) {
-      console.log(this.currentComment.idcomments);
-      console.log(this.commentForm.get('media').value);
-
       formData.append('idcomment', this.currentComment.idcomments);
       this.commentService.updateComment(formData)
         .subscribe(() => {
-          this.commentForm.reset();
-          this.imagePreview = null;
           this.commentDisplayOff.emit(false);
           this.publicationService.getPublications();
         });
@@ -74,8 +67,6 @@ export class CommentFormComponent implements OnInit {
       formData.append('id_publication', this.currentPublication.idpublications);
       this.commentService.postComment(formData)
         .subscribe(() => {
-          this.commentForm.reset();
-          this.imagePreview = null;
           this.loading = false;
           this.commentDisplayOff.emit(false);
           this.publicationService.getPublications();
@@ -85,9 +76,7 @@ export class CommentFormComponent implements OnInit {
 
   onFileAdded(event): void {
     event.preventDefault();
-    console.log('ajout');
     const file = (event.target as HTMLInputElement).files[0];
-    console.log(file);
     this.commentForm.get('media').setValue(file);
     this.commentForm.updateValueAndValidity();
     const reader = new FileReader();
@@ -95,7 +84,6 @@ export class CommentFormComponent implements OnInit {
       this.imagePreview = reader.result as string;
     };
     reader.readAsDataURL(file);
-    console.log(this.commentForm.get('media').value);
   }
 
   onModifyCanceled(event): void {
@@ -112,7 +100,6 @@ export class CommentFormComponent implements OnInit {
   onDeleteImage(): void {
     this.imagePreview = null;
     this.commentForm.get('media').setValue(null);
-    console.log(this.commentForm.get('media').value);
     this.commentForm.updateValueAndValidity();
 
   }

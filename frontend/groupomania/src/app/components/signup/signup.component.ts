@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -37,7 +37,5 @@ export class SignupComponent implements OnInit {
     const formValue = this.signupForm.value;
     return formValue;
   }
-
-
 
 }

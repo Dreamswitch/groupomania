@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LikeService } from 'src/app/services/like.service';
 import { PublicationService } from 'src/app/services/publication.service';
 
@@ -7,18 +7,13 @@ import { PublicationService } from 'src/app/services/publication.service';
   templateUrl: './like.component.html',
   styleUrls: ['./like.component.scss']
 })
-export class LikeComponent implements OnInit {
+export class LikeComponent {
   @Input() publication: any;
 
   constructor(
     private publicationService: PublicationService,
     private likeService: LikeService
   ) { }
-
-
-  ngOnInit(): void {
-  }
-
 
   onPublicationLike(idPublication: number): void {
 
@@ -31,7 +26,6 @@ export class LikeComponent implements OnInit {
     }
     this.likeService.postLikePublication(publicationLike)
       .subscribe(() => {
-        console.log('Like');
         this.publicationService.getPublications();
       });
   }
@@ -46,7 +40,6 @@ export class LikeComponent implements OnInit {
     }
     this.likeService.postLikePublication(publicationLike)
       .subscribe(() => {
-        console.log('Dislike');
         this.publicationService.getPublications();
       });
   }

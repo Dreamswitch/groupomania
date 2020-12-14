@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Publication } from '../../models/publication.model';
 import { PublicationService } from '../../services/publication.service';
@@ -8,7 +8,6 @@ import { CommentService } from '../../services/comment.service';
 import { UserService } from 'src/app/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PublicationFormComponent } from '../publication-form/publication-form.component';
-import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-publication-list',
@@ -28,14 +27,10 @@ export class PublicationListComponent implements OnInit {
   publications: Publication[];
   loading: boolean;
   errorMsg: string;
-  userId: string;
-  currentPublicationIndex: number;
   currentPublication: number; // index de la publication courrante
   currentComment: number; // index du commentaire courrant
   commentDisplay = false;
   modifyCommentDisplay = false;
-
-  modify = false;
 
   ngOnInit(): void {
     this.loading = true;
@@ -56,7 +51,6 @@ export class PublicationListComponent implements OnInit {
 
 
   onDeletePublication(publication): void {
-    console.log(publication.idpublications);
     const publicationId = {
       idpublication: publication.idpublications
     };
@@ -64,30 +58,26 @@ export class PublicationListComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         response => {
-          console.log('lol');
           this.publicationService.getPublications();
           console.log(response);
         }
       );
   }
 
-  dataBack(event: number): void { // response from child to parent element after update
-    this.currentPublicationIndex = event;
-  }
+
 
   commentDisplayOff(state: boolean): void { // child to parent
     this.commentDisplay ? this.commentDisplay = state : this.modifyCommentDisplay = state;
   }
 
-  displayCommentForm(index: number): void {
-    this.commentDisplay = true;
-    this.modifyCommentDisplay = false;
-    this.currentPublication = index;
-  }
+  /*   displayCommentForm(index: number): void {
+      this.commentDisplay = true;
+      this.modifyCommentDisplay = false;
+      this.currentPublication = index;
+    } */
 
 
   onModifyComment(commentIndex: number, publicationIndex: number): void {
-    console.log('modify comment');
     this.currentComment = commentIndex;
     this.currentPublication = publicationIndex;
     this.modifyCommentDisplay = true;
@@ -134,9 +124,7 @@ export class PublicationListComponent implements OnInit {
   }
   openDialogModify(currentPublication): void {
     const dialogRef = this.dialog.open(PublicationFormComponent, { data: currentPublication });
-
     dialogRef.afterClosed().subscribe(formData => {
-
       if (!formData) {
         return 'canceled subscription';
       }
@@ -146,14 +134,9 @@ export class PublicationListComponent implements OnInit {
           this.publicationService.getPublications();
         });
     });
-
   }
-
   preLoadMedia(event): any {
     const file = (event.target as HTMLInputElement).files[0];
     this.openDialogCreatePublication(file);
   }
-
-
-
 }

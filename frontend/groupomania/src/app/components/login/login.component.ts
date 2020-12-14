@@ -26,11 +26,23 @@ export class LoginComponent implements OnInit {
     public dialog: MatDialog,
   ) { }
 
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
+
+  getErrorMessage(): string {
+    if (this.loginForm.get('email').hasError('required')) { } {
+      return 'You must enter a value';
+    }
+    return this.loginForm.get('email').hasError('email') ? 'Not a valid email' : '';
+  }
 
   /*signup dialog part*/
   onOpenDialog(): void {
     const dialogRef = this.dialog.open(SignupComponent);
-
     dialogRef.afterClosed().subscribe(formValue => {
       if (!formValue) {
         return 'canceled subscription';
@@ -39,7 +51,6 @@ export class LoginComponent implements OnInit {
         .pipe(take(1))
         .subscribe(
           data => {
-            console.log(data);
             this.userService.loginUser(formValue.email, formValue.password)
               .pipe(take(1))
               .subscribe(
@@ -62,21 +73,6 @@ export class LoginComponent implements OnInit {
         );
     });
 
-  }
-
-
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
-  }
-
-  getErrorMessage(): string {
-    if (this.loginForm.get('email').hasError('required')) { } {
-      return 'You must enter a value';
-    }
-    return this.loginForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
   onLogin(): void {
