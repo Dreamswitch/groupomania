@@ -89,3 +89,11 @@ html {
 .mat-mini-fab {
   font-size: 1rem;
 }
+
+.mat-progress-spinner {
+  display: block;
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  z-index: 11;
+}
