@@ -2,11 +2,11 @@
 
 <!-- linking card & publication written display -->
 <mat-card
-    class="publication-trigger"
+    class="publication-create-card"
     *ngIf="userService.currentUser$ | async as user"
 >
     <!-- first - link part -->
-    <div class="publication-trigger__text">
+    <div class="publication-create-card__text">
         <a routerLink="../profile">
             <img
                 *ngIf="user.media"
@@ -26,13 +26,13 @@
         <button
             mat-button
             (click)="openDialogCreatePublication();$event.preventDefault()"
-            class="publication-trigger__text__button"
+            class="publication-create-card__text__button"
         >
             What would you say, {{user.firstname | titlecase}} ?
         </button>
     </div>
     <!-- second - preload media part -->
-    <form class="publication-trigger__media">
+    <form class="publication-create-card__media">
         <input
             class='none'
             type="file"
