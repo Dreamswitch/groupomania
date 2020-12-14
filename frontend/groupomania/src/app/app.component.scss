@@ -1,18 +1,18 @@
 .layout {
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: 6rem 1fr 50px;
-    grid-template-columns: 100vw;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 6rem 1fr 50px;
+  grid-template-columns: 100%;
 
-    &__header {
-        grid-row: 1;
-    }
+  &__header {
+    grid-row: 1;
+  }
 
-    &__main {
-        grid-row: 2;
-    }
+  &__main {
+    grid-row: 2;
+  }
 
-    &__footer {
-        grid-row: 3;
-    }
+  &__footer {
+    grid-row: 3;
+  }
 }

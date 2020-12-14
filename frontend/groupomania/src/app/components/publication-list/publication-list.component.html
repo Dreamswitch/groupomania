@@ -1,12 +1,12 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 
-<!-- linking card & publication written display -->
+<!-- publication maker -->
 <mat-card
-    class="publication-create-card"
+    class="card-publication-maker"
     *ngIf="userService.currentUser$ | async as user"
 >
     <!-- first - link part -->
-    <div class="publication-create-card__text">
+    <div class="card-publication-maker__first-block">
         <a routerLink="../profile">
             <img
                 *ngIf="user.media"
@@ -24,17 +24,17 @@
             >
         </a>
         <button
+            class="mat-button--custom"
             mat-button
             (click)="openDialogCreatePublication();$event.preventDefault()"
-            class="publication-create-card__text__button"
         >
             What would you say, {{user.firstname | titlecase}} ?
         </button>
     </div>
     <!-- second - preload media part -->
-    <form class="publication-create-card__media">
+    <form class="card-publication-maker__second-block">
         <input
-            class='none'
+            class='display-none'
             type="file"
             accept="image/*"
             (change)="preLoadMedia($event);$event.preventDefault()"
@@ -45,51 +45,41 @@
         <button
             mat-button
             (click)="fileInput.click();$event.preventDefault()"
-            class="custom-font-color"
+            class="mat-button--color"
         >
-            <mat-icon class="custom-color">add_photo_alternate</mat-icon>
+            <mat-icon class="mat-icon--color">add_photo_alternate</mat-icon>
             Image/Video
         </button>
     </form>
 </mat-card>
 
-<!-- end -->
 
-<!-- wall start -->
+
+<!-- publication layout -->
 
 <p *ngIf="!loading && publications.length <= 0">Be the first one to post a Publication</p>
-<p
-    class="list-title"
-    *ngIf="!loading && publications.length > 0"
->
-</p>
 
 <mat-card
     class="publication-card"
     *ngFor="let publication of publications;let publicationIndex = index;"
-    [thePublication]="publication"
 >
-    <!-- condition to display publication -->
-    <div *ngIf="publicationIndex !== currentPublicationIndex">
-        <mat-card-header class="mat-card-header--grid">
+        <mat-card-header>
             <img
                 mat-card-avatar
                 *ngIf="publication.user.media"
-                class="user_thumbmail col1"
                 [src]="publication.user.media"
                 alt="profile image of {{publication.user.firstname}}"
             >
             <img
                 mat-card-avatar
                 *ngIf="!publication.user.media"
-                class="user_thumbmail col1"
                 src="../../assets/logos/Profile_avatar_placeholder_large.png"
                 alt="default profile thumbmail"
             >
-            <mat-card-title class="mat-card-title--custom">
+            <mat-card-title class="mat-card-title--font-size">
                 {{publication.user.firstname | titlecase}} {{publication.user.lastname | titlecase}}
             </mat-card-title>
-            <mat-card-subtitle>
+            <mat-card-subtitle class="mat-card-subtitle--margin-b-unset">
                 {{publication.createdAt | date :'mediumDate'}}
             </mat-card-subtitle>
 
@@ -104,7 +94,7 @@
             </button>
             <mat-menu
                 #menu="matMenu"
-                class="absolute"
+                class="mat-menu--absolute"
             >
                 <button
                     mat-menu-item
@@ -123,7 +113,7 @@
             </mat-menu>
         </mat-card-header>
 
-        <mat-card-content>
+        <mat-card-content class="mat-card-content--mbottom">
             <h2>{{ publication.title | uppercase }}</h2>
             <p>{{publication.body}}</p>
         </mat-card-content>
@@ -135,30 +125,32 @@
         >
         <!-- 2.5 -->
         <div class="container-fluid--between">
-            <p class="temperature">temperature  {{publication.nbrLikes}}°F</p>
+            <p class="container-fluid--between__temperature">temperature  {{publication.nbrLikes}}°F</p>
             <button
                 mat-button
                 (click)="mep.expanded = !mep.expanded"
-                class="mat-button--custom"
             >
                 {{publication.nbrComments}} {{publication.nbrComments > 1 ? ' comments' : ' comment'}}
             </button>
 
         </div>
         <!-- deuxieme partie -->
-        <mat-card-actions>
-            <app-like [publication]="publication"></app-like>
+        <mat-card-actions class="mat-card-actions--grid">
+          <div class="mat-card-actions--grid__block1">
+            <app-like class="app-like" [publication]="publication"></app-like>
+          </div>
             <button
+            class="mat-card-actions--grid__block2"
                 mat-button
                 (click)="mep.expanded = !mep.expanded"
             >
-                COMMENT
+            <span class="display-text">COMMENT</span>
                 <mat-icon>comment</mat-icon>
             </button>
         </mat-card-actions>
         <!-- 3eme partie -->
 
-        <mat-accordion class="my-special-class">
+        <mat-accordion>
 
             <!-- comment part -->
             <mat-expansion-panel
@@ -171,35 +163,33 @@
                 <div *ngFor="let comment of publication.comments;let commentIndex = index">
                     <!-- debut -->
                     <div
-                        class="card-header--comment card-header--grid"
+                        class="comment-display-block"
                         *ngIf="!modifyCommentDisplay || modifyCommentDisplay && commentIndex !== currentComment && publicationIndex === currentPublication || publicationIndex !== currentPublication"
                     >
                         <img
                             mat-card-avatar
                             *ngIf="comment.user.media"
-                            class="user_thumbmail col1 col1--comment"
                             [src]="comment.user.media"
                             alt="profile image of {{comment.user.firstname}}"
                         >
                         <img
                             mat-card-avatar
                             *ngIf="!comment.user.media"
-                            class="user_thumbmail col1 col1--comment"
                             src="../../assets/logos/Profile_avatar_placeholder_large.png"
                             alt="default profile thumbmail"
                         >
-                        <div class="column--comment">
-                            <div class="content--comment">
-                                <mat-card-title class="mat-card-title--custom mat-card-title--comment">
+                        <div class="comment-display-block__comment">
+                            <div class="comment-display-block__comment__text">
+                                <mat-card-title class="mat-card-title--mbottom">
                                     {{comment.user.firstname | titlecase}} {{comment.user.lastname | titlecase}}
                                 </mat-card-title>
-                                <mat-card-content class="mat-card-content--comment">
-                                    <p class="contenteditable--comment">{{comment.body}}</p>
+                                <mat-card-content class="mat-card-content--mbottom-unset">
+                                    <p class="contenteditable--outline-unset">{{comment.body}}</p>
                                 </mat-card-content>
 
                             </div>
                             <img
-                                class="image--comment"
+                                class="comment-display-block__comment__media"
                                 *ngIf="comment.media"
                                 mat-card-image
                                 [src]="comment.media"
@@ -252,7 +242,5 @@
                 </div>
             </mat-expansion-panel>
         </mat-accordion>
-
-    </div>
-
 </mat-card>
+

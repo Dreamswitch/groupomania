@@ -49,11 +49,8 @@ export class UserService {
   updateUser(data): Observable<any> {
     return this.http.put<FormData>('http://localhost:3000/api/auth/profil', data);
   }
-  /*
-    deletePublication(idPublication: object): Observable<object> {
-      return this.http.request('DELETE', 'http://localhost:3000/api/publications', { body: idPublication })
-        .pipe(
-          catchError(this.handleError('addPublication', idPublication))
-        );
-      } */
+
+  deleteUser(idUser: object): Observable<object> {
+    return this.http.request('DELETE', 'http://localhost:3000/api/auth/profil', { body: idUser });
+  }
 }

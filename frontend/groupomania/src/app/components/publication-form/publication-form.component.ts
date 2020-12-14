@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Publication } from '../../models/publication.model';
-import { PublicationService } from '../../services/publication.service';
 
 @Component({
   selector: 'app-publication-form',
@@ -77,7 +76,6 @@ export class PublicationFormComponent implements OnInit {
   }
 
   onFileAdded(event): void {
-    event.preventDefault();
     console.log('ajout');
     const file = (event.target as HTMLInputElement).files[0];
     console.log(file);

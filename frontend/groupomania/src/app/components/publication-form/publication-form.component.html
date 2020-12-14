@@ -3,13 +3,14 @@
 <div class="container">
 
     <form
-        class="publication--form"
+        class="publication-form"
         [formGroup]="publicationForm"
         *ngIf="!loading"
     >
 
+        <!-- btn canceled -->
         <button
-            class="cross"
+            class="mat-flat-button--custom"
             mat-flat-button
             mat-dialog-close
             title="close"
@@ -17,10 +18,10 @@
             <mat-icon>close</mat-icon>
         </button>
 
-        <mat-form-field class="form-group">
+        <!-- make a title -->
+        <mat-form-field>
             <mat-label for="title">title</mat-label>
             <input
-                *ngIf="!pTitle"
                 matInput
                 placeholder="Ex. Pizza"
                 type="text"
@@ -28,18 +29,10 @@
                 id="title"
                 formControlName="title"
             >
-            <input
-                *ngIf="pTitle"
-                matInput
-                placeholder="Ex. Zzapi"
-                type="text"
-                class="form-control"
-                id="title"
-                formControlName="title"
-            >
         </mat-form-field>
 
-        <mat-form-field class="form-group">
+        <!-- make a description -->
+        <mat-form-field >
             <mat-label for="body">Description</mat-label>
             <textarea
                 matInput
@@ -50,45 +43,36 @@
             ></textarea>
         </mat-form-field>
 
-        <div class="form-group">
+        <div>
             <img
                 [src]="imagePreview"
                 *ngIf="imagePreview"
                 style="max-height: 100px;display:block;margin-top:10px"
             >
+            <!-- input image to hide -->
             <input
-                class='none'
+                class='display-none'
                 type="file"
                 accept="image/*"
-                (change)="onFileAdded();$event.preventDefault()"
+                (change)="onFileAdded($event);$event.preventDefault()"
                 #fileInput
                 required
             >
+            <!-- btn image trigger -->
             <button
                 mat-button
-                *ngIf="!currentPublication"
-                class="custom-font-color"
+                class="mat-button--color"
                 (click)="fileInput.click();$event.preventDefault()"
             >
-                <mat-icon class="custom-color">add_photo_alternate</mat-icon>
+                <mat-icon class="mat-icon--color">add_photo_alternate</mat-icon>
                 Image/Video
             </button>
-
-            <button
-                *ngIf="currentPublication"
-                mat-raised-button
-                color="accent"
-                (click)="fileInput.click();$event.preventDefault()"
-            >
-                ADD
-                <mat-icon>attach_file</mat-icon>
-            </button>
         </div>
-
+<!-- mat dialog close - btn submit form-->
         <button
             [mat-dialog-close]="onSubmit()"
             *ngIf="!data"
-            class="btn-submit--mid"
+            class="mat-raised-button--mid"
             mat-raised-button
             color="primary"
             [disabled]="publicationForm.invalid"
@@ -97,14 +81,15 @@
         </button>
         <button
             *ngIf="data"
-            class="btn-submit--mid"
+            class="mat-raised-button--mid"
             mat-raised-button
             color="primary"
             [disabled]="publicationForm.invalid"
             [mat-dialog-close]="onModify()"
         >
-            ENREGISTRER
+            SAVE
         </button>
+        <!-- message error -->
         <p
             class="text-danger"
             *ngIf="errorMsg"

@@ -8,11 +8,11 @@ export interface Publication {
     createdAt: string;
     updatedAt: string;
     user: {
-        firstname: string;
-        lastname: string;
+        firstname: string,
+        lastname: string,
         media: string
     };
-    comments: string[];
+    comments: any[];
     likes: number[];
     nbrLikes: number;
     nbrComments: number;
