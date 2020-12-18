@@ -4,7 +4,7 @@ const commentSchema = require('../middlewares/Schema/commentSchema');
 const jwt = require('jsonwebtoken');
 
 const userId = (req) => {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     return decodedToken.userId;
 };

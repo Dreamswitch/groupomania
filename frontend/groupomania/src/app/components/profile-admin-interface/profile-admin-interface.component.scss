@@ -1,0 +1,22 @@
+@import "styles";
+
+.container {
+    margin-top: 1rem;
+    background-color: white;
+    border-radius: 15px;
+    width: 100%;
+
+    &__admin {
+        width: inherit;
+        @include flex(space-around, center, column);
+
+        &__search {
+            margin: auto;
+            width: 90%;
+        }
+
+        &__title {
+            margin-bottom: 0.7rem;
+        }
+    }
+}

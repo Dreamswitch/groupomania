@@ -1,0 +1,41 @@
+@import "styles";
+
+.header {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    &__background {
+        border-radius: 15px 15px 0 0;
+        height: inherit;
+        width: inherit;
+        position: relative;
+        background-image: url("../../../assets/pexels-giftpunditscom-1303081\ \(1\).jpg");
+        background-position: center;
+        background-size: cover;
+
+        @include small {
+            border-radius: 5px 5px 0 0;
+        }
+        &__user-name {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 3rem;
+            line-height: 3rem;
+            color: white;
+            width: 60%;
+            right: 0;
+            text-shadow: -6px 2px 5px black;
+
+            @include small {
+                font-size: 1.5rem;
+                width: 40%;
+            }
+        }
+    }
+    &__thumbmail {
+        position: absolute;
+        bottom: 0;
+        left: 7%;
+        transform: translateY(50%);
+    }
+}

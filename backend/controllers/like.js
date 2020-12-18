@@ -4,23 +4,23 @@ const jwt = require('jsonwebtoken');
 
 const userId = (req) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.jwt;
         const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
         if (!decodedToken) {
-            throw new error('loupé')
+            throw new error('loupé');
         }
         return decodedToken.userId;
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-}
+};
 
 exports.likePublication = async (req, res, next) => {
     const user = userId(req);
     const dblike = db.like.findOne({ where: [{ idpublications: req.body.idpublication }, { idusers: user }] });
-    
-    if (!user) { return res.status(401).json('thanks to renewal your login access') };
-    if(!dblike){return res.status(400).json('bad request')};
+
+    if (!user) { return res.status(401).json('thanks to renewal your login access'); };
+    if (!dblike) { return res.status(400).json('bad request'); };
 
     const like = await dblike;
 
@@ -69,8 +69,8 @@ exports.likePublication = async (req, res, next) => {
                     .then(() => res.status(201).json({ message: "vote registred" }))
                     .catch(error => res.status(400).json({ error }));
             } else {
-                console.log('unauthorized value')
-                res.send('unauthorized value')
+                console.log('unauthorized value');
+                res.send('unauthorized value');
 
             }
         }

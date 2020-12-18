@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuard } from './services/auth-guard.service';
-import { PublicationListComponent } from './components/publication-list/publication-list.component';
+import { PublicationListComponent } from './components/view/publication/publication.component';
 /* import { ProfileComponent } from './components/profile/profile.component'; */
 import { ProfileComponent } from './components/view/profile/profile.component';
 

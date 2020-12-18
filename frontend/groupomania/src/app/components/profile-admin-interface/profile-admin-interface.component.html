@@ -1,0 +1,21 @@
+<div
+    class="container"
+    *ngIf="userService.currentUser$ | async as user"
+>
+    <div
+        *ngIf="user.admin"
+        class="container__admin"
+    >
+        <h2 class="container__admin__title">Admin status : certified</h2>
+        <p>Do you want delegate this privilege ?</p>
+        <app-search-bar class="container__admin__search"></app-search-bar>
+
+    </div>
+    <div
+        *ngIf="!user.admin"
+        class="container__admin"
+    >
+        <h2 class="container__admin__title">User status : certified</h2>
+        <p>Be the force with you</p>
+    </div>
+</div>

@@ -59,7 +59,7 @@ exports.login = (req, res, next) => {
 exports.getProfile = async (req, res, next) => {
   await db.user.findOne({
     where: { idusers: req.user },
-    attributes: ['firstname', 'lastname', 'media', 'description']
+    attributes: ['firstname', 'lastname', 'media', 'description', 'admin']
   })
     .then(profil => res.status(200).json(profil))
     .catch(error => res.status(400).json({ error }));

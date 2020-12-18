@@ -1,11 +1,11 @@
-import { HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from '../services/user.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private user: UserService) { }
+  constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): any {
     /* const authToken = this.user.getToken(); */
