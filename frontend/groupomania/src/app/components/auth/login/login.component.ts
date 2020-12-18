@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit {
                 (logs: any) => {
                   /* this.userService.authToken = logs.token; */
                   this.loading = false;
-                  console.log('communication avec le serveur reussi');
                   this.userService.isAuth$.next(true);
                   this.router.navigate(['/publications']);
 
@@ -90,10 +89,8 @@ export class LoginComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (/* log: any */) => {
-          console.log('cookie transfert back to front');
           /* this.userService.authToken = log.token; */
           this.loading = false;
-          console.log('communication avec le serveur reussi');
           this.userService.isAuth$.next(true);
           this.router.navigate(['/publications']);
         },

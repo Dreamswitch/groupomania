@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 import { UserDeleteComponent } from '../profile-user-delete/profile-user-delete.component';
@@ -9,16 +9,13 @@ import { UserDescriptionFormComponent } from '../profile-user-description-form/p
   templateUrl: './profile-navbar.component.html',
   styleUrls: ['./profile-navbar.component.scss']
 })
-export class NavbarProfileComponent implements OnInit {
+export class NavbarProfileComponent {
 
   constructor(
     public dialog: MatDialog,
     private userService: UserService
-
   ) { }
 
-  ngOnInit(): void {
-  }
 
 
   onDeleteUser(): void {
@@ -30,7 +27,6 @@ export class NavbarProfileComponent implements OnInit {
       }
       this.userService.deleteUser()
         .subscribe(() => {
-          console.log('user deleted');
           this.userService.logout();
         });
 

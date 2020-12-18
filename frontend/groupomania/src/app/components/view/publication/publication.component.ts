@@ -37,7 +37,6 @@ export class PublicationListComponent implements OnInit {
     this.commentDisplay = false;
     this.publicationSub = this.publicationService.publications$.subscribe(
       (publications) => {
-        console.log('publications');
         this.publications = publications;
         this.loading = false;
         this.errorMsg = null;
@@ -59,9 +58,8 @@ export class PublicationListComponent implements OnInit {
     this.publicationService.deletePublication(publicationId)
       .pipe(take(1))
       .subscribe(
-        response => {
+        () => {
           this.publicationService.getPublications();
-          console.log(response);
         }
       );
   }
@@ -84,9 +82,8 @@ export class PublicationListComponent implements OnInit {
     this.commentService.deleteComment(commentId)
       .pipe(take(1))
       .subscribe(
-        (response) => {
+        () => {
           this.publicationService.getPublications();
-          console.log(response);
         }
       );
   }

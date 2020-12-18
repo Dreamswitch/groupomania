@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CommentFormComponent } from '../app/components/publication-comment-form/publication-comment-form.component';
-import { UserComponent } from '../app/components/header-user-link/header-user-link.component';
+import { HeaderUserLinkComponent } from '../app/components/header-user-link/header-user-link.component';
 import { ProfileComponent } from '../app/components/view/profile/profile.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
@@ -47,7 +47,7 @@ import { ArticleAdminComponent } from './components/profile-admin-interface/prof
     PublicationListComponent,
     PublicationFormComponent,
     CommentFormComponent,
-    UserComponent,
+    HeaderUserLinkComponent,
     ProfileComponent,
     LikeComponent,
     NavbarProfileComponent,

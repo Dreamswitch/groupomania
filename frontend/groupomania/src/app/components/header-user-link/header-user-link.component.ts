@@ -6,13 +6,10 @@ import { UserService } from '../../services/user.service';
   templateUrl: './header-user-link.component.html',
   styleUrls: ['./header-user-link.component.scss']
 })
-export class UserComponent {
-
+export class HeaderUserLinkComponent {
 
   constructor(
     public userService: UserService,
   ) { }
-
-
 
 }
