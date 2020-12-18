@@ -27,10 +27,6 @@ exports.createComment = async (req, res, next) => {
             if (req.file.mimetype !== 'image/jpg' && req.file.mimetype !== 'image/jpeg' && req.file.mimetype !== 'image/png') {
                 res.status(401).json({ error: 'invalid file format uploaded' });
             }
-            console.log('image in');
-            console.log(commentObject.body);
-            console.log(user);
-            console.log(req.body.id_publication);
 
             db.comment.create({
                 body: commentObject.body,
@@ -41,10 +37,6 @@ exports.createComment = async (req, res, next) => {
                 .then(() => res.status(201).json({ message: `comment registred` }))
                 .catch(() => res.status(404).json("publication not found"));
         } else {
-            console.log('image off');
-            console.log(commentObject.body);
-            console.log(user);
-            console.log(req.body.id_publication);
             db.comment.create({
                 body: commentObject.body,
                 idusers: user,

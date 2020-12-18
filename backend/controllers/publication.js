@@ -7,25 +7,19 @@ const { deleteMedia } = require('../middlewares/deleteMedia/post-media');
 
 
 exports.createPublication = async (req, res, next) => {
-    console.log('publication recu en back');
     try {
         if (req.file && req.file.mimetype !== 'image/jpg' && req.file.mimetype !== 'image/jpeg' && req.file.mimetype !== 'image/png') {
             res.status(401).json({ error: 'invalid file format uploaded' });
         }
-        console.log(req.user);
         const publicationObject = JSON.parse(req.body.publication);
-        console.log(publicationObject);
         const user = req.user;
         const isValid = await publicationSchema.validateAsync(publicationObject);
-        console.log('isValid');
         const profile = await db.user.findByPk(user);
-
 
         if (!publicationObject) { return res.status(400).json('bad request'); };
         if (!user) { return res.status(404).json('user not found'); };
         if (!isValid) { return res.status(400).json('bad request'); };
         if (!profile) { return res.status(404).json('user deleted'); }
-
 
         db.publication.create({
             title: publicationObject.title,
@@ -41,7 +35,6 @@ exports.createPublication = async (req, res, next) => {
 };
 
 exports.getOnePublication = (req, res, next) => {
-    console.log('get one');
     db.publication.findByPk(req.body.idpublication,
         {
             include: [
@@ -109,12 +102,10 @@ exports.modifyPublication = async (req, res, next) => {
 };
 
 exports.deletePublication = async (req, res, next) => {
-    console.log(req);
     try {
         const user = await db.user.findByPk(req.user);
         db.publication.findByPk(req.body.idpublication)
             .then(publication => {
-                console.log(publication.idusers);
                 if (publication.idusers === user.idusers || user.admin) {
                     db.comment.destroy({ where: { idpublications: publication.idpublications } })
                         .then(() => {

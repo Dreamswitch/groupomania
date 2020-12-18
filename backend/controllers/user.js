@@ -46,7 +46,6 @@ exports.login = (req, res, next) => {
             'RANDOM_TOKEN_SECRET',//ce qui va servir à encoder l'objet
             { expiresIn: maxAge } //expiration du token
           );
-          console.log('user connected');
           res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); // in ms
           res.status(200).json('connected');
 
@@ -76,18 +75,11 @@ exports.getAllUsers = async (req, res, next) => {
 exports.grantPrivileges = async (req, res, next) => {
   await db.user.findOne({ where: { idusers: req.user } })
     .then(grantUser => {
-      console.log('1');
       if (!grantUser.admin) {
-        console.log('2');
-
         return req.status(403).json('not admin');
       } else {
-        console.log('3');
-
         db.user.findOne({ where: { email: req.body.email } })
           .then(user => {
-            console.log('4');
-
             user.update({
               admin: 1
             })
@@ -106,9 +98,7 @@ exports.modifyProfile = async (req, res, next) => {
     const user = req.user;
     db.user.findOne({ where: { idusers: user } })
       .then(async profile => {
-        console.log('user found');
         if (req.file) {
-          console.log('image');
           if (req.file.mimetype === 'image/jpg' || req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png') {
 
             if (profile.media) {
@@ -124,9 +114,7 @@ exports.modifyProfile = async (req, res, next) => {
             res.status(400).json({ error: 'non mais oh' });
           }
         } else {
-          console.log('pas image');
           const profileObject = await JSON.parse(req.body.description);
-          console.log(profileObject);
           if (!profileObject) { return res.status(400).json(' not an object'); };
           const isValid = await profileSchema.validateAsync(profileObject);
           if (!isValid) { return res.status(404).json('invalid syntaxe'); };
@@ -145,7 +133,6 @@ exports.modifyProfile = async (req, res, next) => {
 };
 
 exports.deleteProfile = async (req, res, next) => {
-  console.log('lol');
   try {
     const user = req.user;
     if (!user) { return res.status(404).json('user not found'); };
