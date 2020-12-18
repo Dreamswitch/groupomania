@@ -156,3 +156,10 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-12-18 20:11:16
+
+--
+-- create user and access to db
+--
+
+CREATE USER 'will'@'127.0.0.1' IDENTIFIED BY 'jumble';
+GRANT ALL PRIVILEGES ON *.* TO 'will'@'127.0.0.1';
