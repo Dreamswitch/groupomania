@@ -49,9 +49,9 @@
             </mat-form-field>
 
             <button
+                aria-label="submit logins & connect"
                 class="btn--lg"
                 mat-raised-button
-                color="primary"
                 type="submit"
                 [disabled]="loginForm.invalid"
             >
@@ -66,7 +66,7 @@
             <p class="container-login__login-form__container-fluid__mdp">Forgotten Password ?</p>
             <button
                 mat-raised-button
-                color="accent"
+                aria-label="open signin form"
                 class="btn--mid"
                 (click)="onOpenDialog();$event.preventDefault()"
             >

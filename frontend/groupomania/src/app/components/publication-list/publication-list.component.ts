@@ -37,11 +37,13 @@ export class PublicationListComponent implements OnInit {
     this.commentDisplay = false;
     this.publicationSub = this.publicationService.publications$.subscribe(
       (publications) => {
+        console.log('publications');
         this.publications = publications;
         this.loading = false;
         this.errorMsg = null;
       },
       (error) => {
+        console.log(error);
         this.errorMsg = JSON.stringify(error);
         this.loading = false;
       }

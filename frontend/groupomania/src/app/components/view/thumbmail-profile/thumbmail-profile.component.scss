@@ -1,0 +1,36 @@
+@import "styles";
+
+.thumbmail {
+    &__image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid darken($bg-color, 20%);
+        object-fit: cover;
+    }
+    &__btn-upload {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        min-width: unset;
+        border-radius: 50%;
+
+        &__icon {
+            background-color: $bg-color;
+            color: lighten($main-color, 10%);
+            border-radius: 50%;
+            padding-top: 3px;
+            padding-right: 3px;
+            width: 37px;
+            height: 37px;
+            border: 2px solid darken($bg-color, 20%);
+            box-shadow: -6px 1px 15px black;
+
+            &:hover {
+                color: lighten($main-color, 30%);
+            }
+        }
+    }
+}

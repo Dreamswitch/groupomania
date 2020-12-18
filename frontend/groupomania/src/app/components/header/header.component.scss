@@ -1,6 +1,7 @@
+@import "variables";
 .header {
   width: 100%;
-  background-color: hsla(218, 70%, 15%, 1);
+  background-color: $main-color;
   height: 100%;
   border-bottom: thin solid black;
   &__nav {
@@ -46,7 +47,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: whitesmoke;
+            color: lighten($bg-color, 60%);
             font-weight: 400;
             text-decoration: none;
             cursor: pointer;
@@ -58,7 +59,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: whitesmoke;
+            color: lighten($bg-color, 60%);
             font-weight: 400;
             text-decoration: none;
             cursor: pointer;
@@ -79,7 +80,7 @@
 }
 
 .mat-icon--color {
-  color: aliceblue;
+  color: lighten($bg-color, 60%);
 }
 .mat-button--margin-l {
   margin-left: unset;

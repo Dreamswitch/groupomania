@@ -1,0 +1,35 @@
+@import "styles";
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.option {
+    @include flex(flex-start, center, row);
+
+    &__name {
+        margin-left: 0.5rem;
+    }
+}
+
+.color-admin {
+    color: green;
+}
+
+.container-fluid {
+    @include flex(space-between, center, row);
+}
+
+.mat-icon--custom {
+    color: darken($bg-color, 30%);
+    &:hover {
+        color: lighten($main-color, 40%);
+    }
+}

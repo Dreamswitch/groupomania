@@ -1,0 +1,58 @@
+<form
+    class="example-form"
+    *ngIf="options"
+>
+    <mat-form-field class="example-full-width">
+        <div class="container-fluid">
+            <input
+                type="text"
+                placeholder="Search Bar ..."
+                aria-label="Number"
+                matInput
+                [formControl]="myControl"
+                [matAutocomplete]="auto"
+            >
+            <button
+                [disabled]="myControl.invalid"
+                class="mat-button--custom"
+                mat-button
+                (click)="grantPrivileges($event);$event.preventDefault()"
+            >
+                <mat-icon
+                    class="mat-icon--custom"
+                    [ngClass]="{'display-none': myControl.invalid}"
+                >
+                    send
+                </mat-icon>
+            </button>
+        </div>
+
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+                *ngFor="let option of filteredOptions | async"
+                [ngClass]="{'color-admin': option.admin}"
+                [value]="option.email"
+            >
+                <div class="option">
+                    <img
+                        mat-card-avatar
+                        *ngIf="option.media"
+                        class="option__thumbmail"
+                        [src]="option.media"
+                        alt="profile image of {{option.firstname}}"
+                    >
+                    <img
+                        mat-card-avatar
+                        *ngIf="!option.media"
+                        class="option__thumbmail"
+                        src="../../assets/logos/Profile_avatar_placeholder_large.png"
+                        alt="default profile thumbmail"
+                    >
+                    <span class="option__name">
+                        {{option.firstname}} {{option.lastname}}
+                    </span>
+                </div>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>

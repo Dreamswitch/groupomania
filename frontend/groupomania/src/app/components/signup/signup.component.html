@@ -4,6 +4,7 @@
     *ngIf="!loading"
 >
     <button
+        aria-label="close signup window"
         class="cross"
         mat-flat-button
         mat-dialog-close
@@ -51,6 +52,7 @@
         >
             <mat-label for="email">Enter your email</mat-label>
             <input
+                aria-label="email input"
                 matInput
                 placeholder="pat@example.com"
                 type="email"
@@ -70,6 +72,7 @@
             <mat-label for="password">Enter your password</mat-label>
             <input
                 matInput
+                aria-label="password input"
                 [type]="hide ? 'text' : 'password'"
                 class="form-control"
                 id="password"
@@ -93,6 +96,7 @@
     </div>
     <mat-dialog-actions>
         <button
+            aria-label="submit signup form"
             [mat-dialog-close]="onSignup()"
             mat-raised-button
             color="primary"

@@ -1,0 +1,67 @@
+
+
+//---------------- flex , justify-content , align-content
+
+@mixin flex($justify,$align,$direction) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $direction;
+
+}
+
+//---------------text gradient linear------------
+
+@mixin linearGradient-text($accent-1,$accent-2){
+    background: linear-gradient(70deg,$accent-1,$accent-2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 103%;
+    text-align: center;
+}
+
+//---------------responsive--------------
+
+@mixin small{
+    @media all and (max-width:600px){
+        @content;
+    }
+}
+
+@mixin medium{
+    @media all and (min-width:601px) and (max-width:1024px){
+        @content;
+    }
+}
+
+@mixin big{
+    @media all and (min-width:1025px){
+        @content;
+    }
+}
+
+
+
+//------------------(::before / ::after) title-svg-decorations ----->
+
+@mixin svg-decoration($selector,$directory,$svg-name){
+    &::#{$selector}{
+        content:"";
+        background-image: url('../../public/img/'+$directory+'/'+$svg-name+'.svg');
+        position: absolute;
+        width: 25%;
+        height: 1.3rem;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        @content;
+        @if ($selector == before){
+            left : 5%;
+        }@else{
+            right : 5%;
+        }
+        @include small{
+            width: 18%;
+        }    
+    }
+}

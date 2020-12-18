@@ -1,0 +1,70 @@
+@import "styles";
+
+.about {
+    border-radius: 15px;
+    height: unset;
+    background-color: lighten($bg-color, 30%);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    @include small {
+        border-radius: 5px 5px 0 0;
+        height: 100%;
+    }
+
+    &__title {
+        font-size: 2rem;
+        border-bottom: $bg-color 2px solid;
+        align-self: center;
+    }
+    &__container {
+        flex-grow: 1;
+        &__tile {
+            @include flex(space-between, center, row);
+            flex-wrap: wrap;
+            height: 100%;
+            @include small {
+                height: unset;
+            }
+
+            &__description {
+                height: inherit;
+                text-align: center;
+                width: 49%;
+                border: $bg-color 2px solid;
+                border-radius: 15px;
+                @include small {
+                    width: 100%;
+                }
+
+                &__title {
+                    border-bottom: $bg-color 2px solid;
+                }
+                &__comment {
+                    flex-grow: 1;
+                }
+            }
+            &__activity {
+                height: inherit;
+                text-align: center;
+                width: 49%;
+                border: $bg-color 2px solid;
+                border-radius: 15px;
+                @include small {
+                    width: 100%;
+                    margin-top: 15px;
+                }
+
+                &__title {
+                    text-align: center;
+                    border-bottom: $bg-color 2px solid;
+                }
+
+                &__list {
+                    margin: 0 15px 15px 15px;
+                    flex-grow: 1;
+                }
+            }
+        }
+    }
+}

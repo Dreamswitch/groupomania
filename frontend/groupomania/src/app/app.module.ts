@@ -21,10 +21,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CommentFormComponent } from '../app/components/comment-form/comment-form.component';
 import { UserComponent } from '../app/components/user/user.component';
-import { ProfileComponent } from '../app/components/profile/profile.component';
+/* import { ProfileComponent } from '../app/components/profile/profile.component'; */
+import { ProfileComponent } from '../app/components/view/profile/profile.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { LikeComponent } from './components/like/like.component';
+import { NavbarProfileComponent } from './components/view/navbar/navbar-profile.component';
+import { HeaderProfileComponent } from './components/view/header/header-profile.component';
+import { ThumbmailProfileComponent } from './components/view/thumbmail-profile/thumbmail-profile.component';
+import { ArticleAboutComponent } from './components/view/article-about/article-about.component';
+import { UserDescriptionFormComponent } from './components/user-description-form/user-description-form.component';
+import { UserDeleteComponent } from './components/user-delete/user-delete.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ArticleAdminComponent } from './components/article-admin/article-admin.component';
 
 
 
@@ -41,6 +51,14 @@ import { LikeComponent } from './components/like/like.component';
     UserComponent,
     ProfileComponent,
     LikeComponent,
+    NavbarProfileComponent,
+    HeaderProfileComponent,
+    ThumbmailProfileComponent,
+    ArticleAboutComponent,
+    UserDescriptionFormComponent,
+    UserDeleteComponent,
+    SearchBarComponent,
+    ArticleAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +77,7 @@ import { LikeComponent } from './components/like/like.component';
     MatExpansionModule,
     MatDialogModule,
     MatMenuModule,
+    MatAutocompleteModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

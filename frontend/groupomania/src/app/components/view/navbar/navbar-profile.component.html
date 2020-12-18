@@ -1,0 +1,36 @@
+<nav class="navbar">
+    <ul class="navbar__list">
+        <li class="navbar__list__link">
+            <a class="navbar__list__link__ancre">About</a>
+            <button
+                aria-label="user's menu"
+                [matMenuTriggerFor]="menu"
+                mat-icon-button
+                class="navbar__list__link__btn"
+            >
+                <mat-icon>more_horiz</mat-icon>
+            </button>
+            <!-- boutons a cacher -->
+            <mat-menu
+                #menu="matMenu"
+                class="mat-menu--absolute"
+            >
+                <button
+                    mat-menu-item
+                    (click)="openDialogModify();$event.preventDefault()"
+                >
+                    <mat-icon>edit</mat-icon>
+                    <span>Modify</span>
+                </button>
+                <button
+                    mat-menu-item
+                    (click)="onDeleteUser()"
+                >
+                    <mat-icon>delete_forever</mat-icon>
+                    <span>Delete</span>
+                </button>
+            </mat-menu>
+
+        </li>
+    </ul>
+</nav>

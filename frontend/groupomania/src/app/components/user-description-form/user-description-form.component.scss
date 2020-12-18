@@ -1,0 +1,59 @@
+@import "styles";
+
+.container {
+    position: relative;
+    width: 400px;
+    border-radius: 10px;
+    border-radius: 10px;
+    @include flex(center, space-between, column);
+    flex-wrap: wrap;
+}
+
+.user-description-form {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.mat-flat-button--custom {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background-color: unset;
+}
+
+.mat-raised-button--mid {
+    width: 50%;
+    margin: auto;
+}
+
+.title {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 500px) {
+    .user-description-form {
+        position: relative;
+        min-width: 80vw;
+        padding: 8px;
+        flex-grow: 1;
+        margin: auto;
+    }
+
+    ::ng-deep .mat-menu-panel {
+        height: 112px;
+    }
+
+    .mat-flat-button--custom {
+        min-width: 30px;
+        line-height: 30px;
+        top: -24px;
+        right: -16px;
+    }
+
+    ::ng-deep .cdk-overlay-pane {
+        flex-grow: 1 !important;
+        max-width: unset !important;
+    }
+}

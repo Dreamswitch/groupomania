@@ -1,14 +1,14 @@
-.container {
-  position: relative;
-  width: 400px;
-  border-radius: 10px;
-  border-radius: 10px;
-}
+@import "styles";
 
 .publication-form {
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  padding: 15px;
+  position: relative;
+  min-width: 320px;
+  width: 25vw;
+  max-width: 450px;
+  border-radius: 10px;
 }
 
 .mat-flat-button--custom {
@@ -23,7 +23,7 @@
 }
 
 .mat-button--color {
-  color: #65676b;
+  color: darken($bg-color, 30%);
 }
 
 .mat-icon--color {
@@ -33,4 +33,19 @@
 .mat-raised-button--mid {
   width: 50%;
   margin: auto;
+}
+
+@media (max-width: 500px) {
+  form {
+    position: relative;
+    min-width: 80vw;
+    padding: 8px;
+    flex-grow: 1;
+    margin: auto;
+  }
+
+  ::ng-deep .cdk-overlay-pane {
+    flex-grow: 1 !important;
+    max-width: unset !important;
+  }
 }

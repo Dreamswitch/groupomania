@@ -4,14 +4,13 @@ const profileSchema = Joi.object({
 
     description: Joi.string()
         .pattern(new RegExp('^[a-zA-Z0-9 ,\'\"?.-]+$'))
-        .min(1)
         .max(1000),
-/* 
-    id_publication: Joi.number()
-        .min(1),
-
-    actor_publication: Joi.number()
-        .min(1) */
+    /* 
+        id_publication: Joi.number()
+            .min(1),
+    
+        actor_publication: Joi.number()
+            .min(1) */
 
 });
 

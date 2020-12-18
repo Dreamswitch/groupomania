@@ -22,8 +22,6 @@ export class CommentService {
     this.handleError = httpErrorHandler.createHandleError('CommentService');
   }
 
-
-
   updateComment(comment): Observable<Comment> {
     return this.http.put<Comment>('http://localhost:3000/api/publications/comment', comment)
       .pipe(

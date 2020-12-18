@@ -1,6 +1,7 @@
+@import "styles";
 .onLike {
-    color: rgb(12, 34, 107) !important;
+    color: lighten($main-color, 30%) !important;
 }
 .onDislike {
-    color: rgb(209, 95, 95) !important;
+    color: darken($accent-color, 10%) !important;
 }

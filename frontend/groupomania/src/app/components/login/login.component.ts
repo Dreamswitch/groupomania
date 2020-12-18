@@ -27,6 +27,11 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // feature if cookies in client side
+    /*     console.log(this.userService.isAuth$.value);
+        if (this.userService.isAuth$) {
+          this.router.navigate(['/publications']);
+        } */
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -55,10 +60,12 @@ export class LoginComponent implements OnInit {
               .pipe(take(1))
               .subscribe(
                 (logs: any) => {
-                  this.userService.authToken = logs.token;
+                  /* this.userService.authToken = logs.token; */
                   this.loading = false;
                   console.log('communication avec le serveur reussi');
                   this.userService.isAuth$.next(true);
+                  this.router.navigate(['/publications']);
+
                 },
                 (error: any) => {
                   console.log('registration error' + error);
@@ -82,8 +89,9 @@ export class LoginComponent implements OnInit {
     this.userService.loginUser(email, password)
       .pipe(take(1))
       .subscribe(
-        (log: any) => {
-          this.userService.authToken = log.token;
+        (/* log: any */) => {
+          console.log('cookie transfert back to front');
+          /* this.userService.authToken = log.token; */
           this.loading = false;
           console.log('communication avec le serveur reussi');
           this.userService.isAuth$.next(true);

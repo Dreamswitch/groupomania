@@ -1,0 +1,9 @@
+<div
+    class="header"
+    *ngIf="userService.currentUser$ | async as user"
+>
+    <div class="header__background">
+        <div class="header__background__user-name">{{user.firstname}} {{user.lastname}}</div>
+    </div>
+    <app-thumbmail-profile class="header__thumbmail"></app-thumbmail-profile>
+</div>

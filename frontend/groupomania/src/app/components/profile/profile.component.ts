@@ -10,7 +10,8 @@ import { UserService } from '../../services/user.service';
 export class ProfileComponent implements OnInit {
 
   publicationForm: FormGroup;
-
+  currentUser: object;
+  loading: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -19,9 +20,11 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.currentUser$ = this.userService.getUser();
+    this.currentUser = this.userService.currentUser$;
     this.publicationForm = this.formBuilder.group({
       media: ['', Validators.required],
     });
+    this.loading = false;
   }
 
 

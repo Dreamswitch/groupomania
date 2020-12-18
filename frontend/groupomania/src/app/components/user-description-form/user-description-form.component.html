@@ -1,0 +1,51 @@
+<div class="container">
+
+    <form
+        class="user-description-form"
+        [formGroup]="userDescriptionForm"
+    >
+
+        <!-- btn canceled -->
+        <button
+            class="mat-flat-button--custom"
+            mat-flat-button
+            mat-dialog-close
+            title="close"
+        >
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <h2 class="title">What kind of super Hero are you ?</h2>
+        <!-- make a description -->
+        <mat-form-field>
+            <mat-label for="description">Description</mat-label>
+            <textarea
+                rows="3"
+                matInput
+                placeholder="Ex. It makes me feel..."
+                class="form-control"
+                id="description"
+                formControlName="description"
+            ></textarea>
+        </mat-form-field>
+
+        <!-- mat dialog close - btn submit form -->
+        <button
+            class="mat-raised-button--mid"
+            mat-raised-button
+            color="primary"
+            [disabled]="userDescriptionForm.invalid"
+            [mat-dialog-close]="onModify()"
+        >
+            SAVE
+        </button>
+        <!-- message error -->
+        <p
+            class="text-danger"
+            *ngIf="errorMsg"
+        >
+            {{ errorMsg }}
+        </p>
+    </form>
+
+</div>

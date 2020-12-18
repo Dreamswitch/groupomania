@@ -4,6 +4,8 @@ import { catchError } from 'rxjs/operators';
 import { Publication } from '../models/publication.model';
 import { Observable, Subject } from 'rxjs';
 import { HandleError, HttpErrorHandler } from '../services/http-error-handler.service';
+import { Router } from '@angular/router';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -15,12 +17,14 @@ export class PublicationService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  publications$ = new Subject<Publication[]>();
+  publications$ = new Subject<any>();
   private handleError: HandleError;
 
   constructor(
     private http: HttpClient,
-    public httpErrorHandler: HttpErrorHandler
+    public httpErrorHandler: HttpErrorHandler,
+    private router: Router,
+    public userService: UserService
   ) {
     this.handleError = httpErrorHandler.createHandleError('PublicationService');
   }
@@ -33,6 +37,10 @@ export class PublicationService {
       (error) => {
         this.publications$.next([]);
         console.error(error);
+        if (error.status === 302) {
+          this.userService.isAuth$.next(false);
+          this.router.navigate(['/login']);
+        }
       }
     );
   }

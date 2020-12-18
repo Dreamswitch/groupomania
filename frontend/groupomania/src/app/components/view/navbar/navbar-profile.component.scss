@@ -1,0 +1,45 @@
+@import "styles";
+
+.navbar {
+    background-color: lighten($bg-color, 20%);
+    height: 100%;
+    border-radius: 0 0 15px 15px;
+    @include small {
+        border-radius: 5px 5px 0 0;
+    }
+    &__list {
+        height: inherit;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        &__link {
+            width: calc(60% - 5rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            @include small {
+                width: 40%;
+            }
+
+            &__ancre {
+                display: block;
+                font-size: 1.5rem;
+                color: darken($bg-color, 50%);
+                border-bottom: 2px solid darken($bg-color, 50%);
+
+                @include small {
+                    font-size: 1rem;
+                }
+
+                &:hover {
+                    color: darken($bg-color, 70%);
+                }
+            }
+
+            &__btn {
+                background: unset;
+                margin-right: 2rem;
+            }
+        }
+    }
+}

@@ -3,13 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { PublicationListComponent } from './components/publication-list/publication-list.component';
-import { ProfileComponent } from './components/profile/profile.component';
+/* import { ProfileComponent } from './components/profile/profile.component'; */
+import { ProfileComponent } from './components/view/profile/profile.component';
 
 const routes: Routes = [
 
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'publications',
@@ -24,11 +25,11 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login'
+    redirectTo: 'publications'
   },
   {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: 'publications'
   }
 ];
 

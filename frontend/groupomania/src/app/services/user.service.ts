@@ -13,7 +13,7 @@ import { share } from 'rxjs/operators';
 export class UserService {
 
   isAuth$ = new BehaviorSubject<boolean>(false);
-  authToken: string;
+  /* authToken: string; */
   currentUser$: Observable<object>;
 
   constructor(
@@ -29,28 +29,35 @@ export class UserService {
     return this.http.post('http://localhost:3000/api/auth/login', { email, password });
   }
 
-
   logout(): void {
-    this.authToken = null;
+    /* this.authToken = null; */
     this.isAuth$.next(false);
     this.router.navigate(['login']);
   }
 
-  getToken(): string {
-    return this.authToken;
-  }
+  /*   getToken(): string {
+      return this.authToken;
+    } */
 
 
   getUser(): Observable<object> {
     return this.http.get('http://localhost:3000/api/auth/profil').pipe(share());
   }
 
+  getAllUsers(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/auth/users').pipe(share());
+  }
+
+
+  grantPrivileges(data: object): Observable<any> {
+    return this.http.put<FormData>('http://localhost:3000/api/auth/privileges', data);
+  }
 
   updateUser(data): Observable<any> {
     return this.http.put<FormData>('http://localhost:3000/api/auth/profil', data);
   }
 
-  deleteUser(idUser: object): Observable<object> {
-    return this.http.request('DELETE', 'http://localhost:3000/api/auth/profil', { body: idUser });
+  deleteUser(): Observable<object> {
+    return this.http.request('DELETE', 'http://localhost:3000/api/auth/profil');
   }
 }
