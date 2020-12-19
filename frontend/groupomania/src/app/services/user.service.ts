@@ -31,6 +31,7 @@ export class UserService {
 
   logout(): void {
     /* this.authToken = null; */
+    sessionStorage.clear();
     this.isAuth$.next(false);
     this.router.navigate(['login']);
   }

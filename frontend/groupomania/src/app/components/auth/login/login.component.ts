@@ -32,6 +32,10 @@ export class LoginComponent implements OnInit {
         if (this.userService.isAuth$) {
           this.router.navigate(['/publications']);
         } */
+    if (sessionStorage.connect) {
+      this.userService.isAuth$.next(true);
+      this.router.navigate(['/publications']);
+    }
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -90,6 +94,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (/* log: any */) => {
           /* this.userService.authToken = log.token; */
+          sessionStorage.setItem('connect', 'true');
           this.loading = false;
           this.userService.isAuth$.next(true);
           this.router.navigate(['/publications']);
