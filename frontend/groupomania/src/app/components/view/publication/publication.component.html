@@ -32,6 +32,7 @@
         <!-- second - preload media part -->
         <form class="card-publication-maker__second-block">
             <input
+                aria-labelledby="media-upload"
                 class='display-none'
                 type="file"
                 accept="image/*"
@@ -46,7 +47,12 @@
                 (click)="fileInput.click();$event.preventDefault()"
                 class="mat-button--color"
             >
-                <mat-icon class="mat-icon--color">add_photo_alternate</mat-icon>
+                <mat-icon
+                    id="media-upload"
+                    class="mat-icon--color"
+                >
+                    add_photo_alternate
+                </mat-icon>
                 Image/Video
             </button>
         </form>
@@ -154,10 +160,12 @@
 
             <!-- comment part -->
             <mat-expansion-panel
+                hideToggle
                 #mep="matExpansionPanel"
                 (opened)="panelOpenState = true"
                 (closed)="panelOpenState = false"
             >
+                <mat-expansion-panel-header class="display-none"></mat-expansion-panel-header>
                 <app-comment-form [currentPublication]="publication"></app-comment-form>
 
                 <div *ngFor="let comment of publication.comments;let commentIndex = index">
@@ -203,7 +211,7 @@
                             *ngIf="comment.isOwner || user.admin"
                             mat-icon-button
                             [matMenuTriggerFor]="afterMenu"
-                            aria-label="Example icon-button with a menu"
+                            aria-label="menu"
                         >
                             <mat-icon>more_vert</mat-icon>
                         </button>

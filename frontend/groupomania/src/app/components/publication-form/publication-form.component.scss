@@ -23,11 +23,11 @@
 }
 
 .mat-button--color {
-  color: darken($bg-color, 30%);
+  color: $mat-button-publication;
 }
 
 .mat-icon--color {
-  color: hsla(134, 48%, 51%, 1);
+  color: $mat-icon-image;
 }
 
 .mat-raised-button--mid {

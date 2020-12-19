@@ -97,9 +97,9 @@
 }
 
 .mat-icon--custom {
-    color: darken($bg-color, 30%);
+    color: $mat-icon-image-comment;
     &:hover {
-        color: lighten($main-color, 40%);
+        color: $mat-icon-image-comment-hover;
     }
 }
 .display-none {
