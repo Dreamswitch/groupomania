@@ -65,9 +65,10 @@ export class LoginComponent implements OnInit {
               .subscribe(
                 (logs: any) => {
                   /* this.userService.authToken = logs.token; */
-                  this.loading = false;
+                  sessionStorage.setItem('connect', 'true');
                   this.userService.isAuth$.next(true);
                   this.router.navigate(['/publications']);
+                  this.loading = false;
 
                 },
                 (error: any) => {
